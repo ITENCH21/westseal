@@ -2733,6 +2733,10 @@ body.theme-dark .sticky-cta-inner {
 }
 
 @media (max-width: 900px) {
+  .site-header {
+    position: static;
+  }
+
   .nav-wrap {
     flex-wrap: nowrap;
     gap: 12px;
@@ -3165,12 +3169,15 @@ body.theme-dark .sticky-cta-inner {
   -webkit-overflow-scrolling: touch;
 }
 
-/* --- Touch-targets: минимум 44px для кнопок и инпутов --- */
+/* --- Touch-targets: минимум 44px для инпутов и обычных кнопок --- */
 input,
 textarea,
-select,
-.btn,
-button:not(.btn-icon) {
+select {
+  min-height: 44px;
+}
+
+/* Кнопки в формах: 44px, но не кнопки шапки (.btn имеет height:38px) и не спец-кнопки */
+button:not(.btn-icon):not(.nav-toggle):not([class*="btn"]) {
   min-height: 44px;
 }
 
