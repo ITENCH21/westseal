@@ -1,0 +1,1120 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-20 23:57+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/core/views.py:176
+msgid "Размер"
+msgstr "Size"
+
+#: templates/account/dashboard.html:8
+msgid "Личный кабинет"
+msgstr "My Account"
+
+#: templates/account/dashboard.html:9
+msgid "История заявок и чат с поддержкой."
+msgstr "Request history and support chat."
+
+#: templates/account/dashboard.html:16
+msgid "Заявки"
+msgstr "Requests"
+
+#: templates/account/dashboard.html:17
+msgid "Создайте новую заявку или проверьте статус."
+msgstr "Create a new request or check its status."
+
+#: templates/account/dashboard.html:18 templates/core/home.html:179
+#: templates/core/home.html:185 templates/core/home.html:191
+msgid "Перейти"
+msgstr "Go"
+
+#: templates/account/dashboard.html:21 templates/base.html:171
+msgid "Чат"
+msgstr "Chat"
+
+#: templates/account/dashboard.html:22
+msgid "Обсудите детали с инженером."
+msgstr "Discuss details with an engineer."
+
+#: templates/account/dashboard.html:23
+msgid "Открыть чат"
+msgstr "Open chat"
+
+#: templates/account/login.html:8 templates/account/login_embed.html:8
+#: templates/account/login_embed.html:17
+msgid "Вход"
+msgstr "Sign In"
+
+#: templates/account/login.html:20 templates/account/login_embed.html:22
+#: templates/account/register.html:29 templates/account/register_embed.html:31
+msgid "Пароль"
+msgstr "Password"
+
+#: templates/account/login.html:23 templates/account/login_embed.html:25
+#: templates/base.html:88 templates/support/chat_guest_embed.html:24
+msgid "Войти"
+msgstr "Sign In"
+
+#: templates/account/login.html:24 templates/account/login_embed.html:26
+msgid "Создать аккаунт"
+msgstr "Create an account"
+
+#: templates/account/register.html:8 templates/account/register_embed.html:8
+#: templates/account/register_embed.html:17
+#: templates/support/chat_guest_embed.html:25
+msgid "Регистрация"
+msgstr "Sign Up"
+
+#: templates/account/register.html:20 templates/account/register_embed.html:22
+#: templates/core/contacts.html:18
+msgid "Телефон"
+msgstr "Phone"
+
+#: templates/account/register.html:23 templates/account/register_embed.html:25
+msgid "Имя"
+msgstr "First name"
+
+#: templates/account/register.html:26 templates/account/register_embed.html:28
+msgid "Фамилия"
+msgstr "Last name"
+
+#: templates/account/register.html:32 templates/account/register_embed.html:34
+msgid "Повторите пароль"
+msgstr "Repeat password"
+
+#: templates/account/register.html:35 templates/account/register_embed.html:37
+msgid "Создать"
+msgstr "Create"
+
+#: templates/account/register_embed.html:38
+msgid "Уже есть аккаунт? Войти"
+msgstr "Already have an account? Sign in"
+
+#: templates/base.html:61 templates/support/chat.html:69
+#: templates/support/chat_embed.html:78
+msgid "Меню"
+msgstr "Menu"
+
+#: templates/base.html:65 templates/base.html:153
+msgid "Продукция"
+msgstr "Products"
+
+#: templates/base.html:66
+msgid "Манжеты"
+msgstr "Seals"
+
+#: templates/base.html:67 templates/base.html:155
+msgid "Производство"
+msgstr "Production"
+
+#: templates/base.html:68
+msgid "PDF"
+msgstr "PDF"
+
+#: templates/base.html:69
+msgid "База"
+msgstr "Knowledge"
+
+#: templates/base.html:70 templates/base.html:146
+#: templates/core/article_detail.html:33 templates/core/contacts.html:17
+msgid "Контакты"
+msgstr "Contacts"
+
+#: templates/base.html:85
+msgid "Кабинет"
+msgstr "Account"
+
+#: templates/base.html:86
+msgid "Выйти"
+msgstr "Sign Out"
+
+#: templates/base.html:97
+msgid "Главная"
+msgstr "Home"
+
+#: templates/base.html:128
+msgid "Нужно подобрать аналог или изготовить уплотнение?"
+msgstr "Need to find an alternative or manufacture a seal?"
+
+#: templates/base.html:129
+msgid ""
+"Отправьте параметры и фото — инженер EURO-SEAL ответит в течение рабочего "
+"дня."
+msgstr ""
+"Send parameters and photos — a EURO-SEAL engineer will respond within one "
+"business day."
+
+#: templates/base.html:131 templates/core/about.html:29
+#: templates/core/contacts.html:27 templates/core/home.html:38
+#: templates/core/home.html:162 templates/support/request_create.html:8
+#: templates/support/requests_list.html:14
+msgid "Создать заявку"
+msgstr "Submit a Request"
+
+#: templates/base.html:152 templates/core/catalog.html:65
+msgid "Разделы"
+msgstr "Sections"
+
+#: templates/base.html:154
+msgid "Каталог"
+msgstr "Catalog"
+
+#: templates/base.html:156
+msgid "Каталоги"
+msgstr "Catalogs"
+
+#: templates/base.html:157 templates/core/article_detail.html:10
+msgid "База знаний"
+msgstr "Knowledge Base"
+
+#: templates/base.html:160 templates/core/home.html:140
+msgid "Документы"
+msgstr "Documents"
+
+#: templates/base.html:161
+msgid "Политика конфиденциальности"
+msgstr "Privacy Policy"
+
+#: templates/base.html:162
+msgid "Согласие на обработку данных"
+msgstr "Data Processing Consent"
+
+#: templates/base.html:166
+msgid "Все права защищены."
+msgstr "All rights reserved."
+
+#: templates/base.html:179
+msgid "Инженер по гидравлическим уплотнениям"
+msgstr "Hydraulic Seals Engineer"
+
+#: templates/base.html:182
+msgid "Скрыть"
+msgstr "Hide"
+
+#: templates/base.html:185
+msgid "bot"
+msgstr "bot"
+
+#: templates/base.html:186
+msgid ""
+"Здравствуйте! Мы оперативно ответим и поможем подобрать нужное уплотнение."
+msgstr "Hello! We will respond promptly and help you find the right seal."
+
+#: templates/base.html:192 templates/support/chat_embed.html:9
+#: templates/support/chat_guest_embed.html:8
+msgid "Чат поддержки"
+msgstr "Support Chat"
+
+#: templates/base.html:199
+msgid "Нужен подбор или аналог? Ответим в течение дня."
+msgstr "Need a selection or alternative? We will reply within the day."
+
+#: templates/base.html:200 templates/core/catalog_detail.html:84
+#: templates/core/home.html:63
+msgid "Оформить заявку"
+msgstr "Place a Request"
+
+#: templates/core/about.html:17
+msgid "Экспертиза"
+msgstr "Expertise"
+
+#: templates/core/about.html:20
+msgid "Проверка размеров и условий эксплуатации"
+msgstr "Verification of dimensions and operating conditions"
+
+#: templates/core/about.html:21
+msgid "Подбор материалов под среду и температуру"
+msgstr "Material selection for environment and temperature"
+
+#: templates/core/about.html:22
+msgid "Производство малых и средних партий"
+msgstr "Manufacturing of small and medium batches"
+
+#: templates/core/about.html:27
+msgid "Что вы получите"
+msgstr "What You Get"
+
+#: templates/core/about.html:28
+msgid "Прозрачный подбор, быстрые ответы и контроль качества на каждом этапе."
+msgstr ""
+"Transparent selection, fast responses and quality control at every stage."
+
+#: templates/core/about.html:37
+msgid "Стандарты и качество"
+msgstr "Standards & Quality"
+
+#: templates/core/about.html:38
+msgid "Работаем с ГОСТ, DIN и ISO, оформляем документацию и спецификации."
+msgstr ""
+"We work with GOST, DIN and ISO, prepare documentation and specifications."
+
+#: templates/core/about.html:42
+msgid "ГОСТ"
+msgstr "GOST"
+
+#: templates/core/about.html:43
+msgid "Поставки по российским стандартам."
+msgstr "Supply under Russian standards."
+
+#: templates/core/about.html:46
+msgid "DIN / ISO"
+msgstr "DIN / ISO"
+
+#: templates/core/about.html:47
+msgid "Подбор импортных аналогов."
+msgstr "Selection of imported alternatives."
+
+#: templates/core/about.html:50
+msgid "Контроль"
+msgstr "Control"
+
+#: templates/core/about.html:51
+msgid "Проверка размеров и материалов."
+msgstr "Verification of dimensions and materials."
+
+#: templates/core/article_detail.html:24
+msgid "Нужна консультация?"
+msgstr "Need a consultation?"
+
+#: templates/core/article_detail.html:25
+msgid "Подберём уплотнение под ваши условия — давление, среда, температура."
+msgstr "We will select a seal for your conditions — pressure, media, temperature."
+
+#: templates/core/article_detail.html:26 templates/core/home.html:14
+msgid "Отправить заявку"
+msgstr "Send a Request"
+
+#: templates/core/article_detail.html:29
+msgid "Смотрите также"
+msgstr "See also"
+
+#: templates/core/article_detail.html:31 templates/core/catalog.html:5
+#: templates/core/catalog.html:50
+msgid "Каталог уплотнений"
+msgstr "Seal Catalog"
+
+#: templates/core/article_detail.html:32
+msgid "PDF-каталоги"
+msgstr "PDF Catalogs"
+
+#: templates/core/articles.html:11
+msgid "Технические статьи по подбору, монтажу и эксплуатации уплотнений."
+msgstr "Technical articles on seal selection, installation and operation."
+
+#: templates/core/articles.html:25
+msgid "Читать статью"
+msgstr "Read article"
+
+#: templates/core/articles.html:29
+msgid "Пока нет статей. Добавьте через админку."
+msgstr "No articles yet. Add them via the admin panel."
+
+#: templates/core/catalog.html:45 templates/core/catalog.html:48
+#: templates/core/catalog.html:51
+msgid ""
+"Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений."
+msgstr ""
+"Selection by type, profile and dimensions. Use search for quick matches."
+
+#: templates/core/catalog.html:56
+msgid "Поиск по названию или характеристикам"
+msgstr "Search by name or specifications"
+
+#: templates/core/catalog.html:57
+msgid "Найти"
+msgstr "Search"
+
+#: templates/core/catalog.html:66
+msgid "Все"
+msgstr "All"
+
+#: templates/core/catalog.html:80
+msgid "Импорт каталога"
+msgstr "Catalog import"
+
+#: templates/core/catalog.html:81
+msgid "ожидание"
+msgstr "pending"
+
+#: templates/core/catalog.html:84
+msgid "Всего:"
+msgstr "Total:"
+
+#: templates/core/catalog.html:85
+msgid "В выборке:"
+msgstr "In selection:"
+
+#: templates/core/catalog.html:87
+msgid "Открыть"
+msgstr "Open"
+
+#: templates/core/catalog.html:98
+msgid "Все профили"
+msgstr "All profiles"
+
+#: templates/core/catalog.html:109
+msgid "Все разделы"
+msgstr "All sections"
+
+#: templates/core/catalog.html:115
+msgid "Поиск:"
+msgstr "Search:"
+
+#: templates/core/catalog.html:118
+msgid "Найдено:"
+msgstr "Found:"
+
+#: templates/core/catalog.html:120
+msgid "Стр."
+msgstr "Pg."
+
+#: templates/core/catalog.html:131
+msgid "Профили:"
+msgstr "Profiles:"
+
+#: templates/core/catalog.html:132
+msgid "Товары:"
+msgstr "Items:"
+
+#: templates/core/catalog.html:167
+msgid "Ничего не найдено"
+msgstr "Nothing found"
+
+#: templates/core/catalog.html:168
+msgid "Попробуйте изменить запрос или выбрать другой раздел."
+msgstr "Try changing your query or selecting a different section."
+
+#: templates/core/catalog.html:174
+msgid "Pagination"
+msgstr "Pagination"
+
+#: templates/core/catalog.html:176
+msgid "Назад"
+msgstr "Back"
+
+#: templates/core/catalog.html:184
+msgid "Дальше"
+msgstr "Next"
+
+#: templates/core/catalog.html:287
+msgid "Нет загруженных карточек"
+msgstr "No cards loaded"
+
+#: templates/core/catalog.html:308
+msgid "идет импорт"
+msgstr "importing"
+
+#: templates/core/catalog.html:308
+msgid "готово"
+msgstr "done"
+
+#: templates/core/catalog_detail.html:63
+msgid "Технические характеристики и описание"
+msgstr "Technical specifications and description"
+
+#: templates/core/catalog_detail.html:65
+msgid "Назад в каталог"
+msgstr "Back to catalog"
+
+#: templates/core/catalog_detail.html:87
+msgid "Характеристики"
+msgstr "Specifications"
+
+#: templates/core/catalog_detail.html:100
+msgid "Данные будут уточнены инженером после запроса."
+msgstr "Details will be confirmed by an engineer upon request."
+
+#: templates/core/catalog_detail.html:105
+#: templates/support/request_create.html:20
+msgid "Описание"
+msgstr "Description"
+
+#: templates/core/catalogs.html:10
+msgid "PDF-каталоги производителей и справочные материалы."
+msgstr "Manufacturer PDF catalogs and reference materials."
+
+#: templates/core/catalogs.html:19
+msgid "Быстрый доступ к каталогам"
+msgstr "Quick access to catalogs"
+
+#: templates/core/catalogs.html:20
+msgid "Скачивайте PDF и прикладывайте их к заявке — это ускорит подбор."
+msgstr ""
+"Download PDFs and attach them to your request — this will speed up the "
+"selection."
+
+#: templates/core/catalogs.html:33
+msgid "Скачать"
+msgstr "Download"
+
+#: templates/core/catalogs.html:36
+msgid "Каталоги загружаются. Добавьте PDF в админке."
+msgstr "Catalogs are loading. Add PDFs via the admin panel."
+
+#: templates/core/contacts.html:10
+msgid "Свяжитесь с нами удобным способом."
+msgstr "Contact us in any convenient way."
+
+#: templates/core/contacts.html:20
+msgid "Адрес"
+msgstr "Address"
+
+#: templates/core/contacts.html:21
+msgid "Режим работы"
+msgstr "Working hours"
+
+#: templates/core/contacts.html:25
+msgid "Заявка"
+msgstr "Request"
+
+#: templates/core/contacts.html:26
+msgid "Опишите задачу, укажите параметры и материал."
+msgstr "Describe your task, specify parameters and material."
+
+#: templates/core/home.html:15
+msgid "Скачать каталоги"
+msgstr "Download Catalogs"
+
+#: templates/core/home.html:20
+msgid "лет инженерной экспертизы"
+msgstr "years of engineering expertise"
+
+#: templates/core/home.html:24
+msgid "позиций в каталоге"
+msgstr "catalog positions"
+
+#: templates/core/home.html:28
+msgid "часов на подбор"
+msgstr "hours for selection"
+
+#: templates/core/home.html:36
+msgid "Экспресс‑подбор"
+msgstr "Express Selection"
+
+#: templates/core/home.html:37
+msgid "Отправьте чертеж, фото или старое уплотнение — мы подберем аналог."
+msgstr "Send a drawing, photo or old seal — we will find an alternative."
+
+#: templates/core/home.html:47
+msgid "Быстрый расчет за 1–2 дня"
+msgstr "Fast response in 1–2 days"
+
+#: templates/core/home.html:48
+msgid ""
+"Мы подбираем уплотнения по параметрам, фото или образцу. Чем больше данных — "
+"тем быстрее ответ."
+msgstr ""
+"We select seals by parameters, photo or sample. The more data — the faster "
+"the response."
+
+#: templates/core/home.html:53
+msgid "Отправьте заявку"
+msgstr "Submit a request"
+
+#: templates/core/home.html:57
+msgid "Инженер уточнит детали"
+msgstr "Engineer will clarify details"
+
+#: templates/core/home.html:61
+msgid "Получите подбор и сроки"
+msgstr "Receive selection and lead times"
+
+#: templates/core/home.html:64 templates/core/products.html:135
+msgid "Быстрая заявка"
+msgstr "Quick request"
+
+#: templates/core/home.html:72
+msgid "Ключевые направления"
+msgstr "Key Directions"
+
+#: templates/core/home.html:73
+msgid "Закрываем задачи от штучных деталей до серийных поставок."
+msgstr "We handle tasks from individual parts to serial deliveries."
+
+#: templates/core/home.html:76
+msgid "Открыть фото гидравлических уплотнений"
+msgstr "Open hydraulic seals photo"
+
+#: templates/core/home.html:80 templates/core/home.html:84
+msgid "Гидравлические уплотнения"
+msgstr "Hydraulic Seals"
+
+#: templates/core/home.html:81
+msgid "Штоковые, поршневые, грязесъемники, направляющие кольца."
+msgstr "Rod seals, piston seals, wipers, guide rings."
+
+#: templates/core/home.html:88
+msgid "Открыть фото пневматических уплотнений"
+msgstr "Open pneumatic seals photo"
+
+#: templates/core/home.html:92 templates/core/home.html:96
+msgid "Пневматические уплотнения"
+msgstr "Pneumatic Seals"
+
+#: templates/core/home.html:93
+msgid "Высокая скорость, минимальное трение, устойчивость к износу."
+msgstr "High speed, minimal friction, wear resistance."
+
+#: templates/core/home.html:100 templates/core/products.html:77
+msgid "Открыть фото ремкомплектов"
+msgstr "Open repair kits photo"
+
+#: templates/core/home.html:104 templates/core/home.html:108
+#: templates/core/products.html:81 templates/core/products.html:85
+msgid "Ремкомплекты"
+msgstr "Repair Kits"
+
+#: templates/core/home.html:105
+msgid "Подбор аналогов и поставка комплектов под технику."
+msgstr "Analog selection and kit supply for your equipment."
+
+#: templates/core/home.html:119
+msgid "Почему EURO-SEAL"
+msgstr "Why EURO-SEAL"
+
+#: templates/core/home.html:120
+msgid ""
+"Мы объединяем инженерный подход, складскую скорость и прозрачные "
+"коммуникации."
+msgstr ""
+"We combine an engineering approach, warehouse speed and transparent "
+"communication."
+
+#: templates/core/home.html:125
+msgid "Инженерный подбор"
+msgstr "Engineering Selection"
+
+#: templates/core/home.html:126
+msgid "Сверяем размеры, условия и материалы, предлагаем 2-3 альтернативы."
+msgstr ""
+"We check dimensions, conditions and materials, then offer 2–3 alternatives."
+
+#: templates/core/home.html:130 templates/core/production.html:17
+msgid "Материалы"
+msgstr "Materials"
+
+#: templates/core/home.html:131
+msgid "PU, NBR, FKM, PTFE, HNBR, TPU — под среду и температуру."
+msgstr ""
+"PU, NBR, FKM, PTFE, HNBR, TPU — matched to environment and temperature."
+
+#: templates/core/home.html:135
+msgid "Сроки"
+msgstr "Lead times"
+
+#: templates/core/home.html:136
+msgid "Производство от 2-10 дней, подбор за 24-48 часов."
+msgstr "Manufacturing 2–10 days, selection within 24–48 hours."
+
+#: templates/core/home.html:141
+msgid "Подготовим спецификации, сопроводим проект и серию."
+msgstr "We prepare specifications and support project series."
+
+#: templates/core/home.html:151
+msgid "Как мы работаем"
+msgstr "How We Work"
+
+#: templates/core/home.html:153
+msgid "Получаем параметры, фото или старое уплотнение."
+msgstr "We receive parameters, photos or an old seal."
+
+#: templates/core/home.html:154
+msgid "Подбираем аналог или проектируем чертеж."
+msgstr "We select an analog or design a drawing."
+
+#: templates/core/home.html:155
+msgid "Согласуем материалы, сроки и партию."
+msgstr "We agree on materials, timelines and quantities."
+
+#: templates/core/home.html:156
+msgid "Изготавливаем и поставляем с отчетностью."
+msgstr "We manufacture and deliver with documentation."
+
+#: templates/core/home.html:160
+msgid "Быстрый запрос"
+msgstr "Quick Request"
+
+#: templates/core/home.html:161
+msgid "Кратко опишите задачу — инженер уточнит детали."
+msgstr "Briefly describe the task — the engineer will clarify the details."
+
+#: templates/core/home.html:171
+msgid "Каталоги и стандарты"
+msgstr "Catalogs & Standards"
+
+#: templates/core/home.html:172
+msgid "Собрали PDF производителей и справочные материалы для подбора."
+msgstr "We collected manufacturer PDFs and reference materials for selection."
+
+#: templates/core/home.html:177
+msgid "Импортные каталоги"
+msgstr "Import Catalogs"
+
+#: templates/core/home.html:178
+msgid "Parker, Trelleborg, SKF, Kastas и другие."
+msgstr "Parker, Trelleborg, SKF, Kastas and others."
+
+#: templates/core/home.html:183
+msgid "Гидравлика"
+msgstr "Hydraulics"
+
+#: templates/core/home.html:184
+msgid "Справочники по условиям работы и материалам."
+msgstr "Reference guides on operating conditions and materials."
+
+#: templates/core/home.html:189
+msgid "Пневматика"
+msgstr "Pneumatics"
+
+#: templates/core/home.html:190
+msgid "Подбор для высокой скорости и сухих сред."
+msgstr "Selection for high speed and dry media."
+
+#: templates/core/home.html:200
+msgid "Кейсы внедрения"
+msgstr "Case Studies"
+
+#: templates/core/home.html:201
+msgid "Примеры задач, которые мы закрыли для промышленных заказчиков."
+msgstr "Examples of tasks we solved for industrial customers."
+
+#: templates/core/home.html:208 templates/core/home.html:216
+#: templates/core/home.html:222 templates/core/home.html:228
+msgid "Срок:"
+msgstr "Lead time:"
+
+#: templates/core/home.html:209 templates/core/home.html:217
+#: templates/core/home.html:223 templates/core/home.html:229
+msgid "Задача:"
+msgstr "Task:"
+
+#: templates/core/home.html:210 templates/core/home.html:218
+#: templates/core/home.html:224 templates/core/home.html:230
+msgid "Результат:"
+msgstr "Result:"
+
+#: templates/core/home.html:215
+msgid "Экскаватор JCB — подбор аналога"
+msgstr "JCB Excavator — analog selection"
+
+#: templates/core/home.html:217
+msgid "Изношенный штоковый узел без маркировки профиля."
+msgstr "Worn rod assembly with no profile marking."
+
+#: templates/core/home.html:218
+msgid "Подобрали аналог из PU/NBR, отгрузили комплект за 2 дня."
+msgstr "Selected PU/NBR analog, shipped the kit in 2 days."
+
+#: templates/core/home.html:221
+msgid "Линия упаковки — пневматика"
+msgstr "Packaging line — pneumatics"
+
+#: templates/core/home.html:223
+msgid "Высокочастотный цикл и быстрый износ стандартных манжет."
+msgstr "High-frequency cycle and rapid wear of standard seals."
+
+#: templates/core/home.html:224
+msgid "Профиль с пониженным трением, рост ресурса узла в 1.8 раза."
+msgstr "Low-friction profile, assembly life increased 1.8x."
+
+#: templates/core/home.html:227
+msgid "Гидростанция пресса — ремкомплект"
+msgstr "Press hydraulic unit — repair kit"
+
+#: templates/core/home.html:229
+msgid "Срочная остановка оборудования из-за утечки цилиндра."
+msgstr "Emergency equipment shutdown due to cylinder leak."
+
+#: templates/core/home.html:230
+msgid "Собрали ремкомплект и закрыли простой в течение рабочей смены."
+msgstr ""
+"Assembled the repair kit and resolved downtime within one working shift."
+
+#: templates/core/home.html:240
+msgid "Отзывы клиентов"
+msgstr "Customer Reviews"
+
+#: templates/core/home.html:241
+msgid "Что говорят о скорости подбора и качестве поставок EURO-SEAL."
+msgstr "What they say about EURO-SEAL selection speed and delivery quality."
+
+#: templates/core/home.html:255
+msgid "Снабжение, карьерная техника"
+msgstr "Supply, mining equipment"
+
+#: templates/core/home.html:256
+msgid ""
+"Оперативно подобрали замену оригиналу. Получили комплект с документами и "
+"сразу поставили в работу."
+msgstr ""
+"Quickly found a replacement for the original. Received the kit with "
+"documents and put it into service right away."
+
+#: templates/core/home.html:260
+msgid "Главный механик, производство"
+msgstr "Chief Mechanic, manufacturing"
+
+#: templates/core/home.html:261
+msgid ""
+"Удобный формат: отправили размеры и фото, в тот же день получили варианты по "
+"материалам и срокам."
+msgstr ""
+"Convenient format: sent dimensions and photos, received material and timing "
+"options the same day."
+
+#: templates/core/home.html:265
+msgid "Сервисная компания"
+msgstr "Service company"
+
+#: templates/core/home.html:266
+msgid ""
+"Закрывают нестандартные позиции, есть обратная связь инженера и понятные "
+"сроки поставки."
+msgstr ""
+"They cover non-standard items, provide engineer feedback and clear delivery "
+"timelines."
+
+#: templates/core/home.html:276
+msgid "FAQ по подбору уплотнений"
+msgstr "FAQ on Seal Selection"
+
+#: templates/core/home.html:277
+msgid "Короткие ответы на частые технические вопросы клиентов."
+msgstr "Short answers to frequently asked technical questions."
+
+#: templates/core/home.html:289
+msgid "Сколько занимает подбор аналога?"
+msgstr "How long does analog selection take?"
+
+#: templates/core/home.html:290
+msgid "Обычно 24–48 часов после получения размеров и условий работы."
+msgstr ""
+"Usually 24–48 hours after receiving dimensions and operating conditions."
+
+#: templates/core/home.html:293
+msgid "Можно ли по фото определить тип уплотнения?"
+msgstr "Can the seal type be identified from a photo?"
+
+#: templates/core/home.html:294
+msgid ""
+"Да, по фото и базовым размерам мы делаем первичный подбор и уточняем детали."
+msgstr ""
+"Yes, using a photo and basic dimensions we make an initial selection and "
+"clarify the details."
+
+#: templates/core/home.html:297
+msgid "Работаете ли с нестандартными профилями?"
+msgstr "Do you work with non-standard profiles?"
+
+#: templates/core/home.html:298
+msgid "Да, изготавливаем по образцу и чертежу, включая малые партии."
+msgstr "Yes, we manufacture to sample and drawing, including small batches."
+
+#: templates/core/home.html:301
+msgid "Какие материалы доступны?"
+msgstr "What materials are available?"
+
+#: templates/core/home.html:302
+msgid "NBR, HNBR, FKM, PTFE, PU и композиты под среду, давление и температуру."
+msgstr ""
+"NBR, HNBR, FKM, PTFE, PU and composites for environment, pressure and "
+"temperature."
+
+#: templates/core/home.html:313
+msgid "Быстрая заявка инженеру"
+msgstr "Quick request to engineer"
+
+#: templates/core/home.html:314
+msgid "Оставьте параметры и контакт — ответим в течение рабочего дня."
+msgstr ""
+"Leave your parameters and contact — we will respond within one business day."
+
+#: templates/core/home.html:326 templates/core/products.html:136
+#: templates/support/chat.html:73 templates/support/chat_embed.html:82
+#: templates/support/request_create.html:26
+#: templates/support/request_detail.html:52
+msgid "Отправить"
+msgstr "Send"
+
+#: templates/core/production.html:10
+msgid ""
+"Проектируем, изготавливаем и тестируем уплотнения под реальные условия "
+"работы."
+msgstr "We design, manufacture and test seals for real operating conditions."
+
+#: templates/core/production.html:18
+msgid "Подбираем составы под давление, скорость, абразив, химию и температуру."
+msgstr ""
+"We select compounds for pressure, speed, abrasion, chemicals and temperature."
+
+#: templates/core/production.html:28
+msgid "Контроль качества"
+msgstr "Quality Control"
+
+#: templates/core/production.html:29
+msgid "Измерения, испытания, протоколы и согласование с заказчиком."
+msgstr "Measurements, testing, protocols and customer approval."
+
+#: templates/core/production.html:30
+msgid "Обсудить проект"
+msgstr "Discuss a project"
+
+#: templates/core/production.html:38
+msgid "Оборудование и процессы"
+msgstr "Equipment & Processes"
+
+#: templates/core/production.html:39
+msgid "Точность геометрии и стабильность партии."
+msgstr "Geometric accuracy and batch consistency."
+
+#: templates/core/production.html:44
+msgid "Обработка"
+msgstr "Machining"
+
+#: templates/core/production.html:45
+msgid "Токарная и фрезерная обработка по техтребованиям."
+msgstr "Turning and milling to technical requirements."
+
+#: templates/core/production.html:49
+msgid "Измерение"
+msgstr "Measurement"
+
+#: templates/core/production.html:50
+msgid "Контроль размеров и допусков."
+msgstr "Dimensional and tolerance control."
+
+#: templates/core/production.html:54
+msgid "Тестирование"
+msgstr "Testing"
+
+#: templates/core/production.html:55
+msgid "Проверка устойчивости к износу и среде."
+msgstr "Wear and media resistance testing."
+
+#: templates/core/production.html:61
+msgid "Стабильность партии и документация на каждом этапе."
+msgstr "Batch consistency and documentation at every stage."
+
+#: templates/core/products.html:10
+msgid "Каталог решений и подбор аналогов под вашу технику."
+msgstr "Solution catalog and analog selection for your equipment."
+
+#: templates/core/products.html:17
+msgid "Открыть фото уплотнений штока"
+msgstr "Open rod seal photo"
+
+#: templates/core/products.html:21 templates/core/products.html:25
+msgid "Уплотнения штока"
+msgstr "Rod Seals"
+
+#: templates/core/products.html:22
+msgid "Под давление и скорость, предотвращают утечки."
+msgstr "For pressure and speed, prevent leaks."
+
+#: templates/core/products.html:29
+msgid "Открыть фото уплотнений поршня"
+msgstr "Open piston seal photo"
+
+#: templates/core/products.html:33 templates/core/products.html:37
+msgid "Уплотнения поршня"
+msgstr "Piston Seals"
+
+#: templates/core/products.html:34
+msgid "Двухсторонняя герметизация, минимальное трение."
+msgstr "Two-way sealing, minimal friction."
+
+#: templates/core/products.html:41
+msgid "Открыть фото грязесъемников"
+msgstr "Open wiper seal photo"
+
+#: templates/core/products.html:45 templates/core/products.html:49
+msgid "Грязесъемники"
+msgstr "Wiper Seals"
+
+#: templates/core/products.html:46
+msgid "Защита цилиндров от пыли и абразива."
+msgstr "Protection of cylinders from dust and abrasion."
+
+#: templates/core/products.html:53
+msgid "Открыть фото направляющих"
+msgstr "Open guide ring photo"
+
+#: templates/core/products.html:57 templates/core/products.html:61
+msgid "Направляющие"
+msgstr "Guide Rings"
+
+#: templates/core/products.html:58
+msgid "Стабилизация штоков и поршней."
+msgstr "Stabilization of rods and pistons."
+
+#: templates/core/products.html:65
+msgid "Открыть фото колец"
+msgstr "Open O-ring photo"
+
+#: templates/core/products.html:69 templates/core/products.html:73
+msgid "Кольца"
+msgstr "O-Rings"
+
+#: templates/core/products.html:70
+msgid "O-ring, X-ring и специальные профили."
+msgstr "O-ring, X-ring and special profiles."
+
+#: templates/core/products.html:82
+msgid "Подбор под конкретные модели техники."
+msgstr "Selection for specific equipment models."
+
+#: templates/core/products.html:93
+msgid "Склад и логистика"
+msgstr "Warehouse & Logistics"
+
+#: templates/core/products.html:94
+msgid ""
+"Держим популярные позиции в наличии и быстро отгружаем под производство."
+msgstr "We stock popular positions and ship quickly for production."
+
+#: templates/core/products.html:103
+msgid "Интерактивная схема гидроцилиндра"
+msgstr "Interactive hydraulic cylinder diagram"
+
+#: templates/core/products.html:104
+msgid ""
+"Наведите или нажмите на узлы, чтобы узнать, какие уплотнения применяются."
+msgstr "Hover or click on nodes to see which seals are used."
+
+#: templates/core/products.html:109
+msgid "Гидроцилиндр в разрезе с установленными уплотнениями"
+msgstr "Cross-section of hydraulic cylinder with installed seals"
+
+#: templates/core/products.html:110 templates/core/products.html:116
+msgid "Уплотнение штока"
+msgstr "Rod Seal"
+
+#: templates/core/products.html:111
+msgid "Уплотнение поршня"
+msgstr "Piston Seal"
+
+#: templates/core/products.html:112
+msgid "Грязесъемник"
+msgstr "Wiper Seal"
+
+#: templates/core/products.html:117
+msgid "Герметизация штока под давлением, защита от утечек и износа."
+msgstr "Rod sealing under pressure, protection from leaks and wear."
+
+#: templates/core/products.html:119
+msgid "Профили U-манжеты"
+msgstr "U-seal profiles"
+
+#: templates/core/products.html:120
+msgid "Материалы NBR / PU / FKM"
+msgstr "Materials NBR / PU / FKM"
+
+#: templates/core/products.html:121
+msgid "Контроль давления и скорости"
+msgstr "Pressure and speed control"
+
+#: templates/core/products.html:131
+msgid "Подбор аналогов"
+msgstr "Analog Selection"
+
+#: templates/core/products.html:132
+msgid "Сообщите производителя, размеры и условия работы — подберем аналог."
+msgstr ""
+"Tell us the manufacturer, dimensions and operating conditions — we will find "
+"an analog."
+
+#: templates/support/chat.html:9
+msgid "Чат с поддержкой"
+msgstr "Support Chat"
+
+#: templates/support/chat.html:19 templates/support/chat_embed.html:26
+msgid ""
+"Здравствуйте! Я автоматический помощник EURO-SEAL. Задайте вопрос — подберём "
+"уплотнение и подключим менеджера при необходимости."
+msgstr ""
+"Hello! I am the EURO-SEAL automated assistant. Ask a question — we will "
+"select a seal and connect you with a manager if needed."
+
+#: templates/support/chat.html:53 templates/support/chat_embed.html:60
+msgid "Начните диалог с инженером."
+msgstr "Start a conversation with an engineer."
+
+#: templates/support/chat.html:57 templates/support/chat_embed.html:64
+msgid "Здравствуйте!"
+msgstr "Hello!"
+
+#: templates/support/chat.html:58 templates/support/chat_embed.html:65
+msgid "Мне нужна помощь"
+msgstr "I need help"
+
+#: templates/support/chat.html:59 templates/support/chat_embed.html:66
+msgid "Другое"
+msgstr "Other"
+
+#: templates/support/chat.html:63 templates/support/chat_embed.html:71
+msgid "Очистить историю переписки у вас?"
+msgstr "Clear your chat history?"
+
+#: templates/support/chat.html:63 templates/support/chat_embed.html:71
+msgid "Удалить беседу"
+msgstr "Clear conversation"
+
+#: templates/support/chat.html:70 templates/support/chat_embed.html:79
+msgid "Прикрепить файл"
+msgstr "Attach file"
+
+#: templates/support/chat.html:71 templates/support/chat_embed.html:80
+msgid "Эмодзи"
+msgstr "Emoji"
+
+#: templates/support/chat_embed.html:71
+msgid "Очистить беседу (у вас). У менеджера история сохранится."
+msgstr "Clear conversation (for you). The manager's history will remain."
+
+#: templates/support/chat_guest_embed.html:17
+msgid ""
+"Здравствуйте! Я автоматический помощник EURO-SEAL. Чтобы написать менеджеру "
+"и отправить файлы, войдите или зарегистрируйтесь."
+msgstr ""
+"Hello! I am the EURO-SEAL automated assistant. To message a manager and send "
+"files, please sign in or register."
+
+#: templates/support/chat_guest_embed.html:31
+msgid "Войдите, чтобы написать сообщение..."
+msgstr "Sign in to write a message..."
+
+#: templates/support/request_create.html:17
+msgid "Тема"
+msgstr "Subject"
+
+#: templates/support/request_create.html:23
+#: templates/support/request_detail.html:49
+msgid "Файлы"
+msgstr "Files"
+
+#: templates/support/request_detail.html:46
+msgid "Ответ"
+msgstr "Reply"
+
+#: templates/support/requests_list.html:8
+msgid "Мои заявки"
+msgstr "My Requests"
+
+#: templates/support/requests_list.html:23
+msgid "Пока нет заявок."
+msgstr "No requests yet."

@@ -21,16 +21,16 @@
       </div>
       <aside class="article-aside">
         <div class="article-aside__card">
-          <h4>Нужна консультация?</h4>
-          <p>Подберём уплотнение под ваши условия — давление, среда, температура.</p>
-          <a href="/support/requests/new/" class="btn primary btn-sm">Отправить заявку</a>
+          <h4>{% trans "Нужна консультация?" %}</h4>
+          <p>{% trans "Подберём уплотнение под ваши условия — давление, среда, температура." %}</p>
+          <a href="/support/requests/new/" class="btn primary btn-sm">{% trans "Отправить заявку" %}</a>
         </div>
         <div class="article-aside__card">
-          <h4>Смотрите также</h4>
+          <h4>{% trans "Смотрите также" %}</h4>
           <ul class="article-aside__links">
-            <li><a href="{% url 'seal_catalog' %}">Каталог уплотнений</a></li>
-            <li><a href="{% url 'catalogs' %}">PDF-каталоги</a></li>
-            <li><a href="{% url 'contacts' %}">Контакты</a></li>
+            <li><a href="{% url 'seal_catalog' %}">{% trans "Каталог уплотнений" %}</a></li>
+            <li><a href="{% url 'catalogs' %}">{% trans "PDF-каталоги" %}</a></li>
+            <li><a href="{% url 'contacts' %}">{% trans "Контакты" %}</a></li>
           </ul>
         </div>
       </aside>

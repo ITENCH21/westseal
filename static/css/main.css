@@ -22,6 +22,10 @@
   --radius-md: 16px;
   --radius-lg: 22px;
   --radius-xl: 30px;
+  /* Semantic text variables (alias) */
+  --text: #0b1020;
+  --text-light: #2c3347;
+  --text-muted: #6b7280;
 }
 
 body.theme-dark {
@@ -38,6 +42,10 @@ body.theme-dark {
   --shadow-accent: 0 8px 28px rgba(43, 130, 255, 0.28);
   --accent-shadow: rgba(43, 130, 255, 0.28);
   --snake-rgb: 43, 130, 255;
+  /* Semantic text overrides for dark mode */
+  --text: #e6edf6;
+  --text-light: #a6b3c7;
+  --text-muted: #8899b4;
 }
 
 * {
@@ -1788,6 +1796,17 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(31, 74, 138, 0.1);
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+body.theme-dark input::placeholder,
+body.theme-dark textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
 .list {
   display: grid;
   gap: 10px;
@@ -2093,7 +2112,7 @@ html,
   right: 12px;
   bottom: 10px;
   font-size: 12px;
-  color: rgba(42, 47, 58, 0.45);
+  color: var(--text-muted);
   user-select: none;
 }
 
@@ -2124,6 +2143,46 @@ html,
   color: #0d2550;
 }
 .chat-line.bot .chat-time { color: rgba(15,40,90,0.5); }
+
+/* --- Dark mode overrides for chat --- */
+body.theme-dark .chat-bubble {
+  background: #1e2d44;
+  color: var(--ink);
+}
+body.theme-dark .chat-line.bot .chat-bubble {
+  background: #162236;
+  color: #b8d4f0;
+}
+body.theme-dark .chat-line.bot .chat-time {
+  color: rgba(120,170,220,0.55);
+}
+body.theme-dark .chat-embed-section .chat-messages-wrap,
+body.theme-dark .chat-messages-wrap {
+  background: #0d1726;
+}
+body.theme-dark .chat-icon-btn {
+  background: #1e2a3d;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+}
+body.theme-dark .chat-icon-btn:hover {
+  background: #243350;
+  border-color: rgba(43, 130, 255, 0.3);
+}
+body.theme-dark .chat-input {
+  background: #111a2e;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+}
+body.theme-dark .chat-quick-btn {
+  background: #111a2e;
+  border-color: rgba(43, 130, 255, 0.35);
+  color: #78bcff;
+}
+body.theme-dark .chat-quick-btn:hover {
+  border-color: rgba(209, 55, 61, 0.4);
+  color: #ff8a8e;
+}
 .chat-form-compact label {
   font-size: 14px;
   font-weight: 600;
