@@ -1,0 +1,229 @@
+[
+  {
+    "title_ru": "SKF seals catalog",
+    "title_en": "SKF seals catalog",
+    "category": "hydraulic",
+    "manufacturer": "SKF",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/2017/04/SKF-seals.pdf",
+    "filename": "SKF-seals.pdf",
+    "local_path": "data/catalogs/files/SKF-seals.pdf",
+    "cover_svg": "data/catalogs/covers/SKF-seals.svg"
+  },
+  {
+    "title_ru": "ALP Cauçuk seals",
+    "title_en": "ALP Cauçuk seals",
+    "category": "hydraulic",
+    "manufacturer": "ALP",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/ALP_Caucuk_SEALS.pdf",
+    "filename": "ALP_Caucuk_SEALS.pdf",
+    "local_path": "data/catalogs/files/ALP_Caucuk_SEALS.pdf",
+    "cover_svg": "data/catalogs/covers/ALP_Caucuk_SEALS.svg"
+  },
+  {
+    "title_ru": "Aston seals",
+    "title_en": "Aston seals",
+    "category": "hydraulic",
+    "manufacturer": "Aston",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/ASTON_NEW.pdf",
+    "filename": "ASTON_NEW.pdf",
+    "local_path": "data/catalogs/files/ASTON_NEW.pdf",
+    "cover_svg": "data/catalogs/covers/ASTON_NEW.svg"
+  },
+  {
+    "title_ru": "France Joint hydraulic seals",
+    "title_en": "France Joint hydraulic seals",
+    "category": "hydraulic",
+    "manufacturer": "France Joint",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/FRANCE_catalog_hydraulic_seals_v2016__018842700_2020_15022016.pdf",
+    "filename": "France_Joint_hydraulic_seals.pdf",
+    "local_path": "data/catalogs/files/France_Joint_hydraulic_seals.pdf",
+    "cover_svg": "data/catalogs/covers/France_Joint_hydraulic_seals.svg"
+  },
+  {
+    "title_ru": "Hunger seals",
+    "title_en": "Hunger seals",
+    "category": "hydraulic",
+    "manufacturer": "Hunger",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/HUNGER.pdf",
+    "filename": "HUNGER.pdf",
+    "local_path": "data/catalogs/files/HUNGER.pdf",
+    "cover_svg": "data/catalogs/covers/HUNGER.svg"
+  },
+  {
+    "title_ru": "Hallite Mining seals",
+    "title_en": "Hallite Mining seals",
+    "category": "hydraulic",
+    "manufacturer": "Hallite",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/Hallite_Mining_Seals.pdf",
+    "filename": "Hallite_Mining_Seals.pdf",
+    "local_path": "data/catalogs/files/Hallite_Mining_Seals.pdf",
+    "cover_svg": "data/catalogs/covers/Hallite_Mining_Seals.svg"
+  },
+  {
+    "title_ru": "Kastas seals",
+    "title_en": "Kastas seals",
+    "category": "hydraulic",
+    "manufacturer": "Kastas",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/KASTAS.pdf",
+    "filename": "KASTAS.pdf",
+    "local_path": "data/catalogs/files/KASTAS.pdf",
+    "cover_svg": "data/catalogs/covers/KASTAS.svg"
+  },
+  {
+    "title_ru": "Parker EPS 5370",
+    "title_en": "Parker EPS 5370",
+    "category": "hydraulic",
+    "manufacturer": "Parker",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/Parker_Catalog_EPS_5370.pdf",
+    "filename": "Parker_Catalog_EPS_5370.pdf",
+    "local_path": "data/catalogs/files/Parker_Catalog_EPS_5370.pdf",
+    "cover_svg": "data/catalogs/covers/Parker_Catalog_EPS_5370.svg"
+  },
+  {
+    "title_ru": "Parker Pneumatic Seals",
+    "title_en": "Parker Pneumatic Seals",
+    "category": "pneumatic",
+    "manufacturer": "Parker",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/Parker_Pneumatic_Seals.pdf",
+    "filename": "Parker_Pneumatic_Seals.pdf",
+    "local_path": "data/catalogs/files/Parker_Pneumatic_Seals.pdf",
+    "cover_svg": "data/catalogs/covers/Parker_Pneumatic_Seals.svg"
+  },
+  {
+    "title_ru": "Parker PolyPak Seals",
+    "title_en": "Parker PolyPak Seals",
+    "category": "hydraulic",
+    "manufacturer": "Parker",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/Parker_PolyPak_Seals.pdf",
+    "filename": "Parker_PolyPak_Seals.pdf",
+    "local_path": "data/catalogs/files/Parker_PolyPak_Seals.pdf",
+    "cover_svg": "data/catalogs/covers/Parker_PolyPak_Seals.svg"
+  },
+  {
+    "title_ru": "Trelleborg catalog",
+    "title_en": "Trelleborg catalog",
+    "category": "hydraulic",
+    "manufacturer": "Trelleborg",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/TRELLEBORG.pdf",
+    "filename": "TRELLEBORG.pdf",
+    "local_path": "data/catalogs/files/TRELLEBORG.pdf",
+    "cover_svg": "data/catalogs/covers/TRELLEBORG.svg"
+  },
+  {
+    "title_ru": "Trelleborg Pneumatic Seals",
+    "title_en": "Trelleborg Pneumatic Seals",
+    "category": "pneumatic",
+    "manufacturer": "Trelleborg",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/Trelleborg_Pneumatic_Seals.pdf",
+    "filename": "Trelleborg_Pneumatic_Seals.pdf",
+    "local_path": "data/catalogs/files/Trelleborg_Pneumatic_Seals.pdf",
+    "cover_svg": "data/catalogs/covers/Trelleborg_Pneumatic_Seals.svg"
+  },
+  {
+    "title_ru": "Trelleborg Rotary Seals",
+    "title_en": "Trelleborg Rotary Seals",
+    "category": "rotary",
+    "manufacturer": "Trelleborg",
+    "url": "https://pulsar-seal.ru/wp-content/uploads/pdf/rotary_trelleborg.pdf",
+    "filename": "Trelleborg_Rotary_Seals.pdf",
+    "local_path": "data/catalogs/files/Trelleborg_Rotary_Seals.pdf",
+    "cover_svg": "data/catalogs/covers/Trelleborg_Rotary_Seals.svg"
+  },
+  {
+    "title_ru": "PETSEALS Hydraulic Seals (General Industries)",
+    "title_en": "PETSEALS Hydraulic Seals (General Industries)",
+    "category": "hydraulic",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/595900/03HYDRAULIC%20SEALS%20FOR%20GENERAL%20INDUSTRIES-2026.01.08.pdf",
+    "filename": "PETSEALS_Hydraulic_General_Industries.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_Hydraulic_General_Industries.svg"
+  },
+  {
+    "title_ru": "PETSEALS Pneumatic Seals (General Industries)",
+    "title_en": "PETSEALS Pneumatic Seals (General Industries)",
+    "category": "pneumatic",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/601164/02PNEUMATIC%20SEALS%20FOR%20GENERAL%20INDUSTRIES-2026.01.15.pdf",
+    "filename": "PETSEALS_Pneumatic_General_Industries.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_Pneumatic_General_Industries.svg"
+  },
+  {
+    "title_ru": "PETSEALS Hydraulic Heavy Duty Machines",
+    "title_en": "PETSEALS Hydraulic Heavy Duty Machines",
+    "category": "hydraulic",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/601235/04HYDRAULIC%20SEALS%20FOR%20HEAVY%20DUTY%20MACHINES-2026.01.15.pdf",
+    "filename": "PETSEALS_Hydraulic_Heavy_Duty.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_Hydraulic_Heavy_Duty.svg"
+  },
+  {
+    "title_ru": "PETSEALS Imperial Hydraulic Seals",
+    "title_en": "PETSEALS Imperial Hydraulic Seals",
+    "category": "hydraulic",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/598417/09%20IMPERIAL%20HYDRAULIC%20SEALS%202026.01.13.pdf",
+    "filename": "PETSEALS_Imperial_Hydraulic_Seals.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_Imperial_Hydraulic_Seals.svg"
+  },
+  {
+    "title_ru": "PETSEALS O-Ring catalog",
+    "title_en": "PETSEALS O-Ring catalog",
+    "category": "oring",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/527452/01O-RING_2025.09.17.pdf",
+    "filename": "PETSEALS_O-Ring.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_O-Ring.svg"
+  },
+  {
+    "title_ru": "PETSEALS Oil Seals",
+    "title_en": "PETSEALS Oil Seals",
+    "category": "rotary",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/433551/07OIL%20SEAL-2025.04.23.pdf",
+    "filename": "PETSEALS_Oil_Seals.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_Oil_Seals.svg"
+  },
+  {
+    "title_ru": "PETSEALS Hydraulic Breaker Seals",
+    "title_en": "PETSEALS Hydraulic Breaker Seals",
+    "category": "hydraulic",
+    "manufacturer": "PETSEALS",
+    "url": "https://www.petseals.com/pdf/488962/06%20HYDRAULIC%20BREAKER%20SEALS-2025.07.15.pdf",
+    "filename": "PETSEALS_Hydraulic_Breaker_Seals.pdf",
+    "skip_download": true,
+    "note": "403 from host; requires permission or manual download",
+    "cover_svg": "data/catalogs/covers/PETSEALS_Hydraulic_Breaker_Seals.svg"
+  },
+  {
+    "title_ru": "Hydraulic sealing products size charts",
+    "title_en": "Hydraulic sealing products size charts",
+    "category": "hydraulic",
+    "manufacturer": "James Walker",
+    "url": "https://jameswalker.canto.global/direct/document/b20p3353eh4ft8559falcv9u3u/QIucWZ4HuvQtmiObzO92SLYkVBg/original?content-type=application%2Fpdf&name=Hydraulic_sealing_products_-_size_charts.pdf",
+    "filename": "Hydraulic_sealing_products_size_charts.pdf",
+    "local_path": "data/catalogs/files/Hydraulic_sealing_products_size_charts.pdf",
+    "cover_svg": "data/catalogs/covers/Hydraulic_sealing_products_size_charts.svg"
+  },
+  {
+    "title_ru": "Каталог КРПМС",
+    "title_en": "KRPMS catalog",
+    "category": "hydraulic",
+    "manufacturer": "КРПМС",
+    "url": "https://www.krpms.ru/upload/iblock/7d6/dv7wsr2iz0o6ehyg8rmih8tc3jsabn1t.pdf",
+    "filename": "KRPMS_catalog.pdf",
+    "local_path": "data/catalogs/files/KRPMS_catalog.pdf",
+    "cover_svg": "data/catalogs/covers/KRPMS_catalog.svg"
+  }
+]

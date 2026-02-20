@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% if seo_title %}{{ seo_title }}{% else %}{% trans "Каталог уплотнений" %}{% endif %}{% endblock %}
+
+{% block head %}
+{% if category %}
+{# ItemList JSON-LD for category pages #}
+{% if page_obj %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "{{ category.name|escapejs }}{% if subcategory %} — {{ subcategory.name|escapejs }}{% endif %}",
+  "url": "{{ site_url }}/catalog/?category={{ category.slug }}{% if subcategory %}&sub={{ subcategory.slug }}{% endif %}",
+  "numberOfItems": {{ paginator.count }},
+  "itemListElement": [{% for item in products %}
+    {"@type":"ListItem","position":{{ forloop.counter }},"name":"{{ item.name|escapejs }}","url":"{{ site_url }}{% url 'seal_product' item.slug %}"}{% if not forloop.last %},{% endif %}{% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{# Breadcrumb for category page #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Главная","item":"{{ site_url }}/"},
+    {"@type":"ListItem","position":2,"name":"Каталог уплотнений","item":"{{ site_url }}/catalog/"},
+    {"@type":"ListItem","position":3,"name":"{{ category.name|escapejs }}","item":"{{ site_url }}/catalog/?category={{ category.slug }}"}{% if subcategory %},
+    {"@type":"ListItem","position":4,"name":"{{ subcategory.name|escapejs }}","item":"{{ site_url }}/catalog/?category={{ category.slug }}&sub={{ subcategory.slug }}"}{% endif %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    {% if subcategory %}
+    <h1>{{ subcategory.name }} <span class="h1-cat">— {{ category.name }}</span></h1>
+    <p class="lead">{% trans "Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений." %}</p>
+    {% elif category %}
+    <h1>{{ category.name }}</h1>
+    <p class="lead">{% trans "Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений." %}</p>
+    {% else %}
+    <h1>{% trans "Каталог уплотнений" %}</h1>
+    <p class="lead">{% trans "Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений." %}</p>
+    {% endif %}
+    <form class="catalog-search" method="get">
+      {% if category %}<input type="hidden" name="category" value="{{ category.slug }}">{% endif %}
+      {% if subcategory %}<input type="hidden" name="sub" value="{{ subcategory.slug }}">{% endif %}
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Поиск по названию или характеристикам' %}">
+      <button class="btn primary" type="submit">{% trans "Найти" %}</button>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container catalog-layout">
+    <aside class="catalog-sidebar">
+      <h4>{% trans "Разделы" %}</h4>
+      <a class="catalog-link {% if not category %}active{% endif %}" href="/catalog/">{% trans "Все" %}</a>
+      {% for cat in categories %}
+        <a class="catalog-link {% if category and cat.id == category.id %}active{% endif %}" href="/catalog/?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">
+          <span>{{ cat.name }}</span>
+          {% if cat.product_count %}<small class="catalog-count">{{ cat.product_count }}</small>{% endif %}
+        </a>
+      {% endfor %}
+    </aside>
+
+    <div class="catalog-main">
+      {% if show_import_panel %}
+        <details class="catalog-import" data-import-panel>
+          <summary class="catalog-import-summary">
+            <div class="catalog-import-title">
+              <h3>{% trans "Импорт каталога" %}</h3>
+              <span class="import-badge" data-import-running>{% trans "ожидание" %}</span>
+            </div>
+            <div class="catalog-import-stats">
+              <span>{% trans "Всего:" %} <strong data-import-total>0</strong></span>
+              <span>{% trans "В выборке:" %} <strong data-import-filtered>0</strong></span>
+            </div>
+            <span class="catalog-import-hint">{% trans "Открыть" %}</span>
+          </summary>
+          <div class="catalog-import-body">
+            <div class="catalog-import-latest" data-import-latest></div>
+            <pre class="catalog-import-log" data-import-log></pre>
+          </div>
+        </details>
+      {% endif %}
+
+      {% if category and subcategories %}
+        <div class="catalog-chips">
+          <a class="chip {% if not subcategory %}active{% endif %}" href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все профили" %}</a>
+          {% for sub in subcategories %}
+            <a class="chip {% if subcategory and sub.id == subcategory.id %}active{% endif %}" href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ sub.code|default:sub.name }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="catalog-meta">
+        {% if category %}
+          <span><strong>{{ category.name }}</strong></span>
+        {% else %}
+          <span>{% trans "Все разделы" %}</span>
+        {% endif %}
+        {% if subcategory %}
+          <span> · <strong>{{ subcategory.code|default:subcategory.name }}</strong></span>
+        {% endif %}
+        {% if q %}
+          <span> · {% trans "Поиск:" %} <strong>{{ q }}</strong></span>
+        {% endif %}
+        {% if paginator %}
+          <span> · {% trans "Найдено:" %} <strong>{{ paginator.count }}</strong></span>
+          {% if page_obj.paginator.num_pages > 1 %}
+            <span> · {% trans "Стр." %} <strong>{{ page_obj.number }}</strong> / {{ page_obj.paginator.num_pages }}</span>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      {% if view_mode == 'categories' %}
+        <div class="catalog-tiles">
+          {% for cat in categories %}
+            <a class="catalog-tile" href="/catalog/?category={{ cat.slug }}">
+              <div class="catalog-tile-title">{{ cat.name }}</div>
+              <div class="catalog-tile-meta">
+                {% if cat.child_count %}<span>{% trans "Профили:" %} <strong>{{ cat.child_count }}</strong></span>{% endif %}
+                {% if cat.product_count %}<span>{% trans "Товары:" %} <strong>{{ cat.product_count }}</strong></span>{% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="catalog-grid">
+          {% for item in products %}
+            <a class="catalog-card" href="{% url 'seal_product' item.slug %}">
+              <div class="catalog-thumb">
+                {% if item.image %}
+                  <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                {% else %}
+                  <img src="{% static 'img/ai/hero.png' %}" alt="{{ item.name }}">
+                {% endif %}
+              </div>
+              <div class="catalog-body">
+                <div class="catalog-card-top">
+                  <h3>{{ item.name }}</h3>
+                  <div class="catalog-badges">
+                    {% if item.subcategory %}<span class="badge">{{ item.subcategory.code|default:item.subcategory.name }}</span>{% endif %}
+                    {% if item.category %}<span class="badge ghost">{{ item.category.name }}</span>{% endif %}
+                  </div>
+                </div>
+                {% if item.display_specs %}
+                  <ul class="catalog-specs">
+                    {% for attr in item.display_specs %}
+                      <li><span class="spec-name">{{ attr.name }}</span><span class="spec-val">{{ attr.value }}</span></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </a>
+          {% empty %}
+            <div class="card">
+              <h3>{% trans "Ничего не найдено" %}</h3>
+              <p>{% trans "Попробуйте изменить запрос или выбрать другой раздел." %}</p>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if page_obj and page_obj.paginator.num_pages > 1 %}
+          <nav class="catalog-pagination" aria-label="{% trans 'Pagination' %}">
+            {% if page_obj.has_previous %}
+              <a class="chip" href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.previous_page_number }}">&larr; {% trans "Назад" %}</a>
+            {% endif %}
+
+            {% for num in page_numbers %}
+              <a class="chip {% if num == page_obj.number %}active{% endif %}" href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ num }}">{{ num }}</a>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <a class="chip" href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.next_page_number }}">{% trans "Дальше" %} &rarr;</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+// === AJAX навигация каталога (без перезагрузки) ===
+(() => {
+  const sidebar = document.querySelector('.catalog-sidebar');
+  const main    = document.querySelector('.catalog-main');
+  if (!sidebar || !main) return;
+
+  let busy = false;
+
+  // Ссылка считается навигацией каталога если она указывает на /catalog/ (с параметрами или без)
+  const isCatalogLink = (href) => {
+    try {
+      return new URL(href, location.origin).pathname === '/catalog/';
+    } catch { return false; }
+  };
+
+  // Обновляем подсветку активного раздела в сайдбаре
+  const syncSidebar = (url) => {
+    const cat = new URL(url, location.origin).searchParams.get('category') || '';
+    sidebar.querySelectorAll('.catalog-link').forEach(a => {
+      const ac = new URL(a.href, location.origin).searchParams.get('category') || '';
+      a.classList.toggle('active', cat === ac);
+    });
+  };
+
+  // Вешаем AJAX на все навигационные ссылки внутри .catalog-main (чипы, пагинация)
+  const bindMainLinks = () => {
+    main.querySelectorAll('a').forEach(a => {
+      if (isCatalogLink(a.href) && !a.dataset.ajax) {
+        a.dataset.ajax = '1';
+        a.addEventListener('click', e => { e.preventDefault(); go(a.href); });
+      }
+    });
+  };
+
+  // Загрузка и замена контента без перезагрузки
+  const go = async (href, push = true) => {
+    if (busy) return;
+    busy = true;
+    main.classList.add('catalog-loading');
+    try {
+      const r = await fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      const html = await r.text();
+      const newMain = new DOMParser().parseFromString(html, 'text/html').querySelector('.catalog-main');
+      if (newMain) {
+        main.innerHTML = newMain.innerHTML;
+        if (push) history.pushState({ href }, '', href);
+        syncSidebar(href);
+        bindMainLinks();
+      }
+    } catch {
+      // При ошибке — обычная навигация
+      location.href = href;
+    } finally {
+      busy = false;
+      main.classList.remove('catalog-loading');
+    }
+  };
+
+  // Сайдбар: перехватываем все ссылки разделов
+  sidebar.querySelectorAll('.catalog-link').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); go(a.href); });
+  });
+
+  // Чипы подкатегорий и пагинация в начальном контенте
+  bindMainLinks();
+
+  // Кнопка "Назад/Вперёд" в браузере
+  addEventListener('popstate', () => go(location.href, false));
+  history.replaceState({ href: location.href }, '', location.href);
+})();
+
+// === Панель импорта ===
+(() => {
+  const panel = document.querySelector("[data-import-panel]");
+  if (!panel) return;
+  const badge = panel.querySelector("[data-import-running]");
+  const totalEl = panel.querySelector("[data-import-total]");
+  const filteredEl = panel.querySelector("[data-import-filtered]");
+  const latestEl = panel.querySelector("[data-import-latest]");
+  const logEl = panel.querySelector("[data-import-log]");
+  const fallbackImage = "{% static 'img/ai/hero.png' %}";
+
+  const makeUrl = () => {
+    const url = new URL("/catalog/import-status/", window.location.origin);
+    const params = new URLSearchParams(window.location.search);
+    if ([...params].length) {
+      url.search = params.toString();
+    }
+    return url.toString();
+  };
+
+  const renderLatest = (items) => {
+    if (!items || !items.length) {
+      latestEl.innerHTML = `<span class="catalog-import-empty">{% trans "Нет загруженных карточек" %}</span>`;
+      return;
+    }
+    latestEl.innerHTML = items.map(item => {
+      const img = item.image || fallbackImage;
+      return `
+        <a class="catalog-import-item" href="${item.url}">
+          <span class="catalog-import-thumb" style="background-image:url('${img}')"></span>
+          <span class="catalog-import-name">${item.name}</span>
+        </a>`;
+    }).join("");
+  };
+
+  const refresh = async () => {
+    try {
+      const response = await fetch(makeUrl(), { cache: "no-store" });
+      if (!response.ok) return;
+      const data = await response.json();
+      if (totalEl) totalEl.textContent = data.total ?? "0";
+      if (filteredEl) filteredEl.textContent = data.filtered_total ?? "0";
+      if (badge) {
+        badge.textContent = data.running ? "{% trans 'идет импорт' %}" : "{% trans 'готово' %}";
+        badge.classList.toggle("is-running", !!data.running);
+      }
+      renderLatest(data.latest || []);
+      if (logEl) {
+        logEl.textContent = (data.log || []).join("\n");
+        logEl.style.display = data.log && data.log.length ? "block" : "none";
+      }
+    } catch (err) {
+      // ignore transient network errors
+    }
+  };
+
+  refresh();
+  setInterval(refresh, 4000);
+})();
+</script>
+{% endblock %}

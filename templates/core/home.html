@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load i18n_extras %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="badge">{{ site_settings|tr:'hero_badge' }}</div>
+      <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+      <p class="lead">{{ page|tr:'hero_subtitle'|default:"Поставляем оригинальные и подбираем аналоги, проектируем и изготавливаем уплотнения под размеры и условия." }}</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="/support/requests/new/" data-track="hero_request_click">{% trans "Отправить заявку" %}</a>
+        <a class="btn ghost" href="/catalogs/" data-track="hero_catalog_click">{% trans "Скачать каталоги" %}</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <div class="metric" data-counter="12">0</div>
+          <div class="metric-label">{% trans "лет инженерной экспертизы" %}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric" data-counter="{{ catalog_count }}">0</div>
+          <div class="metric-label">{% trans "позиций в каталоге" %}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric" data-counter="48">0</div>
+          <div class="metric-label">{% trans "часов на подбор" %}</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="lottie pulse" data-lottie="{% static 'lottie/pulse.json' %}"></div>
+      <img class="hero-image" src="{% static 'img/ai/hero.png' %}" alt="EURO-SEAL hydraulic seals">
+      <div class="hero-card tilt">
+        <h4>{% trans "Экспресс‑подбор" %}</h4>
+        <p>{% trans "Отправьте чертеж, фото или старое уплотнение — мы подберем аналог." %}</p>
+        <a href="/support/requests/new/" data-track="hero_card_request_click">{% trans "Создать заявку" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section funnel">
+  <div class="container funnel-grid">
+    <div>
+      <h2>{% trans "Быстрый расчет за 1–2 дня" %}</h2>
+      <p>{% trans "Мы подбираем уплотнения по параметрам, фото или образцу. Чем больше данных — тем быстрее ответ." %}</p>
+    </div>
+    <div class="funnel-steps">
+      <div class="funnel-step">
+        <strong>1</strong>
+        <span>{% trans "Отправьте заявку" %}</span>
+      </div>
+      <div class="funnel-step">
+        <strong>2</strong>
+        <span>{% trans "Инженер уточнит детали" %}</span>
+      </div>
+      <div class="funnel-step">
+        <strong>3</strong>
+        <span>{% trans "Получите подбор и сроки" %}</span>
+      </div>
+      <a class="btn primary" href="/support/requests/new/" data-track="funnel_request_click">{% trans "Оформить заявку" %}</a>
+      <button class="btn ghost" type="button" data-open-lead>{% trans "Быстрая заявка" %}</button>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Ключевые направления" %}</h2>
+      <p>{% trans "Закрываем задачи от штучных деталей до серийных поставок." %}</p>
+    </div>
+    <div class="grid-3">
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото гидравлических уплотнений' %}" style="--peek-img: url('{% static 'img/ai/грязесьемники.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Гидравлические уплотнения" %}</h3>
+            <p>{% trans "Штоковые, поршневые, грязесъемники, направляющие кольца." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/грязесьемники.png' %}" alt="{% trans 'Гидравлические уплотнения' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото пневматических уплотнений' %}" style="--peek-img: url('{% static 'img/ai/пневматические.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Пневматические уплотнения" %}</h3>
+            <p>{% trans "Высокая скорость, минимальное трение, устойчивость к износу." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/пневматические.png' %}" alt="{% trans 'Пневматические уплотнения' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото ремкомплектов' %}" style="--peek-img: url('{% static 'img/ai/ремкомплект.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Ремкомплекты" %}</h3>
+            <p>{% trans "Подбор аналогов и поставка комплектов под технику." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/ремкомплект.png' %}" alt="{% trans 'Ремкомплекты' %}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section accent">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Почему EURO-SEAL" %}</h2>
+      <p>{% trans "Мы объединяем инженерный подход, складскую скорость и прозрачные коммуникации." %}</p>
+    </div>
+    <div class="grid-4">
+      <div class="feature reveal">
+        <span>01</span>
+        <h4>{% trans "Инженерный подбор" %}</h4>
+        <p>{% trans "Сверяем размеры, условия и материалы, предлагаем 2-3 альтернативы." %}</p>
+      </div>
+      <div class="feature reveal">
+        <span>02</span>
+        <h4>{% trans "Материалы" %}</h4>
+        <p>{% trans "PU, NBR, FKM, PTFE, HNBR, TPU — под среду и температуру." %}</p>
+      </div>
+      <div class="feature reveal">
+        <span>03</span>
+        <h4>{% trans "Сроки" %}</h4>
+        <p>{% trans "Производство от 2-10 дней, подбор за 24-48 часов." %}</p>
+      </div>
+      <div class="feature reveal">
+        <span>04</span>
+        <h4>{% trans "Документы" %}</h4>
+        <p>{% trans "Подготовим спецификации, сопроводим проект и серию." %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div>
+        <h2>{% trans "Как мы работаем" %}</h2>
+        <ol class="steps">
+          <li>{% trans "Получаем параметры, фото или старое уплотнение." %}</li>
+          <li>{% trans "Подбираем аналог или проектируем чертеж." %}</li>
+          <li>{% trans "Согласуем материалы, сроки и партию." %}</li>
+          <li>{% trans "Изготавливаем и поставляем с отчетностью." %}</li>
+        </ol>
+      </div>
+      <div class="process-card">
+        <h3>{% trans "Быстрый запрос" %}</h3>
+        <p>{% trans "Кратко опишите задачу — инженер уточнит детали." %}</p>
+        <a class="btn primary" href="/support/requests/new/" data-track="process_request_click">{% trans "Создать заявку" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section muted">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Каталоги и стандарты" %}</h2>
+      <p>{% trans "Собрали PDF производителей и справочные материалы для подбора." %}</p>
+    </div>
+    <div class="grid-3">
+      <div class="card ghost">
+        <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="section-logo">
+        <h4>{% trans "Импортные каталоги" %}</h4>
+        <p>{% trans "Parker, Trelleborg, SKF, Kastas и другие." %}</p>
+        <a href="/catalogs/">{% trans "Перейти" %}</a>
+      </div>
+      <div class="card ghost">
+        <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="section-logo">
+        <h4>{% trans "Гидравлика" %}</h4>
+        <p>{% trans "Справочники по условиям работы и материалам." %}</p>
+        <a href="/catalogs/">{% trans "Перейти" %}</a>
+      </div>
+      <div class="card ghost">
+        <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="section-logo">
+        <h4>{% trans "Пневматика" %}</h4>
+        <p>{% trans "Подбор для высокой скорости и сухих сред." %}</p>
+        <a href="/catalogs/">{% trans "Перейти" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Кейсы внедрения" %}</h2>
+      <p>{% trans "Примеры задач, которые мы закрыли для промышленных заказчиков." %}</p>
+    </div>
+    <div class="grid-3">
+      {% if case_studies %}
+        {% for case in case_studies %}
+          <div class="card reveal">
+            <h4>{{ case|tr:'title' }}</h4>
+            {% if case.lead_time %}<p><strong>{% trans "Срок:" %}</strong> {{ case.lead_time }}</p>{% endif %}
+            {% if case|tr:'task' %}<p><strong>{% trans "Задача:" %}</strong> {{ case|tr:'task' }}</p>{% endif %}
+            {% if case|tr:'result' %}<p><strong>{% trans "Результат:" %}</strong> {{ case|tr:'result' }}</p>{% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="card reveal">
+          <h4>{% trans "Экскаватор JCB — подбор аналога" %}</h4>
+          <p><strong>{% trans "Срок:" %}</strong> 36 часов</p>
+          <p><strong>{% trans "Задача:" %}</strong> {% trans "Изношенный штоковый узел без маркировки профиля." %}</p>
+          <p><strong>{% trans "Результат:" %}</strong> {% trans "Подобрали аналог из PU/NBR, отгрузили комплект за 2 дня." %}</p>
+        </div>
+        <div class="card reveal">
+          <h4>{% trans "Линия упаковки — пневматика" %}</h4>
+          <p><strong>{% trans "Срок:" %}</strong> 24 часа</p>
+          <p><strong>{% trans "Задача:" %}</strong> {% trans "Высокочастотный цикл и быстрый износ стандартных манжет." %}</p>
+          <p><strong>{% trans "Результат:" %}</strong> {% trans "Профиль с пониженным трением, рост ресурса узла в 1.8 раза." %}</p>
+        </div>
+        <div class="card reveal">
+          <h4>{% trans "Гидростанция пресса — ремкомплект" %}</h4>
+          <p><strong>{% trans "Срок:" %}</strong> 48 часов</p>
+          <p><strong>{% trans "Задача:" %}</strong> {% trans "Срочная остановка оборудования из-за утечки цилиндра." %}</p>
+          <p><strong>{% trans "Результат:" %}</strong> {% trans "Собрали ремкомплект и закрыли простой в течение рабочей смены." %}</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section accent">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Отзывы клиентов" %}</h2>
+      <p>{% trans "Что говорят о скорости подбора и качестве поставок EURO-SEAL." %}</p>
+    </div>
+    <div class="grid-3">
+      {% if testimonials %}
+        {% for review in testimonials %}
+          <div class="feature reveal">
+            <span>★ {{ review.rating }}/5</span>
+            <h4>{{ review.name }}{% if review.company %}, {{ review.company }}{% endif %}</h4>
+            <p>“{{ review|tr:'text' }}”</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="feature reveal">
+          <span>★ 5/5</span>
+          <h4>{% trans "Снабжение, карьерная техника" %}</h4>
+          <p>{% trans "Оперативно подобрали замену оригиналу. Получили комплект с документами и сразу поставили в работу." %}</p>
+        </div>
+        <div class="feature reveal">
+          <span>★ 5/5</span>
+          <h4>{% trans "Главный механик, производство" %}</h4>
+          <p>{% trans "Удобный формат: отправили размеры и фото, в тот же день получили варианты по материалам и срокам." %}</p>
+        </div>
+        <div class="feature reveal">
+          <span>★ 5/5</span>
+          <h4>{% trans "Сервисная компания" %}</h4>
+          <p>{% trans "Закрывают нестандартные позиции, есть обратная связь инженера и понятные сроки поставки." %}</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "FAQ по подбору уплотнений" %}</h2>
+      <p>{% trans "Короткие ответы на частые технические вопросы клиентов." %}</p>
+    </div>
+    <div class="grid-2 faq-list">
+      {% if faq_items %}
+        {% for item in faq_items %}
+          <div class="card">
+            <h4>{{ item|tr:'question' }}</h4>
+            <p>{{ item|tr:'answer' }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="card">
+          <h4>{% trans "Сколько занимает подбор аналога?" %}</h4>
+          <p>{% trans "Обычно 24–48 часов после получения размеров и условий работы." %}</p>
+        </div>
+        <div class="card">
+          <h4>{% trans "Можно ли по фото определить тип уплотнения?" %}</h4>
+          <p>{% trans "Да, по фото и базовым размерам мы делаем первичный подбор и уточняем детали." %}</p>
+        </div>
+        <div class="card">
+          <h4>{% trans "Работаете ли с нестандартными профилями?" %}</h4>
+          <p>{% trans "Да, изготавливаем по образцу и чертежу, включая малые партии." %}</p>
+        </div>
+        <div class="card">
+          <h4>{% trans "Какие материалы доступны?" %}</h4>
+          <p>{% trans "NBR, HNBR, FKM, PTFE, PU и композиты под среду, давление и температуру." %}</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<div class="lead-modal" id="lead-modal" aria-hidden="true">
+  <div class="lead-modal-backdrop" data-close-lead></div>
+  <div class="lead-modal-card">
+    <button type="button" class="lead-close" data-close-lead>×</button>
+    <h3>{% trans "Быстрая заявка инженеру" %}</h3>
+    <p>{% trans "Оставьте параметры и контакт — ответим в течение рабочего дня." %}</p>
+    <form method="post" action="{% url 'support_quick_lead' %}" enctype="multipart/form-data" class="lead-form">
+      {% csrf_token %}
+      <input type="hidden" name="source_page" value="{{ request.path }}">
+      {{ quick_lead_form.honey }}
+      <label>{{ quick_lead_form.request_type }}</label>
+      <label>{{ quick_lead_form.name }}</label>
+      <label>{{ quick_lead_form.phone }}</label>
+      <label>{{ quick_lead_form.email }}</label>
+      <label>{{ quick_lead_form.dimensions }}</label>
+      <label>{{ quick_lead_form.details }}</label>
+      <label>{{ quick_lead_form.file }}</label>
+      <button class="btn primary" type="submit" data-track="quick_lead_submit">{% trans "Отправить" %}</button>
+    </form>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% if faq_items %}
+      {% for item in faq_items %}
+        {"@type":"Question","name":"{{ item|tr:'question'|escapejs }}","acceptedAnswer":{"@type":"Answer","text":"{{ item|tr:'answer'|escapejs }}"}}{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    {% else %}
+      {"@type":"Question","name":"Сколько занимает подбор аналога?","acceptedAnswer":{"@type":"Answer","text":"Обычно 24–48 часов после получения размеров и условий работы."}},
+      {"@type":"Question","name":"Можно ли по фото определить тип уплотнения?","acceptedAnswer":{"@type":"Answer","text":"Да, по фото и базовым размерам мы делаем первичный подбор и уточняем детали."}},
+      {"@type":"Question","name":"Работаете ли с нестандартными профилями?","acceptedAnswer":{"@type":"Answer","text":"Да, изготавливаем по образцу и чертежу, включая малые партии."}},
+      {"@type":"Question","name":"Какие материалы доступны?","acceptedAnswer":{"@type":"Answer","text":"NBR, HNBR, FKM, PTFE, PU и композиты под среду, давление и температуру."}}
+    {% endif %}
+  ]
+}
+</script>
+{% endblock %}

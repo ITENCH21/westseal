@@ -1,0 +1,234 @@
+{% load static %}
+{% load i18n %}
+{% load i18n_extras %}
+<!doctype html>
+<html lang="{{ request.LANGUAGE_CODE|default:'ru' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f4a8a">
+  <title>{% block title %}{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }}{% endblock %} | EURO-SEAL</title>
+  <link rel="icon" href="{% static 'img/favicon.ico' %}">
+  <link rel="apple-touch-icon" href="{% static 'img/logo-blue.png' %}">
+  <link rel="canonical" href="{{ site_url }}{{ request.path }}">
+  <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
+  <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
+  <meta name="description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
+  <meta property="og:site_name" content="EURO-SEAL">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | EURO-SEAL">
+  <meta property="og:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:image" content="{{ site_url }}{% static 'img/logo-blue.png' %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | EURO-SEAL">
+  <meta name="twitter:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script defer src="{% static 'js/main.js' %}"></script>
+  <script defer src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+  {% if ga4_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ ga4_id }}');
+    </script>
+  {% endif %}
+  {% if yandex_metrika_id %}
+    <script>
+      window.__YANDEX_ID = {{ yandex_metrika_id }};
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym({{ yandex_metrika_id }}, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+    </script>
+  {% endif %}
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="/" class="logo">
+        <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="logo-img logo-light">
+        <img src="{% static 'img/logo-blue.png' %}" alt="EURO-SEAL" class="logo-img logo-dark">
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="{% trans 'Меню' %}" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="main-nav">
+        <a href="/products/" class="{% if current_section == 'products' %}active{% endif %}">{% trans "Продукция" %}</a>
+        <a href="/catalog/" class="{% if current_section == 'catalog' %}active{% endif %}">{% trans "Манжеты" %}</a>
+        <a href="/production/" class="{% if current_section == 'production' %}active{% endif %}">{% trans "Производство" %}</a>
+        <a href="/catalogs/" class="{% if current_section == 'catalogs' %}active{% endif %}">{% trans "PDF" %}</a>
+        <a href="/knowledge/" class="{% if current_section == 'knowledge' %}active{% endif %}">{% trans "База" %}</a>
+        <a href="/contacts/" class="{% if current_section == 'contacts' %}active{% endif %}">{% trans "Контакты" %}</a>
+      </nav>
+      <div class="nav-actions">
+        <div class="nav-aux">
+          <button class="btn-icon theme-toggle" type="button" aria-label="Theme toggle">◐</button>
+          <form action="{% url 'set_language' %}" method="post" class="lang-switch">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+            <select name="language" onchange="this.form.submit()">
+              <option value="ru" {% if request.LANGUAGE_CODE == 'ru' %}selected{% endif %}>RU</option>
+              <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN</option>
+            </select>
+          </form>
+        </div>
+        {% if request.user.is_authenticated %}
+          <a class="btn ghost" href="{% url 'account_dashboard' %}">{% trans "Кабинет" %}</a>
+          <a class="btn ghost" href="{% url 'account_logout' %}">{% trans "Выйти" %}</a>
+        {% else %}
+          <a class="btn ghost" href="{% url 'account_login' %}">{% trans "Войти" %}</a>
+        {% endif %}
+        <a class="btn primary" href="{{ site_settings.hero_cta_url }}" data-track="header_cta_click">{{ site_settings|tr:'hero_cta_text' }}</a>
+      </div>
+    </div>
+  </header>
+  {% if request.path != '/' %}
+    <section class="breadcrumbs-wrap">
+      <div class="container breadcrumbs">
+        <a href="/">{% trans "Главная" %}</a>
+        {% if current_section and current_section_url != request.path %}
+          <span class="crumb-sep">/</span>
+          <a href="{{ current_section_url }}">{{ current_section_label }}</a>
+        {% endif %}
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">
+          {% if page %}
+            {{ page|tr:'title' }}
+          {% else %}
+            {{ current_page_title }}
+          {% endif %}
+        </span>
+      </div>
+    </section>
+  {% endif %}
+
+  <main>
+    {% if messages %}
+      <div class="container flash-wrap">
+        {% for message in messages %}
+          <div class="flash flash-{{ message.tags|default:'info' }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h3>{% trans "Нужно подобрать аналог или изготовить уплотнение?" %}</h3>
+        <p>{% trans "Отправьте параметры и фото — инженер EURO-SEAL ответит в течение рабочего дня." %}</p>
+      </div>
+      <a class="btn primary" href="/support/requests/new/" data-track="band_cta_click">{% trans "Создать заявку" %}</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="logo small">
+          <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="logo-img logo-light small">
+          <img src="{% static 'img/logo-blue.png' %}" alt="EURO-SEAL" class="logo-img logo-dark small">
+        </div>
+        <p>{{ site_settings.org_legal }}</p>
+        <p>{{ site_settings.address }}</p>
+      </div>
+      <div>
+        <h4>{% trans "Контакты" %}</h4>
+        <p><a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></p>
+        <p><a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>
+        <p>{{ site_settings.work_hours }}</p>
+      </div>
+      <div>
+        <h4>{% trans "Разделы" %}</h4>
+        <a href="/products/">{% trans "Продукция" %}</a>
+        <a href="/catalog/">{% trans "Каталог" %}</a>
+        <a href="/production/">{% trans "Производство" %}</a>
+        <a href="/catalogs/">{% trans "Каталоги" %}</a>
+        <a href="/knowledge/">{% trans "База знаний" %}</a>
+      </div>
+      <div>
+        <h4>{% trans "Документы" %}</h4>
+        <a href="{% url 'privacy' %}">{% trans "Политика конфиденциальности" %}</a>
+        <a href="{% url 'consent' %}">{% trans "Согласие на обработку данных" %}</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© {{ site_settings.org_name }} {% now "Y" %}. {% trans "Все права защищены." %}</p>
+    </div>
+  </footer>
+
+  <div class="chat-widget">
+    <button type="button" class="chat-button" id="chat-open-btn" data-track="chat_button_click">{% trans "Чат" %}</button>
+  </div>
+  <aside class="chat-drawer" id="chat-drawer" aria-hidden="true">
+    <div class="chat-drawer-head">
+      <div class="chat-agent">
+        <span class="chat-agent-avatar logo" aria-hidden="true"></span>
+        <div class="chat-agent-meta">
+          <strong>EURO-SEAL</strong>
+          <span>{% trans "Инженер по гидравлическим уплотнениям" %}</span>
+        </div>
+      </div>
+      <button type="button" class="chat-hide-btn icon" id="chat-hide-btn" aria-label="{% trans 'Скрыть' %}">&times;</button>
+    </div>
+    <div class="chat-greeting" id="chat-greeting">
+      <span class="chat-greeting-bot">{% trans "bot" %}</span>
+      {% trans "Здравствуйте! Мы оперативно ответим и поможем подобрать нужное уплотнение." %}
+    </div>
+    <iframe
+      id="chat-frame"
+      class="chat-frame"
+      src="{% url 'support_chat' %}?embed=1"
+      title="{% trans 'Чат поддержки' %}"
+      loading="lazy"
+    ></iframe>
+  </aside>
+  {% if request.user.is_authenticated %}
+    <div class="sticky-cta">
+      <div class="sticky-cta-inner">
+        <span>{% trans "Нужен подбор или аналог? Ответим в течение дня." %}</span>
+        <a class="btn primary" href="/support/requests/new/" data-track="sticky_cta_click">{% trans "Оформить заявку" %}</a>
+      </div>
+    </div>
+  {% endif %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ site_settings.org_name }}",
+    "legalName": "{{ site_settings.org_legal }}",
+    "url": "{{ request.build_absolute_uri }}",
+    "email": "{{ site_settings.email }}",
+    "telephone": "{{ site_settings.phone }}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ site_settings.address }}",
+      "addressCountry": "RU"
+    }
+  }
+  </script>
+  {% if request.path != '/' %}
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Главная","item":"{{ site_url }}/"},
+        {"@type":"ListItem","position":2,"name":"{% if current_section_label %}{{ current_section_label }}{% else %}{{ current_page_title }}{% endif %}","item":"{{ site_url }}{{ request.path }}"}
+      ]
+    }
+    </script>
+  {% endif %}
+</body>
+</html>

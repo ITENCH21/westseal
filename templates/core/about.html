@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load i18n_extras %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+    <p class="lead">{{ page|tr:'hero_subtitle'|default:"EURO-SEAL — команда инженеров по подбору, изготовлению и поставке уплотнений." }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div>
+      <h2>{% trans "Экспертиза" %}</h2>
+      <p>{{ page|tr:'body'|default:"Работаем с гидравлическими и пневматическими системами, подбираем аналоги, изготавливаем по образцу и чертежам." }}</p>
+      <ul class="bullets">
+        <li>{% trans "Проверка размеров и условий эксплуатации" %}</li>
+        <li>{% trans "Подбор материалов под среду и температуру" %}</li>
+        <li>{% trans "Производство малых и средних партий" %}</li>
+      </ul>
+    </div>
+    <div class="card media-card">
+      <img src="{% static 'img/ai/materials.png' %}" alt="Materials for seals">
+      <h3>{% trans "Что вы получите" %}</h3>
+      <p>{% trans "Прозрачный подбор, быстрые ответы и контроль качества на каждом этапе." %}</p>
+      <a class="btn primary" href="/support/requests/new/">{% trans "Создать заявку" %}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section muted">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Стандарты и качество" %}</h2>
+      <p>{% trans "Работаем с ГОСТ, DIN и ISO, оформляем документацию и спецификации." %}</p>
+    </div>
+    <div class="grid-3">
+      <div class="card ghost">
+        <h4>{% trans "ГОСТ" %}</h4>
+        <p>{% trans "Поставки по российским стандартам." %}</p>
+      </div>
+      <div class="card ghost">
+        <h4>{% trans "DIN / ISO" %}</h4>
+        <p>{% trans "Подбор импортных аналогов." %}</p>
+      </div>
+      <div class="card ghost">
+        <h4>{% trans "Контроль" %}</h4>
+        <p>{% trans "Проверка размеров и материалов." %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

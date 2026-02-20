@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Вход" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container auth-form">
+    <form method="post" class="card">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label>Email
+        {{ form.email }}
+      </label>
+      <label>{% trans "Пароль" %}
+        {{ form.password }}
+      </label>
+      <button class="btn primary" type="submit">{% trans "Войти" %}</button>
+      <p><a href="{% url 'account_register' %}">{% trans "Создать аккаунт" %}</a></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

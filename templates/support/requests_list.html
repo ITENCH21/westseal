@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Мои заявки" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <a class="btn primary" href="{% url 'support_request_create' %}">{% trans "Создать заявку" %}</a>
+    <div class="list">
+      {% for thread in threads %}
+        <a class="list-item" href="{% url 'support_request_detail' thread.id %}">
+          <strong>{{ thread.subject }}</strong>
+          <span>{{ thread.get_status_display }}</span>
+          <span>{{ thread.updated_at|date:"d.m.Y H:i" }}</span>
+        </a>
+      {% empty %}
+        <p>{% trans "Пока нет заявок." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

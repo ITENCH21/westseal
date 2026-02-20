@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load i18n_extras %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+    <p class="lead">{% trans "PDF-каталоги производителей и справочные материалы." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="media-banner">
+      <img src="{% static 'img/ai/catalogs.png' %}" alt="EURO-SEAL catalogs">
+      <div>
+        <h3>{% trans "Быстрый доступ к каталогам" %}</h3>
+        <p>{% trans "Скачивайте PDF и прикладывайте их к заявке — это ускорит подбор." %}</p>
+      </div>
+    </div>
+    <div class="grid-3">
+      {% for item in catalogs %}
+        <div class="card catalog-card tilt reveal">
+          {% if item.cover_image %}
+            <img src="{{ item.cover_image.url }}" alt="{{ item|tr:'title' }}">
+          {% else %}
+            <div class="catalog-cover">PDF</div>
+          {% endif %}
+          <h3>{{ item|tr:'title' }}</h3>
+          <p>{{ item|tr:'description'|truncatechars:120 }}</p>
+          <a href="{{ item.file.url }}" class="btn ghost" target="_blank">{% trans "Скачать" %}</a>
+        </div>
+      {% empty %}
+        <p>{% trans "Каталоги загружаются. Добавьте PDF в админке." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

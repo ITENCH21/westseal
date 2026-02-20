@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% if product.category %} — {{ product.category.name }}{% endif %}{% endblock %}
+
+{% block head %}
+{# ── Open Graph image ── #}
+{% if product.image %}
+<meta property="og:image" content="{{ site_url }}{{ product.image.url }}">
+{% endif %}
+
+{# ── JSON-LD: Product ── #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name|escapejs }}",
+  {% if product.description %}"description": "{{ product.description|truncatechars:500|escapejs }}",{% endif %}
+  {% if product.image %}"image": "{{ site_url }}{{ product.image.url }}",{% endif %}
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ brand_name|escapejs }}"
+  },
+  {% if product.category %}"category": "{{ product.category.name|escapejs }}",{% endif %}
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "RUB",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "EURO-SEAL"
+    },
+    "url": "{{ site_url }}{{ request.path }}"
+  }{% if product.attributes %},
+  "additionalProperty": [{% for attr in display_attrs %}{% if attr.value %}
+    {"@type":"PropertyValue","name":"{{ attr.name|escapejs }}","value":"{{ attr.value|escapejs }}"}{% if not forloop.last %},{% endif %}{% endif %}{% endfor %}
+  ]{% endif %}
+}
+</script>
+
+{# ── JSON-LD: BreadcrumbList (4 levels for product) ── #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Главная","item":"{{ site_url }}/"},
+    {"@type":"ListItem","position":2,"name":"Каталог уплотнений","item":"{{ site_url }}/catalog/"},
+    {% if product.category %}
+    {"@type":"ListItem","position":3,"name":"{{ product.category.name|escapejs }}","item":"{{ site_url }}/catalog/?category={{ product.category.slug }}"},
+    {% endif %}
+    {"@type":"ListItem","position":{% if product.category %}4{% else %}3{% endif %},"name":"{{ product.name|escapejs }}","item":"{{ site_url }}{{ request.path }}"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ product.name }}</h1>
+    <p class="lead">{% trans "Технические характеристики и описание" %}</p>
+    <div class="catalog-chips catalog-detail-chips">
+      <a class="chip" href="{{ back_url }}">&larr; {% trans "Назад в каталог" %}</a>
+      {% if product.category %}
+        <a class="chip" href="/catalog/?category={{ product.category.slug }}">{{ product.category.name }}</a>
+      {% endif %}
+      {% if product.subcategory %}
+        <a class="chip" href="/catalog/?category={{ product.category.slug }}&sub={{ product.subcategory.slug }}">{{ product.subcategory.code|default:product.subcategory.name }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container catalog-detail">
+    <div class="catalog-detail-media">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
+      {% else %}
+        <img src="{% static 'img/ai/hero.png' %}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
+      {% endif %}
+      <a class="btn primary" href="/support/requests/new/">{% trans "Оформить заявку" %}</a>
+    </div>
+    <div class="catalog-detail-info">
+      <h2>{% trans "Характеристики" %} {{ product.name }}</h2>
+      {% if product.attributes %}
+        <table class="catalog-table" itemscope itemtype="https://schema.org/Product">
+          {% for attr in display_attrs %}
+            {% if attr.value %}
+            <tr>
+              <th>{{ attr.name }}</th>
+              <td>{{ attr.value }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>{% trans "Данные будут уточнены инженером после запроса." %}</p>
+      {% endif %}
+
+      {% if product.description %}
+        <div class="catalog-description">
+          <h3>{% trans "Описание" %}</h3>
+          {{ product.description|linebreaks }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

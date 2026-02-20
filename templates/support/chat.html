@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load support_extras %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Чат с поддержкой" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="chat-log telegram" data-chat-log data-chat-api="{% url 'support_chat_messages' %}" data-chat-ws="{{ ws_path }}" data-chat-me="{{ request.user.email }}">
+      <div class="chat-line bot" data-chat-greeting>
+        <div class="chat-bubble bot">
+          <div class="chat-bubble-text">
+            {% trans "Здравствуйте! Я автоматический помощник EURO-SEAL. Задайте вопрос — подберём уплотнение и подключим менеджера при необходимости." %}
+          </div>
+          <span class="chat-time">{% now "H:i" %}</span>
+        </div>
+      </div>
+      {% for msg in thread.messages.all %}
+        {% if not msg.is_hidden_by_user %}
+        <div class="chat-line {% if msg.is_bot or msg.via == 'bot' %}bot{% elif msg.via == 'admin' or msg.via == 'telegram' %}admin{% else %}mine{% endif %}" data-message-id="{{ msg.id }}">
+          <div class="chat-bubble">
+            <div class="chat-bubble-text">
+              {{ msg.body|linebreaks }}
+              {% if msg.attachments.all %}
+                <div class="attachments-grid">
+                  {% for f in msg.attachments.all %}
+                    {% if f.file.url|is_image %}
+                      <a href="{{ f.file.url }}" target="_blank" class="attachment-card">
+                        <img src="{{ f.file.url }}" alt="attachment">
+                      </a>
+                    {% elif f.file.url|is_video %}
+                      <div class="attachment-card">
+                        <video src="{{ f.file.url }}" controls></video>
+                      </div>
+                    {% else %}
+                      <a href="{{ f.file.url }}" target="_blank" class="attachment-file">{{ f.file.name|slice:"-40:" }}</a>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+            <span class="chat-time">{{ msg.created_at|date:"H:i" }}</span>
+          </div>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p>{% trans "Начните диалог с инженером." %}</p>
+      {% endfor %}
+    </div>
+    <div class="chat-quick" data-chat-quick>
+      <button type="button" class="chat-quick-btn" data-chat-quick-text="{% trans 'Здравствуйте!' %}">{% trans "Здравствуйте!" %}</button>
+      <button type="button" class="chat-quick-btn" data-chat-quick-text="{% trans 'Мне нужна помощь' %}">{% trans "Мне нужна помощь" %}</button>
+      <button type="button" class="chat-quick-btn" data-chat-quick-focus>{% trans "Другое" %}</button>
+    </div>
+    <form method="post" action="{% url 'support_chat_clear' %}" class="chat-clear-form">
+      {% csrf_token %}
+      <button type="submit" class="chat-clear-btn" onclick="return confirm('{% trans "Очистить историю переписки у вас?" %}')">🗑 {% trans "Удалить беседу" %}</button>
+    </form>
+    <form method="post" class="chat-form-bar" enctype="multipart/form-data" data-chat-form>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {{ form.files }}
+      <button type="button" class="chat-icon-btn" data-chat-menu aria-label="{% trans 'Меню' %}">⋯</button>
+      <label class="chat-icon-btn" for="{{ form.files.id_for_label }}" aria-label="{% trans 'Прикрепить файл' %}">📎</label>
+      <button type="button" class="chat-icon-btn" data-chat-emoji aria-label="{% trans 'Эмодзи' %}">☺</button>
+      {{ form.body }}
+      <button class="chat-send-btn" type="submit" aria-label="{% trans 'Отправить' %}">↑</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

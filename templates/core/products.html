@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load i18n_extras %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+    <p class="lead">{% trans "Каталог решений и подбор аналогов под вашу технику." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-3">
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото уплотнений штока' %}" style="--peek-img: url('{% static 'img/ai/products_rod.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Уплотнения штока" %}</h3>
+            <p>{% trans "Под давление и скорость, предотвращают утечки." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/products_rod.png' %}" alt="{% trans 'Уплотнения штока' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото уплотнений поршня' %}" style="--peek-img: url('{% static 'img/ai/products_piston.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Уплотнения поршня" %}</h3>
+            <p>{% trans "Двухсторонняя герметизация, минимальное трение." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/products_piston.png' %}" alt="{% trans 'Уплотнения поршня' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото грязесъемников' %}" style="--peek-img: url('{% static 'img/ai/products_wiper.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Грязесъемники" %}</h3>
+            <p>{% trans "Защита цилиндров от пыли и абразива." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/products_wiper.png' %}" alt="{% trans 'Грязесъемники' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото направляющих' %}" style="--peek-img: url('{% static 'img/ai/products_guides.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Направляющие" %}</h3>
+            <p>{% trans "Стабилизация штоков и поршней." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/products_guides.png' %}" alt="{% trans 'Направляющие' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото колец' %}" style="--peek-img: url('{% static 'img/ai/products_orings.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Кольца" %}</h3>
+            <p>{% trans "O-ring, X-ring и специальные профили." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/products_orings.png' %}" alt="{% trans 'Кольца' %}">
+          </div>
+        </div>
+      </div>
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото ремкомплектов' %}" style="--peek-img: url('{% static 'img/ai/products_kits.png' %}');">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="fold-corner" aria-hidden="true"></span>
+            <h3>{% trans "Ремкомплекты" %}</h3>
+            <p>{% trans "Подбор под конкретные модели техники." %}</p>
+          </div>
+          <div class="flip-face flip-back">
+            <img src="{% static 'img/ai/products_kits.png' %}" alt="{% trans 'Ремкомплекты' %}">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="media-banner">
+      <img src="{% static 'img/ai/warehouse.png' %}" alt="Seal kits warehouse">
+      <div>
+        <h3>{% trans "Склад и логистика" %}</h3>
+        <p>{% trans "Держим популярные позиции в наличии и быстро отгружаем под производство." %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section accent">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Интерактивная схема гидроцилиндра" %}</h2>
+      <p>{% trans "Наведите или нажмите на узлы, чтобы узнать, какие уплотнения применяются." %}</p>
+    </div>
+    <div class="schematic">
+      <div class="schematic-visual">
+        <div class="schematic-photo-wrap">
+          <img src="{% static 'img/ai/cylinder_cutaway.png' %}" class="schematic-photo" alt="{% trans 'Гидроцилиндр в разрезе с установленными уплотнениями' %}">
+          <button type="button" class="hotspot-pin" data-hotspot="rod" style="left:27%; top:58%;" aria-label="{% trans 'Уплотнение штока' %}"></button>
+          <button type="button" class="hotspot-pin" data-hotspot="piston" style="left:38%; top:54%;" aria-label="{% trans 'Уплотнение поршня' %}"></button>
+          <button type="button" class="hotspot-pin" data-hotspot="wiper" style="left:21%; top:54%;" aria-label="{% trans 'Грязесъемник' %}"></button>
+        </div>
+      </div>
+      <div class="schematic-panel" data-hotspot-panel>
+        <h3 data-hotspot-title>{% trans "Уплотнение штока" %}</h3>
+        <p data-hotspot-body>{% trans "Герметизация штока под давлением, защита от утечек и износа." %}</p>
+        <ul class="bullets">
+          <li>{% trans "Профили U-манжеты" %}</li>
+          <li>{% trans "Материалы NBR / PU / FKM" %}</li>
+          <li>{% trans "Контроль давления и скорости" %}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section muted">
+  <div class="container split">
+    <div>
+      <h2>{% trans "Подбор аналогов" %}</h2>
+      <p>{% trans "Сообщите производителя, размеры и условия работы — подберем аналог." %}</p>
+    </div>
+    <div class="card">
+      <h3>{% trans "Быстрая заявка" %}</h3>
+      <a class="btn primary" href="/support/requests/new/">{% trans "Отправить" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

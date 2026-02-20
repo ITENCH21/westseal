@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Регистрация" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container auth-form">
+    <form method="post" class="card">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label>Email
+        {{ form.email }}
+      </label>
+      <label>{% trans "Телефон" %}
+        {{ form.phone }}
+      </label>
+      <label>{% trans "Имя" %}
+        {{ form.first_name }}
+      </label>
+      <label>{% trans "Фамилия" %}
+        {{ form.last_name }}
+      </label>
+      <label>{% trans "Пароль" %}
+        {{ form.password1 }}
+      </label>
+      <label>{% trans "Повторите пароль" %}
+        {{ form.password2 }}
+      </label>
+      <button class="btn primary" type="submit">{% trans "Создать" %}</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

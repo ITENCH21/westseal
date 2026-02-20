@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load static %}
+<!doctype html>
+<html lang="{{ request.LANGUAGE_CODE|default:'ru' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "Чат поддержки" %}</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body class="guest-chat-body">
+  <section class="chat-embed-section">
+    <div class="chat-log telegram">
+      <div class="chat-line bot">
+        <div class="chat-bubble bot">
+          <div class="chat-bubble-text">
+            {% trans "Здравствуйте! Я автоматический помощник EURO-SEAL. Чтобы написать менеджеру и отправить файлы, войдите или зарегистрируйтесь." %}
+          </div>
+          <span class="chat-time">{% now "H:i" %}</span>
+        </div>
+      </div>
+    </div>
+    <div class="chat-quick">
+      <a class="chat-quick-btn" href="/account/login/?embed=1&next=/support/chat/?embed=1">{% trans "Войти" %}</a>
+      <a class="chat-quick-btn" href="/account/register/?embed=1&next=/support/chat/?embed=1">{% trans "Регистрация" %}</a>
+    </div>
+    <div class="chat-form-bar" aria-hidden="true">
+      <button type="button" class="chat-icon-btn" disabled>⋯</button>
+      <button type="button" class="chat-icon-btn" disabled>📎</button>
+      <button type="button" class="chat-icon-btn" disabled>☺</button>
+      <div class="chat-input" style="opacity:.6;">{% trans "Войдите, чтобы написать сообщение..." %}</div>
+      <button type="button" class="chat-send-btn" disabled>↑</button>
+    </div>
+  </section>
+</body>
+</html>

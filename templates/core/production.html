@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load i18n_extras %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+    <p class="lead">{% trans "Проектируем, изготавливаем и тестируем уплотнения под реальные условия работы." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div>
+      <h2>{% trans "Материалы" %}</h2>
+      <p>{% trans "Подбираем составы под давление, скорость, абразив, химию и температуру." %}</p>
+      <div class="grid-2">
+        <div class="card">NBR / HNBR</div>
+        <div class="card">FKM / FPM</div>
+        <div class="card">PTFE / Teflon</div>
+        <div class="card">PU / TPU</div>
+      </div>
+    </div>
+    <div class="card media-card">
+      <img src="{% static 'img/ai/production.png' %}" alt="Seal manufacturing">
+      <h3>{% trans "Контроль качества" %}</h3>
+      <p>{% trans "Измерения, испытания, протоколы и согласование с заказчиком." %}</p>
+      <a class="btn primary" href="/support/requests/new/">{% trans "Обсудить проект" %}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section accent">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Оборудование и процессы" %}</h2>
+      <p>{% trans "Точность геометрии и стабильность партии." %}</p>
+    </div>
+    <div class="grid-3">
+      <div class="feature">
+        <span>01</span>
+        <h4>{% trans "Обработка" %}</h4>
+        <p>{% trans "Токарная и фрезерная обработка по техтребованиям." %}</p>
+      </div>
+      <div class="feature">
+        <span>02</span>
+        <h4>{% trans "Измерение" %}</h4>
+        <p>{% trans "Контроль размеров и допусков." %}</p>
+      </div>
+      <div class="feature">
+        <span>03</span>
+        <h4>{% trans "Тестирование" %}</h4>
+        <p>{% trans "Проверка устойчивости к износу и среде." %}</p>
+      </div>
+    </div>
+    <div class="lottie flow" data-lottie="{% static 'lottie/flow.json' %}"></div>
+    <div class="logo-strip">
+      <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="section-logo">
+      <span>{% trans "Стабильность партии и документация на каждом этапе." %}</span>
+    </div>
+  </div>
+</section>
+{% endblock %}

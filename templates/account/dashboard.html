@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Личный кабинет" %}</h1>
+    <p class="lead">{% trans "История заявок и чат с поддержкой." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid-2">
+    <div class="card">
+      <h3>{% trans "Заявки" %}</h3>
+      <p>{% trans "Создайте новую заявку или проверьте статус." %}</p>
+      <a class="btn primary" href="{% url 'support_requests' %}">{% trans "Перейти" %}</a>
+    </div>
+    <div class="card">
+      <h3>{% trans "Чат" %}</h3>
+      <p>{% trans "Обсудите детали с инженером." %}</p>
+      <a class="btn ghost" href="{% url 'support_chat' %}">{% trans "Открыть чат" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

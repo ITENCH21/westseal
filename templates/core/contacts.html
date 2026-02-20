@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load i18n_extras %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+    <p class="lead">{% trans "Свяжитесь с нами удобным способом." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div>
+      <h3>{% trans "Контакты" %}</h3>
+      <p><strong>{% trans "Телефон" %}:</strong> <a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></p>
+      <p><strong>Email:</strong> <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>
+      <p><strong>{% trans "Адрес" %}:</strong> {{ site_settings.address }}</p>
+      <p><strong>{% trans "Режим работы" %}:</strong> {{ site_settings.work_hours }}</p>
+    </div>
+    <div class="card media-card">
+      <img src="{% static 'img/ai/support.png' %}" alt="Support team">
+      <h3>{% trans "Заявка" %}</h3>
+      <p>{% trans "Опишите задачу, укажите параметры и материал." %}</p>
+      <a class="btn primary" href="/support/requests/new/">{% trans "Создать заявку" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

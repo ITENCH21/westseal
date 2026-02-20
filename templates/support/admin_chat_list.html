@@ -1,0 +1,64 @@
+{% load i18n %}
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Чаты поддержки — EURO-SEAL</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <style>
+    body { background: #f0f2f7; font-family: system-ui, sans-serif; }
+    .ac-wrap { max-width: 820px; margin: 0 auto; padding: 24px 16px; }
+    .ac-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
+    .ac-list { display: flex; flex-direction: column; gap: 10px; }
+    .ac-item { background: #fff; border-radius: 12px; padding: 14px 18px;
+                display: flex; align-items: center; gap: 16px;
+                text-decoration: none; color: inherit;
+                box-shadow: 0 1px 4px rgba(0,0,0,.08);
+                transition: box-shadow .15s; }
+    .ac-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.13); }
+    .ac-avatar { width: 40px; height: 40px; border-radius: 50%;
+                  background: linear-gradient(135deg,#d1373d,#1f4a8a);
+                  display: flex; align-items: center; justify-content: center;
+                  color: #fff; font-weight: 700; font-size: .9rem; flex-shrink: 0; }
+    .ac-info { flex: 1 1 auto; min-width: 0; }
+    .ac-email { font-weight: 600; font-size: .95rem; }
+    .ac-last { color: #888; font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ac-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    .ac-time { color: #aaa; font-size: .78rem; }
+    .ac-tg { font-size: .78rem; color: #1f4a8a; }
+    .ac-empty { color: #999; font-size: .9rem; }
+    .ac-back { display: inline-block; margin-bottom: 16px; color: #1f4a8a;
+                font-size: .9rem; text-decoration: none; }
+    .ac-back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="ac-wrap">
+    <a class="ac-back" href="/admin/">← Назад в панель</a>
+    <div class="ac-title">💬 Чаты с пользователями</div>
+    <div class="ac-list">
+      {% for thread in threads %}
+        {% with last=thread.messages.last %}
+        <a class="ac-item" href="{% url 'support_admin_chat_thread' thread.id %}">
+          <div class="ac-avatar">{{ thread.user.email|first|upper }}</div>
+          <div class="ac-info">
+            <div class="ac-email">{{ thread.user.email }}</div>
+            <div class="ac-last">
+              {% if last %}{{ last.body|truncatechars:80 }}{% else %}— нет сообщений —{% endif %}
+            </div>
+          </div>
+          <div class="ac-meta">
+            <span class="ac-time">{{ thread.updated_at|date:"d.m H:i" }}</span>
+            {% if thread.telegram_chat_id %}<span class="ac-tg">📱 TG</span>{% endif %}
+          </div>
+        </a>
+        {% endwith %}
+      {% empty %}
+        <p class="ac-empty">Нет активных чатов.</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

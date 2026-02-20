@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Создать заявку" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <form method="post" class="card form" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label>{% trans "Тема" %}
+        {{ form.subject }}
+      </label>
+      <label>{% trans "Описание" %}
+        {{ form.message }}
+      </label>
+      <label>{% trans "Файлы" %}
+        {{ form.files }}
+      </label>
+      <button class="btn primary" type="submit">{% trans "Отправить" %}</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

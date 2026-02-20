@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load static %}
+<!doctype html>
+<html lang="{{ request.LANGUAGE_CODE|default:'ru' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "Вход" %}</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body class="guest-chat-body">
+  <section class="section guest-chat-section">
+    <form method="post" class="card form" style="max-width:none; margin:0;">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <input type="hidden" name="embed" value="{% if embed_mode %}1{% else %}0{% endif %}">
+      <h2 style="margin:0 0 4px;">{% trans "Вход" %}</h2>
+      {{ form.non_field_errors }}
+      <label>Email
+        {{ form.email }}
+      </label>
+      <label>{% trans "Пароль" %}
+        {{ form.password }}
+      </label>
+      <button class="btn primary" type="submit">{% trans "Войти" %}</button>
+      <p style="margin:0;"><a href="/account/register/?embed=1&next={{ next_url|urlencode }}">{% trans "Создать аккаунт" %}</a></p>
+    </form>
+  </section>
+</body>
+</html>

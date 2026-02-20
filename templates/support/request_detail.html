@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load support_extras %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ thread.subject }}</h1>
+    <p class="lead">{{ thread.get_status_display }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="chat-log telegram">
+      {% for msg in thread.messages.all %}
+        <div class="chat-line {% if msg.author == request.user %}mine{% endif %}">
+          <div class="chat-meta">{{ msg.author.email }} · {{ msg.created_at|date:"d.m.Y H:i" }}</div>
+          <div class="chat-bubble">
+            <p>{{ msg.body|linebreaks }}</p>
+            {% if msg.attachments.all %}
+              <div class="attachments-grid">
+                {% for f in msg.attachments.all %}
+                  {% if f.file.url|is_image %}
+                    <a href="{{ f.file.url }}" target="_blank" class="attachment-card">
+                      <img src="{{ f.file.url }}" alt="attachment">
+                    </a>
+                  {% elif f.file.url|is_video %}
+                    <div class="attachment-card">
+                      <video src="{{ f.file.url }}" controls></video>
+                    </div>
+                  {% else %}
+                    <a href="{{ f.file.url }}" target="_blank" class="attachment-file">{{ f.file.name|slice:"-40:" }}</a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <form method="post" class="card form" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label>{% trans "Ответ" %}
+        {{ form.body }}
+      </label>
+      <label>{% trans "Файлы" %}
+        {{ form.files }}
+      </label>
+      <button class="btn primary" type="submit">{% trans "Отправить" %}</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
