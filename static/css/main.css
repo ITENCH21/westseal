@@ -52,6 +52,7 @@ body {
   color: var(--ink);
   background: #f4f6fb;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5 {
@@ -2734,14 +2735,13 @@ body.theme-dark .sticky-cta-inner {
 
 @media (max-width: 900px) {
   .site-header {
-    position: static;
+    position: relative;
   }
 
   .nav-wrap {
     flex-wrap: nowrap;
     gap: 8px;
     padding: 10px 0;
-    position: relative;
     justify-content: flex-start;
   }
 
@@ -2825,7 +2825,6 @@ body.theme-dark .sticky-cta-inner {
 @media (max-width: 480px) {
   .logo-img { width: 130px; }
   .nav-actions .btn.primary { padding: 0 10px; font-size: 11.5px; }
-}
 }
 
 /* === AJAX каталог: состояние загрузки === */
