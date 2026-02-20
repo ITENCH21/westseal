@@ -3170,7 +3170,7 @@ input,
 textarea,
 select,
 .btn,
-button {
+button:not(.btn-icon) {
   min-height: 44px;
 }
 
