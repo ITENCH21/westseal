@@ -3520,11 +3520,12 @@ textarea {
    CATALOG TICKERS — main + sub (mobile)
    ========================================= */
 
-/* Desktop: global ticker nav + individual tickers hidden */
+/* Desktop: all ticker wrappers hidden */
 .global-ticker-nav {
   display: none;
 }
 
+.nav-menu-ticker-wrap,
 .catalog-ticker-wrap,
 .catalog-subticker-wrap {
   display: none;
@@ -3561,6 +3562,64 @@ textarea {
 
   .catalog-sidebar {
     display: none !important;
+  }
+
+  /* ---- Nav menu ticker (site pages, scrolls right) ---- */
+  .nav-menu-ticker-wrap {
+    display: block;
+    overflow: hidden;
+    padding: 8px 0 4px;
+    background: var(--background);
+    border-bottom: 1px solid var(--steel);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  }
+
+  .nav-menu-ticker-track {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+    width: max-content;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: transform;
+    padding: 2px 8px;
+  }
+  .nav-menu-ticker-track:active { cursor: grabbing; }
+
+  .nav-menu-ticker-item {
+    flex-shrink: 0;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    border: 1px solid var(--steel);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-menu-ticker-item.is-active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+
+  body.theme-dark .nav-menu-ticker-item {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.55);
+    border-color: rgba(255,255,255,0.12);
+  }
+  body.theme-dark .nav-menu-ticker-item.is-active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
   }
 
   /* ---- Общий стиль для обоих тикеров ---- */

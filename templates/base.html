@@ -92,6 +92,18 @@
 
   {# ── Global mobile nav ticker — shows on every page, sticky under header ── #}
   <div class="global-ticker-nav" id="global-ticker-nav">
+    {# 1) Nav menu ticker (site pages, scrolls RIGHT) #}
+    <div class="nav-menu-ticker-wrap" id="nav-menu-ticker-wrap" aria-hidden="true">
+      <div class="nav-menu-ticker-track" id="nav-menu-ticker-track">
+        <a class="nav-menu-ticker-item {% if current_section == 'products' %}is-active{% endif %}" href="/products/">{% trans "Продукция" %}</a>
+        <a class="nav-menu-ticker-item {% if current_section == 'catalog' %}is-active{% endif %}" href="/catalog/">{% trans "Манжеты" %}</a>
+        <a class="nav-menu-ticker-item {% if current_section == 'production' %}is-active{% endif %}" href="/production/">{% trans "Производство" %}</a>
+        <a class="nav-menu-ticker-item {% if current_section == 'catalogs' %}is-active{% endif %}" href="/catalogs/">{% trans "PDF" %}</a>
+        <a class="nav-menu-ticker-item {% if current_section == 'knowledge' %}is-active{% endif %}" href="/knowledge/">{% trans "База" %}</a>
+        <a class="nav-menu-ticker-item {% if current_section == 'contacts' %}is-active{% endif %}" href="/contacts/">{% trans "Контакты" %}</a>
+      </div>
+    </div>
+    {# 2) Catalog categories ticker (scrolls LEFT) #}
     <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true">
       <div class="catalog-ticker-track" id="catalog-ticker-track">
         <a class="catalog-ticker-item {% if current_section != 'catalog' or not request.GET.category %}is-active{% endif %}"
@@ -248,6 +260,72 @@
   {% endif %}
 
   <script>
+  // ================================================================
+  // Nav menu ticker — scrolls RIGHT (opposite direction)
+  // ================================================================
+  (() => {
+    const wrap  = document.getElementById('nav-menu-ticker-wrap');
+    const track = document.getElementById('nav-menu-ticker-track');
+    if (!wrap || !track || window.innerWidth > 760) return;
+
+    const origItems = Array.from(track.children);
+    origItems.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.classList.add('ticker-clone');
+      track.appendChild(clone);
+    });
+
+    const origWidth = () => {
+      let w = 0;
+      origItems.forEach(el => { w += el.offsetWidth + 8; });
+      return w;
+    };
+
+    // RTL scroll: pos starts at origWidth, decreases toward 0, then wraps
+    let pos = -1; // -1 = not yet initialized (wait for layout)
+    const speed = 0.45;
+    let dragging = false, dragStartX = 0, dragStartPos = 0;
+
+    const animate = () => {
+      if (!dragging) {
+        const hw = origWidth();
+        if (pos < 0) pos = hw; // initialize after layout
+        pos -= speed;
+        if (hw > 0 && pos <= 0) pos += hw;
+        track.style.transform = `translateX(${-pos}px)`;
+        sessionStorage.setItem('_navMenuTickerPos', pos.toFixed(2));
+      }
+      requestAnimationFrame(animate);
+    };
+
+    track.addEventListener('click', e => {
+      const item = e.target.closest('.nav-menu-ticker-item');
+      if (!item) return;
+      e.preventDefault();
+      location.href = item.getAttribute('href');
+    });
+
+    const onDS = (x) => { dragging = true; dragStartX = x; dragStartPos = pos; };
+    const onDM = (x) => {
+      if (!dragging) return;
+      const hw = origWidth();
+      pos = dragStartPos + (dragStartX - x);
+      if (hw > 0) { if (pos >= hw) pos -= hw; if (pos < 0) pos += hw; }
+      track.style.transform = `translateX(${-pos}px)`;
+    };
+    const onDE = () => { dragging = false; };
+    wrap.addEventListener('touchstart', e => onDS(e.touches[0].clientX), { passive: true });
+    wrap.addEventListener('touchmove',  e => onDM(e.touches[0].clientX),  { passive: true });
+    wrap.addEventListener('touchend',   onDE, { passive: true });
+    wrap.addEventListener('mousedown',  e => onDS(e.clientX));
+    wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDM(e.clientX); });
+    wrap.addEventListener('mouseup',    onDE);
+    wrap.addEventListener('mouseleave', onDE);
+
+    animate();
+  })();
+
   // ================================================================
   // Global mobile nav ticker (runs on every page)
   // ================================================================
