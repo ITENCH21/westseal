@@ -8,8 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1f4a8a">
   <title>{% block title %}{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }}{% endblock %} | EURO-SEAL</title>
-  <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-  <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}">
+  <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'img/favicon-192.png' %}">
   <link rel="canonical" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
