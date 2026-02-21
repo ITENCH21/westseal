@@ -68,6 +68,17 @@
         <a href="/catalogs/" class="{% if current_section == 'catalogs' %}active{% endif %}">{% trans "PDF" %}</a>
         <a href="/knowledge/" class="{% if current_section == 'knowledge' %}active{% endif %}">{% trans "База" %}</a>
         <a href="/contacts/" class="{% if current_section == 'contacts' %}active{% endif %}">{% trans "Контакты" %}</a>
+        <div class="nav-mobile-aux">
+          <button class="btn-icon theme-toggle nav-theme-toggle" type="button" aria-label="Theme toggle">◐</button>
+          <form action="{% url 'set_language' %}" method="post" class="lang-switch">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+            <select name="language" onchange="this.form.submit()">
+              <option value="ru" {% if request.LANGUAGE_CODE == 'ru' %}selected{% endif %}>RU</option>
+              <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN</option>
+            </select>
+          </form>
+        </div>
       </nav>
       <div class="nav-actions">
         <div class="nav-aux">
@@ -139,8 +150,8 @@
           <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="logo-img logo-light small">
           <img src="{% static 'img/logo-blue.png' %}" alt="EURO-SEAL" class="logo-img logo-dark small">
         </div>
-        <p>{{ site_settings.org_legal }}</p>
-        <p>{{ site_settings.address }}</p>
+        <p>{{ site_settings|tr:'org_legal' }}</p>
+        <p>{{ site_settings|tr:'address' }}</p>
       </div>
       <div>
         <h4>{% trans "Контакты" %}</h4>

@@ -2,25 +2,33 @@
 const navToggle = document.querySelector('#nav-toggle');
 const mainNav = document.querySelector('#main-nav');
 if (navToggle && mainNav) {
+  const openNav = () => {
+    mainNav.classList.add('is-open');
+    navToggle.classList.add('is-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('no-scroll', 'nav-is-open');
+  };
+  const closeNav = () => {
+    mainNav.classList.remove('is-open');
+    navToggle.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll', 'nav-is-open');
+  };
   navToggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    const isOpen = mainNav.classList.toggle('is-open');
-    navToggle.classList.toggle('is-open', isOpen);
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    mainNav.classList.contains('is-open') ? closeNav() : openNav();
   });
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#main-nav') && !e.target.closest('#nav-toggle')) {
-      mainNav.classList.remove('is-open');
-      navToggle.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
+      closeNav();
     }
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      mainNav.classList.remove('is-open');
-      navToggle.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    }
+    if (e.key === 'Escape') closeNav();
+  });
+  // Close nav on link click (for mobile navigation)
+  mainNav.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => closeNav());
   });
 }
 
@@ -173,6 +181,7 @@ if (chatOpenBtn && chatHideBtn && chatDrawer) {
     }
     chatDrawer.classList.add("is-open");
     chatDrawer.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
     const greeted = sessionStorage.getItem("chat_greeted") === "1";
     if (!greeted && chatGreeting) {
       setTimeout(() => {
@@ -185,6 +194,7 @@ if (chatOpenBtn && chatHideBtn && chatDrawer) {
     trackEvent("chat_hide", { location: window.location.pathname });
     chatDrawer.classList.remove("is-open");
     chatDrawer.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("no-scroll");
   };
   chatOpenBtn.addEventListener("click", openChat);
   chatHideBtn.addEventListener("click", hideChat);
@@ -226,25 +236,26 @@ document.addEventListener("click", (e) => {
 });
 
 const themeToggle = document.querySelector(".theme-toggle");
+const allThemeToggles = document.querySelectorAll(".theme-toggle, .nav-theme-toggle");
 const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 const savedTheme = localStorage.getItem("theme");
 const applyTheme = (theme) => {
   document.body.classList.toggle("theme-dark", theme === "dark");
-  if (themeToggle) themeToggle.textContent = theme === "dark" ? "☀" : "◐";
+  allThemeToggles.forEach((btn) => { btn.textContent = theme === "dark" ? "☀" : "◐"; });
 };
 if (savedTheme) {
   applyTheme(savedTheme);
 } else if (prefersDark) {
   applyTheme("dark");
 }
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
+allThemeToggles.forEach((btn) => {
+  btn.addEventListener("click", () => {
     const isDark = document.body.classList.contains("theme-dark");
     const next = isDark ? "light" : "dark";
     localStorage.setItem("theme", next);
     applyTheme(next);
   });
-}
+});
 
 const chatLog = document.querySelector("[data-chat-log]");
 const chatForm = document.querySelector("[data-chat-form]");

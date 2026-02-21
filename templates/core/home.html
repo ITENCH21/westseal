@@ -9,7 +9,8 @@
     <div>
       <div class="badge">{{ site_settings|tr:'hero_badge' }}</div>
       <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
-      <p class="lead">{{ page|tr:'hero_subtitle'|default:"Поставляем оригинальные и подбираем аналоги, проектируем и изготавливаем уплотнения под размеры и условия." }}</p>
+      {% trans "Поставляем оригинальные и подбираем аналоги, проектируем и изготавливаем уплотнения под размеры и условия." as default_lead %}
+      <p class="lead">{{ page|tr:'hero_subtitle'|default:default_lead }}</p>
       <div class="hero-actions">
         <a class="btn primary" href="/support/requests/new/" data-track="hero_request_click">{% trans "Отправить заявку" %}</a>
         <a class="btn ghost" href="/catalogs/" data-track="hero_catalog_click">{% trans "Скачать каталоги" %}</a>

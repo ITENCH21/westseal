@@ -5,9 +5,11 @@ from django.utils import timezone
 class SiteSettings(models.Model):
     org_name = models.CharField(max_length=200, default="EURO-SEAL")
     org_legal = models.CharField(max_length=200, default="ИП Туманов Иван Сергеевич")
+    org_legal_en = models.CharField(max_length=200, blank=True, default="IE Tumanov Ivan Sergeyevich")
     phone = models.CharField(max_length=50, default="+79626849611")
     email = models.EmailField(default="euro-seal@mail.ru")
     address = models.CharField(max_length=255, default="Арцеуловская аллея 15")
+    address_en = models.CharField(max_length=255, blank=True, default="Artseulovsky alley 15")
     work_hours = models.CharField(max_length=120, blank=True, default="Пн–Пт 9:00–18:00 (МСК)")
     hero_badge_ru = models.CharField(max_length=120, blank=True, default="Изготовление и поставка уплотнений")
     hero_badge_en = models.CharField(max_length=120, blank=True, default="Manufacture & supply of seals")
@@ -125,6 +127,7 @@ class Article(models.Model):
 
 class SealCategory(models.Model):
     name = models.CharField(max_length=220)
+    name_en = models.CharField(max_length=220, blank=True)
     slug = models.SlugField(unique=True)
     code = models.CharField(max_length=80, blank=True)
     parent = models.ForeignKey("self", related_name="children", on_delete=models.SET_NULL, null=True, blank=True)
@@ -143,6 +146,7 @@ class SealProduct(models.Model):
     category = models.ForeignKey(SealCategory, related_name="products", on_delete=models.SET_NULL, null=True, blank=True)
     subcategory = models.ForeignKey(SealCategory, related_name="sub_products", on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=260)
+    name_en = models.CharField(max_length=260, blank=True)
     slug = models.SlugField(unique=True)
     source_url = models.URLField(unique=True)
     image = models.ImageField(upload_to="catalog/products/", blank=True, null=True)

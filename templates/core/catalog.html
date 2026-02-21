@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load i18n_extras %}
 {% load static %}
 
 {% block title %}{% if seo_title %}{{ seo_title }}{% else %}{% trans "Каталог уплотнений" %}{% endif %}{% endblock %}
@@ -41,10 +42,10 @@
 <section class="page-hero">
   <div class="container">
     {% if subcategory %}
-    <h1>{{ subcategory.name }} <span class="h1-cat">— {{ category.name }}</span></h1>
+    <h1>{{ subcategory|tr:'name' }} <span class="h1-cat">— {{ category|tr:'name' }}</span></h1>
     <p class="lead">{% trans "Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений." %}</p>
     {% elif category %}
-    <h1>{{ category.name }}</h1>
+    <h1>{{ category|tr:'name' }}</h1>
     <p class="lead">{% trans "Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений." %}</p>
     {% else %}
     <h1>{% trans "Каталог уплотнений" %}</h1>
@@ -66,7 +67,7 @@
       <a class="catalog-link {% if not category %}active{% endif %}" href="/catalog/">{% trans "Все" %}</a>
       {% for cat in categories %}
         <a class="catalog-link {% if category and cat.id == category.id %}active{% endif %}" href="/catalog/?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">
-          <span>{{ cat.name }}</span>
+          <span>{{ cat|tr:'name' }}</span>
           {% if cat.product_count %}<small class="catalog-count">{{ cat.product_count }}</small>{% endif %}
         </a>
       {% endfor %}
@@ -97,19 +98,19 @@
         <div class="catalog-chips">
           <a class="chip {% if not subcategory %}active{% endif %}" href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все профили" %}</a>
           {% for sub in subcategories %}
-            <a class="chip {% if subcategory and sub.id == subcategory.id %}active{% endif %}" href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ sub.code|default:sub.name }}</a>
+            <a class="chip {% if subcategory and sub.id == subcategory.id %}active{% endif %}" href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% if sub.code %}{{ sub.code }}{% else %}{{ sub|tr:'name' }}{% endif %}</a>
           {% endfor %}
         </div>
       {% endif %}
 
       <div class="catalog-meta">
         {% if category %}
-          <span><strong>{{ category.name }}</strong></span>
+          <span><strong>{{ category|tr:'name' }}</strong></span>
         {% else %}
           <span>{% trans "Все разделы" %}</span>
         {% endif %}
         {% if subcategory %}
-          <span> · <strong>{{ subcategory.code|default:subcategory.name }}</strong></span>
+          <span> · <strong>{% if subcategory.code %}{{ subcategory.code }}{% else %}{{ subcategory|tr:'name' }}{% endif %}</strong></span>
         {% endif %}
         {% if q %}
           <span> · {% trans "Поиск:" %} <strong>{{ q }}</strong></span>
@@ -126,7 +127,7 @@
         <div class="catalog-tiles">
           {% for cat in categories %}
             <a class="catalog-tile" href="/catalog/?category={{ cat.slug }}">
-              <div class="catalog-tile-title">{{ cat.name }}</div>
+              <div class="catalog-tile-title">{{ cat|tr:'name' }}</div>
               <div class="catalog-tile-meta">
                 {% if cat.child_count %}<span>{% trans "Профили:" %} <strong>{{ cat.child_count }}</strong></span>{% endif %}
                 {% if cat.product_count %}<span>{% trans "Товары:" %} <strong>{{ cat.product_count }}</strong></span>{% endif %}
@@ -149,8 +150,8 @@
                 <div class="catalog-card-top">
                   <h3>{{ item.name }}</h3>
                   <div class="catalog-badges">
-                    {% if item.subcategory %}<span class="badge">{{ item.subcategory.code|default:item.subcategory.name }}</span>{% endif %}
-                    {% if item.category %}<span class="badge ghost">{{ item.category.name }}</span>{% endif %}
+                    {% if item.subcategory %}<span class="badge">{% if item.subcategory.code %}{{ item.subcategory.code }}{% else %}{{ item.subcategory|tr:'name' }}{% endif %}</span>{% endif %}
+                    {% if item.category %}<span class="badge ghost">{{ item.category|tr:'name' }}</span>{% endif %}
                   </div>
                 </div>
                 {% if item.display_specs %}

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load i18n_extras %}
 {% load static %}
 
 {% block title %}{{ product.name }}{% if product.category %} — {{ product.category.name }}{% endif %}{% endblock %}
@@ -64,10 +65,10 @@
     <div class="catalog-chips catalog-detail-chips">
       <a class="chip" href="{{ back_url }}">&larr; {% trans "Назад в каталог" %}</a>
       {% if product.category %}
-        <a class="chip" href="/catalog/?category={{ product.category.slug }}">{{ product.category.name }}</a>
+        <a class="chip" href="/catalog/?category={{ product.category.slug }}">{{ product.category|tr:'name' }}</a>
       {% endif %}
       {% if product.subcategory %}
-        <a class="chip" href="/catalog/?category={{ product.category.slug }}&sub={{ product.subcategory.slug }}">{{ product.subcategory.code|default:product.subcategory.name }}</a>
+        <a class="chip" href="/catalog/?category={{ product.category.slug }}&sub={{ product.subcategory.slug }}">{% if product.subcategory.code %}{{ product.subcategory.code }}{% else %}{{ product.subcategory|tr:'name' }}{% endif %}</a>
       {% endif %}
     </div>
   </div>

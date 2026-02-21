@@ -2886,6 +2886,157 @@ body.theme-dark .sticky-cta-inner {
   .nav-actions .btn.primary { padding: 0 10px; font-size: 11.5px; }
 }
 
+/* =========================================
+   MOBILE NAV AUX — theme + language inside nav menu
+   ========================================= */
+
+/* Hidden on desktop — desktop already has .nav-aux visible */
+.nav-mobile-aux {
+  display: none;
+}
+
+/* On mobile: show inside the nav menu */
+@media (max-width: 900px) {
+  .nav-mobile-aux {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 4px 6px;
+    border-top: 1px solid var(--steel);
+    margin-top: 4px;
+  }
+
+  .nav-mobile-aux .lang-switch select {
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+
+  .nav-theme-toggle {
+    font-size: 18px;
+    background: none;
+    border: 1px solid var(--steel);
+    border-radius: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  /* Full-screen nav overlay on mobile */
+  .nav.is-open {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(var(--vh, 1vh) * 100 - 60px);
+    min-height: calc(100svh - 60px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 200;
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  /* Backdrop behind the full-screen nav */
+  body.nav-is-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    z-index: 150;
+    pointer-events: none;
+  }
+
+  /* Make sure nav is above the backdrop */
+  .nav.is-open {
+    z-index: 200;
+  }
+
+  /* Chat drawer: full-screen on mobile when open */
+  .chat-drawer.is-open {
+    z-index: 210;
+  }
+}
+
+/* Very small screens: chat drawer takes full screen */
+@media (max-width: 480px) {
+  .chat-drawer {
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    border: none;
+  }
+}
+
+/* =========================================
+   MOBILE CATALOG SEARCH — sticky search bar
+   ========================================= */
+@media (max-width: 760px) {
+  .catalog-search {
+    gap: 6px;
+    flex-flow: row nowrap;
+  }
+
+  .catalog-search input[type="search"] {
+    font-size: 15px;
+    padding: 10px 14px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .catalog-search .btn {
+    flex-shrink: 0;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+
+  /* Sidebar categories becomes a horizontal scroll row on mobile */
+  .catalog-sidebar {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  .catalog-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalog-sidebar h4 {
+    display: none;
+  }
+
+  .catalog-sidebar .catalog-link {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--steel);
+    background: var(--surface);
+    font-size: 13px;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--steel) !important;
+  }
+
+  .catalog-sidebar .catalog-link.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+
+  .catalog-sidebar .catalog-count {
+    display: none;
+  }
+}
+
+
 /* === AJAX каталог: состояние загрузки === */
 .catalog-main {
   transition: opacity 0.18s ease;
