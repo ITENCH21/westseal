@@ -1545,15 +1545,7 @@ body.theme-dark .catalog-card:hover {
 }
 
 @media (max-width: 920px) {
-  .catalog-layout {
-    grid-template-columns: 1fr;
-  }
-  .catalog-card {
-    grid-template-columns: 1fr;
-  }
-  .catalog-thumb {
-    height: 160px;
-  }
+  /* Import panel adapts to narrow widths */
   .catalog-import-header {
     flex-direction: column;
     align-items: flex-start;
@@ -1568,6 +1560,13 @@ body.theme-dark .catalog-card:hover {
   .spec-val {
     text-align: right;
     white-space: nowrap;
+  }
+}
+
+/* Catalog card stacks image above text on medium-small screens */
+@media (max-width: 760px) {
+  .catalog-layout {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -2860,11 +2859,7 @@ body.theme-dark .sticky-cta-inner {
     display: none;
   }
 
-  /* Mobile: hide secondary controls, keep only CTA + hamburger */
-  .nav-aux {
-    display: none;
-  }
-
+  /* Mobile ≤900px: hide ghost buttons */
   .nav-actions .btn.ghost {
     display: none;
   }
@@ -2872,6 +2867,25 @@ body.theme-dark .sticky-cta-inner {
   .nav-wrap {
     justify-content: flex-start;
   }
+}
+
+@media (max-width: 760px) {
+  /* Mobile: header = logo + theme + language only, no hamburger */
+  .nav-toggle { display: none !important; }
+  .nav       { display: none !important; }
+  /* Show theme toggle + language in header */
+  .nav-aux   {
+    display: flex !important;
+    gap: 8px;
+    align-items: center;
+    padding-right: 0;
+    margin-right: 0;
+    border-right: none;
+  }
+  /* Hide CTA and ghost buttons — save space */
+  .nav-actions .btn { display: none !important; }
+  /* Keep nav-actions so nav-aux inside it is visible */
+  .nav-actions { display: flex; align-items: center; gap: 0; }
 }
 
 @media (max-width: 600px) {
@@ -3579,7 +3593,11 @@ textarea {
    CATALOG TICKERS — main + sub (mobile)
    ========================================= */
 
-/* Desktop: tickers hidden */
+/* Desktop: sticky nav strip + tickers hidden */
+.catalog-sticky-nav {
+  display: none;
+}
+
 .catalog-ticker-wrap,
 .catalog-subticker-wrap {
   display: none;
@@ -3587,6 +3605,33 @@ textarea {
 
 /* Mobile ≤760px */
 @media (max-width: 760px) {
+  /* Sticky strip pinned under the header (~60px tall on mobile) */
+  .catalog-sticky-nav {
+    display: block;
+    position: sticky;
+    top: 60px;
+    z-index: 70;
+    background: var(--background);
+    border-bottom: 1px solid var(--steel);
+    box-shadow: 0 4px 12px rgba(11,16,32,0.07);
+  }
+
+  /* Compact page-hero: hide heading/lead, keep only search bar */
+  .page-hero {
+    padding: 10px 0 8px;
+    border-bottom: none;
+    background: none;
+  }
+  .page-hero h1,
+  .page-hero .lead {
+    display: none;
+  }
+
+  /* Reduce section padding so catalog grid appears without big gap */
+  .section {
+    padding: 20px 0 40px;
+  }
+
   .catalog-sidebar {
     display: none !important;
   }

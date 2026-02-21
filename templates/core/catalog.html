@@ -39,6 +39,38 @@
 {% endblock %}
 
 {% block content %}
+{# ── Sticky ticker strip — pinned under header on mobile ── #}
+<div class="catalog-sticky-nav" id="catalog-sticky-nav">
+  {# Main ticker: category navigation (left → right) #}
+  <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true">
+    <div class="catalog-ticker-track" id="catalog-ticker-track">
+      <a class="catalog-ticker-item {% if not category %}is-active{% endif %}"
+         data-slug=""
+         href="/catalog/">{% trans "Все" %}</a>
+      {% for cat in categories %}
+        <a class="catalog-ticker-item {% if category and cat.id == category.id %}is-active{% endif %}"
+           data-slug="{{ cat.slug }}"
+           href="/catalog/?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ cat|tr:'name' }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {# Subticker: subcategory navigation (right → left), updated via AJAX #}
+  <div id="catalog-subticker-outer">{% if category and subcategories %}
+  <div class="catalog-subticker-wrap" aria-hidden="true">
+    <div class="catalog-subticker-track" id="catalog-subticker-track">
+      <a class="catalog-subticker-item {% if not subcategory %}is-active{% endif %}"
+         data-sub=""
+         href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все" %}</a>
+      {% for sub in subcategories %}
+        <a class="catalog-subticker-item {% if subcategory and sub.id == subcategory.id %}is-active{% endif %}"
+           data-sub="{{ sub.slug }}"
+           href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% if sub.code %}{{ sub.code }}{% else %}{{ sub|tr:'name' }}{% endif %}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}</div>
+</div>
+
 <section class="page-hero">
   <div class="container">
     {% if subcategory %}
@@ -61,36 +93,6 @@
 </section>
 
 <section class="section">
-  {# Mobile ticker — categories strip (shown only on mobile) #}
-  <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true">
-    <div class="catalog-ticker-track" id="catalog-ticker-track">
-      <a class="catalog-ticker-item {% if not category %}is-active{% endif %}"
-         data-slug=""
-         href="/catalog/">{% trans "Все" %}</a>
-      {% for cat in categories %}
-        <a class="catalog-ticker-item {% if category and cat.id == category.id %}is-active{% endif %}"
-           data-slug="{{ cat.slug }}"
-           href="/catalog/?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ cat|tr:'name' }}</a>
-      {% endfor %}
-    </div>
-  </div>
-
-  {# Подтикер — подкатегории (мобиль, обратное направление) — обновляется AJAX #}
-  <div id="catalog-subticker-outer">{% if category and subcategories %}
-  <div class="catalog-subticker-wrap" aria-hidden="true">
-    <div class="catalog-subticker-track" id="catalog-subticker-track">
-      <a class="catalog-subticker-item {% if not subcategory %}is-active{% endif %}"
-         data-sub=""
-         href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все" %}</a>
-      {% for sub in subcategories %}
-        <a class="catalog-subticker-item {% if subcategory and sub.id == subcategory.id %}is-active{% endif %}"
-           data-sub="{{ sub.slug }}"
-           href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% if sub.code %}{{ sub.code }}{% else %}{{ sub|tr:'name' }}{% endif %}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}</div>
-
   <div class="container catalog-layout">
     <aside class="catalog-sidebar">
       <h4>{% trans "Разделы" %}</h4>

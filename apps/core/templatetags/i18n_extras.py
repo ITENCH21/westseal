@@ -10,4 +10,9 @@ def tr(obj, field_base: str):
         return ""
     lang = translation.get_language() or "ru"
     suffix = "_ru" if lang.startswith("ru") else "_en"
-    return getattr(obj, f"{field_base}{suffix}", "")
+    # Try language-specific field first (e.g. name_ru / name_en)
+    value = getattr(obj, f"{field_base}{suffix}", None)
+    if value:
+        return value
+    # Fall back to base field (e.g. just 'name') — covers models without _ru
+    return getattr(obj, field_base, "")
