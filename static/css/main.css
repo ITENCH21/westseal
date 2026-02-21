@@ -884,13 +884,14 @@ body.theme-dark .card:hover {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 28px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .schematic-panels {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
 }
 
 @media (max-width: 760px) {
@@ -901,6 +902,10 @@ body.theme-dark .card:hover {
 
 .schematic-panels .schematic-panel {
   padding: 16px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .schematic-panels .schematic-panel h3 {
@@ -935,12 +940,13 @@ body.theme-dark .card:hover {
   overflow: hidden;
   box-shadow: var(--shadow);
   background: var(--surface);
+  aspect-ratio: 3 / 2;
 }
 
 .schematic-photo {
   width: 100%;
+  height: 100%;
   display: block;
-  aspect-ratio: 3 / 2;
   object-fit: cover;
 }
 
