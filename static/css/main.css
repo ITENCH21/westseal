@@ -2754,48 +2754,8 @@ body.theme-dark .sticky-cta-inner {
   100% { box-shadow: 0 0 0 0 rgba(43, 130, 255, 0); }
 }
 
-/* === Hamburger nav toggle === */
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-}
-
-.nav-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--ink);
-  border-radius: 2px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-  transform-origin: center;
-}
-
-.nav-toggle.is-open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.nav-toggle.is-open span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.nav-toggle.is-open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
+/* === Nav: tablet ≤900px — nav links collapse, actions shift ===  */
 @media (max-width: 900px) {
-  .site-header {
-    position: relative;
-  }
-
   .nav-wrap {
     flex-wrap: nowrap;
     gap: 8px;
@@ -2807,12 +2767,6 @@ body.theme-dark .sticky-cta-inner {
     width: 170px;
   }
 
-  .nav-toggle {
-    display: flex;
-    order: 10;
-    flex-shrink: 0;
-  }
-
   .nav-actions {
     order: 5;
     margin-left: auto;
@@ -2820,46 +2774,12 @@ body.theme-dark .sticky-cta-inner {
     flex-shrink: 0;
   }
 
+  /* Nav links become a dropdown (no hamburger — hidden by default on tablet) */
   .nav {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    gap: 0;
-    padding: 6px 24px 16px;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--steel);
-    box-shadow: 0 16px 40px rgba(11, 16, 32, 0.1);
-    z-index: 99;
-    font-size: 15px;
   }
 
-  body.theme-dark .nav {
-    background: rgba(13, 19, 34, 0.97);
-  }
-
-  .nav.is-open {
-    display: flex;
-  }
-
-  .nav a {
-    padding: 11px 4px;
-    border-bottom: 1px solid var(--steel);
-  }
-
-  .nav a:last-child {
-    border-bottom: none;
-  }
-
-  .nav a::after {
-    display: none;
-  }
-
-  /* Mobile ≤900px: hide ghost buttons */
+  /* Hide ghost buttons at tablet */
   .nav-actions .btn.ghost {
     display: none;
   }
@@ -2869,23 +2789,30 @@ body.theme-dark .sticky-cta-inner {
   }
 }
 
+/* === Mobile ≤760px — ticker replaces nav, header = logo + theme + lang + CTA === */
 @media (max-width: 760px) {
-  /* Mobile: header = logo + theme + language only, no hamburger */
-  .nav-toggle { display: none !important; }
-  .nav       { display: none !important; }
+  .nav { display: none !important; }
+
   /* Show theme toggle + language in header */
-  .nav-aux   {
+  .nav-aux {
     display: flex !important;
-    gap: 8px;
+    gap: 6px;
     align-items: center;
     padding-right: 0;
     margin-right: 0;
     border-right: none;
   }
-  /* Hide CTA and ghost buttons — save space */
-  .nav-actions .btn { display: none !important; }
-  /* Keep nav-actions so nav-aux inside it is visible */
-  .nav-actions { display: flex; align-items: center; gap: 0; }
+
+  /* Show compact CTA button, hide ghost auth buttons */
+  .nav-actions .btn.ghost { display: none !important; }
+  .nav-actions .btn.primary {
+    display: inline-flex !important;
+    padding: 0 12px;
+    font-size: 12px;
+    height: 32px;
+  }
+
+  .nav-actions { display: flex; align-items: center; gap: 6px; }
 }
 
 @media (max-width: 600px) {
@@ -3593,8 +3520,8 @@ textarea {
    CATALOG TICKERS — main + sub (mobile)
    ========================================= */
 
-/* Desktop: sticky nav strip + tickers hidden */
-.catalog-sticky-nav {
+/* Desktop: global ticker nav + individual tickers hidden */
+.global-ticker-nav {
   display: none;
 }
 
@@ -3606,7 +3533,7 @@ textarea {
 /* Mobile ≤760px */
 @media (max-width: 760px) {
   /* Sticky strip pinned under the header (~60px tall on mobile) */
-  .catalog-sticky-nav {
+  .global-ticker-nav {
     display: block;
     position: sticky;
     top: 60px;

@@ -38,39 +38,25 @@
 {% endif %}
 {% endblock %}
 
-{% block content %}
-{# ── Sticky ticker strip — pinned under header on mobile ── #}
-<div class="catalog-sticky-nav" id="catalog-sticky-nav">
-  {# Main ticker: category navigation (left → right) #}
-  <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true">
-    <div class="catalog-ticker-track" id="catalog-ticker-track">
-      <a class="catalog-ticker-item {% if not category %}is-active{% endif %}"
-         data-slug=""
-         href="/catalog/">{% trans "Все" %}</a>
-      {% for cat in categories %}
-        <a class="catalog-ticker-item {% if category and cat.id == category.id %}is-active{% endif %}"
-           data-slug="{{ cat.slug }}"
-           href="/catalog/?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ cat|tr:'name' }}</a>
-      {% endfor %}
-    </div>
+{# Subticker content — injected into #catalog-subticker-outer in base.html #}
+{% block subticker_content %}
+{% if category and subcategories %}
+<div class="catalog-subticker-wrap" aria-hidden="true">
+  <div class="catalog-subticker-track" id="catalog-subticker-track">
+    <a class="catalog-subticker-item {% if not subcategory %}is-active{% endif %}"
+       data-sub=""
+       href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все" %}</a>
+    {% for sub in subcategories %}
+      <a class="catalog-subticker-item {% if subcategory and sub.id == subcategory.id %}is-active{% endif %}"
+         data-sub="{{ sub.slug }}"
+         href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% if sub.code %}{{ sub.code }}{% else %}{{ sub|tr:'name' }}{% endif %}</a>
+    {% endfor %}
   </div>
-  {# Subticker: subcategory navigation (right → left), updated via AJAX #}
-  <div id="catalog-subticker-outer">{% if category and subcategories %}
-  <div class="catalog-subticker-wrap" aria-hidden="true">
-    <div class="catalog-subticker-track" id="catalog-subticker-track">
-      <a class="catalog-subticker-item {% if not subcategory %}is-active{% endif %}"
-         data-sub=""
-         href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все" %}</a>
-      {% for sub in subcategories %}
-        <a class="catalog-subticker-item {% if subcategory and sub.id == subcategory.id %}is-active{% endif %}"
-           data-sub="{{ sub.slug }}"
-           href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% if sub.code %}{{ sub.code }}{% else %}{{ sub|tr:'name' }}{% endif %}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}</div>
 </div>
+{% endif %}
+{% endblock subticker_content %}
 
+{% block content %}
 <section class="page-hero">
   <div class="container">
     {% if subcategory %}
@@ -378,77 +364,7 @@
 })();
 
 // ================================================================
-// 3. Главный тикер (категории: лево → право, позиция сохраняется)
-// ================================================================
-(() => {
-  const wrap  = document.getElementById('catalog-ticker-wrap');
-  const track = document.getElementById('catalog-ticker-track');
-  if (!wrap || !track || window.innerWidth > 760) return;
-
-  // Клонируем для бесконечного цикла
-  const origItems = Array.from(track.children);
-  origItems.forEach(item => {
-    const clone = item.cloneNode(true);
-    clone.setAttribute('aria-hidden', 'true');
-    clone.classList.add('ticker-clone');
-    track.appendChild(clone);
-  });
-
-  const origWidth = () => {
-    let w = 0;
-    origItems.forEach(el => { w += el.offsetWidth + 8; });
-    return w;
-  };
-
-  // Восстанавливаем позицию после перезагрузки страницы
-  let pos = parseFloat(sessionStorage.getItem('_catTickerPos') || '0');
-  const speed = 0.45;
-  let dragging = false, dragStartX = 0, dragStartPos = 0;
-
-  const animate = () => {
-    if (!dragging) {
-      pos += speed;
-      const hw = origWidth();
-      if (hw > 0 && pos >= hw) pos -= hw;
-      track.style.transform = `translateX(${-pos}px)`;
-      sessionStorage.setItem('_catTickerPos', pos.toFixed(2));
-    }
-    requestAnimationFrame(animate);
-  };
-
-  track.addEventListener('click', e => {
-    const item = e.target.closest('.catalog-ticker-item');
-    if (!item) return;
-    e.preventDefault();
-    document.querySelectorAll('.catalog-ticker-item').forEach(el =>
-      el.classList.toggle('is-active', el.dataset.slug === (item.dataset.slug || '')));
-    const href = item.getAttribute('href');
-    if (window.__catalogGo) window.__catalogGo(href); else location.href = href;
-  });
-
-  const onDS = (x) => { dragging = true; dragStartX = x; dragStartPos = pos; };
-  const onDM = (x) => {
-    if (!dragging) return;
-    const hw = origWidth();
-    pos = dragStartPos + (dragStartX - x);
-    if (hw > 0) { if (pos >= hw) pos -= hw; if (pos < 0) pos += hw; }
-    track.style.transform = `translateX(${-pos}px)`;
-  };
-  const onDE = () => { dragging = false; };
-
-  wrap.addEventListener('touchstart', e => onDS(e.touches[0].clientX), { passive: true });
-  wrap.addEventListener('touchmove',  e => onDM(e.touches[0].clientX),  { passive: true });
-  wrap.addEventListener('touchend',   onDE, { passive: true });
-  wrap.addEventListener('mousedown',  e => onDS(e.clientX));
-  wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDM(e.clientX); });
-  wrap.addEventListener('mouseup',    onDE);
-  wrap.addEventListener('mouseleave', onDE);
-
-  animate();
-})();
-
-// ================================================================
-// 4. Подтикер (подкатегории: право → лево, обратное направление)
+// 3. Подтикер (подкатегории: право → лево, обратное направление)
 // ================================================================
 window.__initSubticker = (reset = false) => {
   const track = document.getElementById('catalog-subticker-track');

@@ -1,4 +1,4 @@
-from .models import SiteSettings
+from .models import SiteSettings, SealCategory
 from django.conf import settings
 
 
@@ -47,6 +47,9 @@ def site_settings(request):
 
     current_page_title = page_titles.get(url_name, "")
 
+    # Top-level categories for global nav ticker (mobile)
+    nav_categories = SealCategory.objects.filter(parent__isnull=True).order_by("order", "name")
+
     return {
         "site_settings": SiteSettings.load(),
         "current_section": current_section,
@@ -56,4 +59,5 @@ def site_settings(request):
         "site_url": settings.SITE_URL.rstrip("/"),
         "ga4_id": settings.GA4_ID,
         "yandex_metrika_id": settings.YANDEX_METRIKA_ID,
+        "nav_categories": nav_categories,
     }
