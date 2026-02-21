@@ -75,6 +75,22 @@
     </div>
   </div>
 
+  {# Подтикер — подкатегории (мобиль, обратное направление) — обновляется AJAX #}
+  <div id="catalog-subticker-outer">{% if category and subcategories %}
+  <div class="catalog-subticker-wrap" aria-hidden="true">
+    <div class="catalog-subticker-track" id="catalog-subticker-track">
+      <a class="catalog-subticker-item {% if not subcategory %}is-active{% endif %}"
+         data-sub=""
+         href="/catalog/?category={{ category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% trans "Все" %}</a>
+      {% for sub in subcategories %}
+        <a class="catalog-subticker-item {% if subcategory and sub.id == subcategory.id %}is-active{% endif %}"
+           data-sub="{{ sub.slug }}"
+           href="/catalog/?category={{ category.slug }}&sub={{ sub.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{% if sub.code %}{{ sub.code }}{% else %}{{ sub|tr:'name' }}{% endif %}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}</div>
+
   <div class="container catalog-layout">
     <aside class="catalog-sidebar">
       <h4>{% trans "Разделы" %}</h4>
@@ -206,7 +222,9 @@
 </section>
 
 <script>
-// === AJAX навигация каталога (без перезагрузки) ===
+// ================================================================
+// 1. AJAX навигация каталога — без перезагрузки страницы
+// ================================================================
 (() => {
   const sidebar = document.querySelector('.catalog-sidebar');
   const main    = document.querySelector('.catalog-main');
@@ -214,30 +232,29 @@
 
   let busy = false;
 
-  // Ссылка считается навигацией каталога если она указывает на /catalog/ (с параметрами или без)
   const isCatalogLink = (href) => {
-    try {
-      return new URL(href, location.origin).pathname === '/catalog/';
-    } catch { return false; }
+    try { return new URL(href, location.origin).pathname === '/catalog/'; }
+    catch { return false; }
   };
 
-  // Обновляем подсветку активного раздела в сайдбаре и тикере
-  const syncSidebar = (url) => {
-    const cat = new URL(url, location.origin).searchParams.get('category') || '';
+  // Синхронизируем подсветку: сайдбар + главный тикер + подтикер
+  const syncActive = (url) => {
+    const p   = new URL(url, location.origin).searchParams;
+    const cat = p.get('category') || '';
+    const sub = p.get('sub') || '';
     sidebar.querySelectorAll('.catalog-link').forEach(a => {
       const ac = new URL(a.href, location.origin).searchParams.get('category') || '';
       a.classList.toggle('active', cat === ac);
     });
-    // Sync ticker
-    const ticker = document.getElementById('catalog-ticker-track');
-    if (ticker) {
-      ticker.querySelectorAll('.catalog-ticker-item').forEach(a => {
-        a.classList.toggle('is-active', (a.dataset.slug || '') === cat);
-      });
-    }
+    document.querySelectorAll('.catalog-ticker-item').forEach(a => {
+      a.classList.toggle('is-active', (a.dataset.slug || '') === cat);
+    });
+    document.querySelectorAll('.catalog-subticker-item').forEach(a => {
+      a.classList.toggle('is-active', (a.dataset.sub || '') === sub);
+    });
   };
 
-  // Вешаем AJAX на все навигационные ссылки внутри .catalog-main (чипы, пагинация)
+  // Привязываем AJAX к ссылкам внутри catalog-main
   const bindMainLinks = () => {
     main.querySelectorAll('a').forEach(a => {
       if (isCatalogLink(a.href) && !a.dataset.ajax) {
@@ -247,42 +264,53 @@
     });
   };
 
-  // Загрузка и замена контента без перезагрузки
+  // Привязываем AJAX к ссылкам подтикера
+  const bindSubLinks = () => {
+    document.querySelectorAll('.catalog-subticker-item:not([data-ajax])').forEach(a => {
+      if (isCatalogLink(a.href)) {
+        a.dataset.ajax = '1';
+        a.addEventListener('click', e => { e.preventDefault(); go(a.href); });
+      }
+    });
+  };
+
+  // Основная функция навигации
   const go = async (href, push = true) => {
     if (busy) return;
     busy = true;
     main.classList.add('catalog-loading');
     try {
-      const r = await fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      const r   = await fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
       const html = await r.text();
-      const newMain = new DOMParser().parseFromString(html, 'text/html').querySelector('.catalog-main');
+      const doc  = new DOMParser().parseFromString(html, 'text/html');
+      const newMain  = doc.querySelector('.catalog-main');
+      const newSubOuter = doc.querySelector('#catalog-subticker-outer');
       if (newMain) {
         main.innerHTML = newMain.innerHTML;
+        // Обновляем подтикер (новые подкатегории)
+        const subOuter = document.getElementById('catalog-subticker-outer');
+        if (subOuter && newSubOuter) {
+          subOuter.innerHTML = newSubOuter.innerHTML;
+          if (typeof window.__initSubticker === 'function') window.__initSubticker(true);
+          bindSubLinks();
+        }
         if (push) history.pushState({ href }, '', href);
-        syncSidebar(href);
+        syncActive(href);
         bindMainLinks();
       }
-    } catch {
-      // При ошибке — обычная навигация
-      location.href = href;
-    } finally {
+    } catch { location.href = href; }
+    finally {
       busy = false;
       main.classList.remove('catalog-loading');
     }
   };
 
-  // Сайдбар: перехватываем все ссылки разделов
   sidebar.querySelectorAll('.catalog-link').forEach(a => {
     a.addEventListener('click', e => { e.preventDefault(); go(a.href); });
   });
-
-  // Чипы подкатегорий и пагинация в начальном контенте
   bindMainLinks();
-
-  // Экспортируем go() для тикера
+  bindSubLinks();
   window.__catalogGo = go;
-
-  // Кнопка "Назад/Вперёд" в браузере
   addEventListener('popstate', () => go(location.href, false));
   history.replaceState({ href: location.href }, '', location.href);
 })();
@@ -347,17 +375,15 @@
   setInterval(refresh, 4000);
 })();
 
-// === Бесконечный тикер категорий (только мобиль) ===
+// ================================================================
+// 3. Главный тикер (категории: лево → право, позиция сохраняется)
+// ================================================================
 (() => {
   const wrap  = document.getElementById('catalog-ticker-wrap');
   const track = document.getElementById('catalog-ticker-track');
-  if (!wrap || !track) return;
+  if (!wrap || !track || window.innerWidth > 760) return;
 
-  // Только на мобиле (≤760px)
-  const isMobile = () => window.innerWidth <= 760;
-  if (!isMobile()) return;
-
-  // Дублируем элементы для бесконечного цикла
+  // Клонируем для бесконечного цикла
   const origItems = Array.from(track.children);
   origItems.forEach(item => {
     const clone = item.cloneNode(true);
@@ -366,83 +392,140 @@
     track.appendChild(clone);
   });
 
-  const totalOrigWidth = () => {
+  const origWidth = () => {
     let w = 0;
-    origItems.forEach(el => { w += el.offsetWidth + parseFloat(getComputedStyle(el).marginRight || 0) + 8; });
+    origItems.forEach(el => { w += el.offsetWidth + 8; });
     return w;
   };
 
-  let pos = 0;            // текущий scrollLeft
-  let speed = 0.6;        // пикселей за кадр
-  let dragging = false;
-  let dragStartX = 0;
-  let dragStartPos = 0;
-  let rafId = null;
+  // Восстанавливаем позицию после перезагрузки страницы
+  let pos = parseFloat(sessionStorage.getItem('_catTickerPos') || '0');
+  const speed = 0.45;
+  let dragging = false, dragStartX = 0, dragStartPos = 0;
 
   const animate = () => {
     if (!dragging) {
       pos += speed;
-      const halfWidth = totalOrigWidth();
-      if (halfWidth > 0 && pos >= halfWidth) {
-        pos -= halfWidth;
-      }
+      const hw = origWidth();
+      if (hw > 0 && pos >= hw) pos -= hw;
       track.style.transform = `translateX(${-pos}px)`;
+      sessionStorage.setItem('_catTickerPos', pos.toFixed(2));
     }
-    rafId = requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   };
 
-  // Подсветка активного элемента (по всем — включая клоны)
-  const setActive = (slug) => {
-    Array.from(track.querySelectorAll('.catalog-ticker-item')).forEach(el => {
-      el.classList.toggle('is-active', el.dataset.slug === slug);
-    });
-  };
-
-  // Перехват кликов
   track.addEventListener('click', e => {
     const item = e.target.closest('.catalog-ticker-item');
     if (!item) return;
     e.preventDefault();
-    const slug = item.dataset.slug || '';
-    setActive(slug);
+    document.querySelectorAll('.catalog-ticker-item').forEach(el =>
+      el.classList.toggle('is-active', el.dataset.slug === (item.dataset.slug || '')));
     const href = item.getAttribute('href');
-    // Используем AJAX навигацию если доступна
-    if (window.__catalogGo) {
-      window.__catalogGo(href);
-    } else {
-      location.href = href;
-    }
+    if (window.__catalogGo) window.__catalogGo(href); else location.href = href;
   });
 
-  // Touch / pointer drag
-  const onDragStart = (clientX) => {
-    dragging = true;
-    dragStartX = clientX;
-    dragStartPos = pos;
-    track.style.transition = 'none';
-  };
-  const onDragMove = (clientX) => {
+  const onDS = (x) => { dragging = true; dragStartX = x; dragStartPos = pos; };
+  const onDM = (x) => {
     if (!dragging) return;
-    const delta = dragStartX - clientX;
-    pos = dragStartPos + delta;
-    const halfWidth = totalOrigWidth();
-    if (halfWidth > 0) {
-      if (pos >= halfWidth) pos -= halfWidth;
-      if (pos < 0) pos += halfWidth;
-    }
+    const hw = origWidth();
+    pos = dragStartPos + (dragStartX - x);
+    if (hw > 0) { if (pos >= hw) pos -= hw; if (pos < 0) pos += hw; }
     track.style.transform = `translateX(${-pos}px)`;
   };
-  const onDragEnd = () => { dragging = false; };
+  const onDE = () => { dragging = false; };
 
-  wrap.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
-  wrap.addEventListener('touchmove',  e => onDragMove(e.touches[0].clientX),  { passive: true });
-  wrap.addEventListener('touchend',   onDragEnd, { passive: true });
-  wrap.addEventListener('mousedown',  e => onDragStart(e.clientX));
-  wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDragMove(e.clientX); });
-  wrap.addEventListener('mouseup',    onDragEnd);
-  wrap.addEventListener('mouseleave', onDragEnd);
+  wrap.addEventListener('touchstart', e => onDS(e.touches[0].clientX), { passive: true });
+  wrap.addEventListener('touchmove',  e => onDM(e.touches[0].clientX),  { passive: true });
+  wrap.addEventListener('touchend',   onDE, { passive: true });
+  wrap.addEventListener('mousedown',  e => onDS(e.clientX));
+  wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDM(e.clientX); });
+  wrap.addEventListener('mouseup',    onDE);
+  wrap.addEventListener('mouseleave', onDE);
 
   animate();
 })();
+
+// ================================================================
+// 4. Подтикер (подкатегории: право → лево, обратное направление)
+// ================================================================
+window.__initSubticker = (reset = false) => {
+  const track = document.getElementById('catalog-subticker-track');
+  if (!track || window.innerWidth > 760) return;
+
+  // Отменяем старую анимацию если была
+  if (track._raf) { cancelAnimationFrame(track._raf); track._raf = null; }
+  // Удаляем старые клоны
+  Array.from(track.querySelectorAll('.subticker-clone')).forEach(el => el.remove());
+
+  // Клонируем оригинальные элементы для бесконечного цикла
+  const origItems = Array.from(track.children);
+  origItems.forEach(item => {
+    const clone = item.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.classList.add('subticker-clone');
+    track.appendChild(clone);
+  });
+
+  const origWidth = () => {
+    let w = 0;
+    origItems.forEach(el => { w += el.offsetWidth + 7; });
+    return w;
+  };
+
+  // Позиция: сброс при смене категории, сохраняем внутри категории
+  let pos = reset ? 0 : (window._subTickerPos || 0);
+  const speed = 0.38; // чуть медленнее главного
+  let dragging = false, dragStartX = 0, dragStartPos = 0;
+
+  const animate = () => {
+    if (!dragging) {
+      pos -= speed; // отрицательное = движется ВПРАВО (противоположно главному)
+      const hw = origWidth();
+      if (hw > 0) {
+        if (pos <= -hw) pos += hw;
+        if (pos > 0) pos = -hw + pos;
+      }
+      track.style.transform = `translateX(${pos}px)`;
+      window._subTickerPos = pos;
+    }
+    track._raf = requestAnimationFrame(animate);
+  };
+
+  track.addEventListener('click', e => {
+    const item = e.target.closest('.catalog-subticker-item');
+    if (!item) return;
+    e.preventDefault();
+    document.querySelectorAll('.catalog-subticker-item').forEach(el =>
+      el.classList.toggle('is-active', (el.dataset.sub || '') === (item.dataset.sub || '')));
+    const href = item.getAttribute('href');
+    if (window.__catalogGo) window.__catalogGo(href); else location.href = href;
+  });
+
+  const wrap = track.closest('.catalog-subticker-wrap');
+  if (wrap && !wrap._bound) {
+    wrap._bound = true;
+    const onDS = (x) => { dragging = true; dragStartX = x; dragStartPos = pos; };
+    const onDM = (x) => {
+      if (!dragging) return;
+      const hw = origWidth();
+      pos = dragStartPos - (dragStartX - x);
+      if (hw > 0) { if (pos <= -hw) pos += hw; if (pos > 0) pos -= hw; }
+      track.style.transform = `translateX(${pos}px)`;
+    };
+    const onDE = () => { dragging = false; };
+    wrap.addEventListener('touchstart', e => onDS(e.touches[0].clientX), { passive: true });
+    wrap.addEventListener('touchmove',  e => onDM(e.touches[0].clientX),  { passive: true });
+    wrap.addEventListener('touchend',   onDE, { passive: true });
+    wrap.addEventListener('mousedown',  e => onDS(e.clientX));
+    wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDM(e.clientX); });
+    wrap.addEventListener('mouseup',    onDE);
+    wrap.addEventListener('mouseleave', onDE);
+  }
+
+  animate();
+};
+
+// Инициализация при первой загрузке страницы
+window.__initSubticker();
 </script>
 {% endblock %}
