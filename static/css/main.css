@@ -882,9 +882,43 @@ body.theme-dark .card:hover {
 
 .schematic {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  align-items: center;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.schematic-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 760px) {
+  .schematic {
+    grid-template-columns: 1fr;
+  }
+}
+
+.schematic-panels .schematic-panel {
+  padding: 16px 18px;
+}
+
+.schematic-panels .schematic-panel h3 {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.schematic-panels .schematic-panel p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.schematic-panels .schematic-panel .bullets {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding-left: 16px;
+  margin: 0;
 }
 
 .schematic-svg {

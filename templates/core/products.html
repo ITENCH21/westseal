@@ -100,26 +100,43 @@
 <section class="section accent">
   <div class="container">
     <div class="section-head">
-      <h2>{% trans "Интерактивная схема гидроцилиндра" %}</h2>
-      <p>{% trans "Наведите или нажмите на узлы, чтобы узнать, какие уплотнения применяются." %}</p>
+      <h2>{% trans "Схема гидроцилиндра" %}</h2>
+      <p>{% trans "Основные узлы уплотнения и их функции." %}</p>
     </div>
     <div class="schematic">
       <div class="schematic-visual">
         <div class="schematic-photo-wrap">
           <img src="{% static 'img/ai/cylinder_cutaway.png' %}" class="schematic-photo" alt="{% trans 'Гидроцилиндр в разрезе с установленными уплотнениями' %}">
-          <button type="button" class="hotspot-pin" data-hotspot="rod" style="left:27%; top:58%;" aria-label="{% trans 'Уплотнение штока' %}"></button>
-          <button type="button" class="hotspot-pin" data-hotspot="piston" style="left:38%; top:54%;" aria-label="{% trans 'Уплотнение поршня' %}"></button>
-          <button type="button" class="hotspot-pin" data-hotspot="wiper" style="left:21%; top:54%;" aria-label="{% trans 'Грязесъемник' %}"></button>
         </div>
       </div>
-      <div class="schematic-panel" data-hotspot-panel>
-        <h3 data-hotspot-title>{% trans "Уплотнение штока" %}</h3>
-        <p data-hotspot-body>{% trans "Герметизация штока под давлением, защита от утечек и износа." %}</p>
-        <ul class="bullets">
-          <li>{% trans "Профили U-манжеты" %}</li>
-          <li>{% trans "Материалы NBR / PU / FKM" %}</li>
-          <li>{% trans "Контроль давления и скорости" %}</li>
-        </ul>
+      <div class="schematic-panels">
+        <div class="schematic-panel">
+          <h3>{% trans "Уплотнение штока" %}</h3>
+          <p>{% trans "Герметизация штока под давлением, защита от утечек и износа." %}</p>
+          <ul class="bullets">
+            <li>{% trans "Профили U-манжеты" %}</li>
+            <li>{% trans "Материалы NBR / PU / FKM" %}</li>
+            <li>{% trans "Контроль давления и скорости" %}</li>
+          </ul>
+        </div>
+        <div class="schematic-panel">
+          <h3>{% trans "Уплотнение поршня" %}</h3>
+          <p>{% trans "Двусторонняя герметизация поршня, устойчивость к перепадам давления." %}</p>
+          <ul class="bullets">
+            <li>{% trans "Кольца и композиты" %}</li>
+            <li>{% trans "PTFE с наполнителями" %}</li>
+            <li>{% trans "Минимизация трения" %}</li>
+          </ul>
+        </div>
+        <div class="schematic-panel">
+          <h3>{% trans "Грязесъемник" %}</h3>
+          <p>{% trans "Защита цилиндра от абразива и пыли, продление ресурса." %}</p>
+          <ul class="bullets">
+            <li>{% trans "PU и резины" %}</li>
+            <li>{% trans "Работа в грязных средах" %}</li>
+            <li>{% trans "Стабильная геометрия" %}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
