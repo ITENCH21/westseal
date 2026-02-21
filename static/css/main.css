@@ -3574,3 +3574,233 @@ textarea {
     font-size: 14px;
   }
 }
+
+/* =========================================
+   CATALOG TICKER — infinite scroll strip
+   ========================================= */
+
+/* Desktop: ticker hidden, sidebar visible as usual */
+.catalog-ticker-wrap {
+  display: none;
+}
+
+/* Mobile ≤760px: hide sidebar, show ticker */
+@media (max-width: 760px) {
+  .catalog-sidebar {
+    display: none !important;
+  }
+
+  .catalog-ticker-wrap {
+    display: block;
+    overflow: hidden;
+    padding: 10px 0 6px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+  }
+
+  .catalog-ticker-track {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+    width: max-content;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: transform;
+    padding: 2px 4px;
+  }
+
+  .catalog-ticker-track:active {
+    cursor: grabbing;
+  }
+
+  .catalog-ticker-item {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--steel);
+    background: var(--surface);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .catalog-ticker-item.is-active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+}
+
+/* =========================================
+   DELIVERY SECTION — contacts page
+   ========================================= */
+
+.delivery-section {
+  padding-top: 56px;
+  padding-bottom: 64px;
+}
+
+.delivery-section .section-head {
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+.delivery-section .section-head h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.delivery-section .section-head p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* Badges row */
+.delivery-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.delivery-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.delivery-badge--free {
+  background: rgba(33, 160, 56, 0.1);
+  color: #1d9136;
+  border: 1px solid rgba(33, 160, 56, 0.22);
+}
+
+.delivery-badge--fast {
+  background: rgba(31, 74, 138, 0.09);
+  color: var(--blue);
+  border: 1px solid rgba(31, 74, 138, 0.18);
+}
+
+.delivery-badge--docs {
+  background: rgba(198, 40, 40, 0.09);
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.18);
+}
+
+/* Carriers grid */
+.carriers-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 1024px) {
+  .carriers-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 780px) {
+  .carriers-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .carriers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+.carrier-card {
+  background: var(--surface);
+  border: 1px solid var(--steel);
+  border-radius: 14px;
+  padding: 18px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.carrier-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.carrier-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.carrier-logo {
+  width: 100%;
+  max-width: 112px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.carrier-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.carrier-info strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.carrier-info span {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Delivery note */
+.delivery-note {
+  margin-top: 8px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--steel);
+  border-left: 4px solid var(--blue);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}

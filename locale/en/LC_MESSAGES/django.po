@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-21 12:17+0300\n"
+"POT-Creation-Date: 2026-02-21 12:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Создать заявку"
 msgstr "Submit a Request"
 
-#: templates/base.html:163 templates/core/catalog.html:66
+#: templates/base.html:163 templates/core/catalog.html:80
 msgid "Разделы"
 msgstr "Sections"
 
@@ -224,7 +224,7 @@ msgstr "Support Chat"
 msgid "Нужен подбор или аналог? Ответим в течение дня."
 msgstr "Need a selection or alternative? We will reply within the day."
 
-#: templates/base.html:211 templates/core/catalog_detail.html:84
+#: templates/base.html:211 templates/core/catalog_detail.html:85
 #: templates/core/home.html:64
 msgid "Оформить заявку"
 msgstr "Place a Request"
@@ -340,107 +340,107 @@ msgstr "Search by name or specifications"
 msgid "Найти"
 msgstr "Search"
 
-#: templates/core/catalog.html:67
+#: templates/core/catalog.html:69 templates/core/catalog.html:81
 msgid "Все"
 msgstr "All"
 
-#: templates/core/catalog.html:81
+#: templates/core/catalog.html:95
 msgid "Импорт каталога"
 msgstr "Catalog import"
 
-#: templates/core/catalog.html:82
+#: templates/core/catalog.html:96
 msgid "ожидание"
 msgstr "pending"
 
-#: templates/core/catalog.html:85
+#: templates/core/catalog.html:99
 msgid "Всего:"
 msgstr "Total:"
 
-#: templates/core/catalog.html:86
+#: templates/core/catalog.html:100
 msgid "В выборке:"
 msgstr "In selection:"
 
-#: templates/core/catalog.html:88
+#: templates/core/catalog.html:102
 msgid "Открыть"
 msgstr "Open"
 
-#: templates/core/catalog.html:99
+#: templates/core/catalog.html:113
 msgid "Все профили"
 msgstr "All profiles"
 
-#: templates/core/catalog.html:110
+#: templates/core/catalog.html:124
 msgid "Все разделы"
 msgstr "All sections"
 
-#: templates/core/catalog.html:116
+#: templates/core/catalog.html:130
 msgid "Поиск:"
 msgstr "Search:"
 
-#: templates/core/catalog.html:119
+#: templates/core/catalog.html:133
 msgid "Найдено:"
 msgstr "Found:"
 
-#: templates/core/catalog.html:121
+#: templates/core/catalog.html:135
 msgid "Стр."
 msgstr "Pg."
 
-#: templates/core/catalog.html:132
+#: templates/core/catalog.html:146
 msgid "Профили:"
 msgstr "Profiles:"
 
-#: templates/core/catalog.html:133
+#: templates/core/catalog.html:147
 msgid "Товары:"
 msgstr "Items:"
 
-#: templates/core/catalog.html:168
+#: templates/core/catalog.html:182
 msgid "Ничего не найдено"
 msgstr "Nothing found"
 
-#: templates/core/catalog.html:169
+#: templates/core/catalog.html:183
 msgid "Попробуйте изменить запрос или выбрать другой раздел."
 msgstr "Try changing your query or selecting a different section."
 
-#: templates/core/catalog.html:175
+#: templates/core/catalog.html:189
 msgid "Pagination"
 msgstr "Pagination"
 
-#: templates/core/catalog.html:177
+#: templates/core/catalog.html:191
 msgid "Назад"
 msgstr "Back"
 
-#: templates/core/catalog.html:185
+#: templates/core/catalog.html:199
 msgid "Дальше"
 msgstr "Next"
 
-#: templates/core/catalog.html:288
+#: templates/core/catalog.html:312
 msgid "Нет загруженных карточек"
 msgstr "No cards loaded"
 
-#: templates/core/catalog.html:309
+#: templates/core/catalog.html:333
 msgid "идет импорт"
 msgstr "importing"
 
-#: templates/core/catalog.html:309
+#: templates/core/catalog.html:333
 msgid "готово"
 msgstr "done"
 
-#: templates/core/catalog_detail.html:63
+#: templates/core/catalog_detail.html:64
 msgid "Технические характеристики и описание"
 msgstr "Technical specifications and description"
 
-#: templates/core/catalog_detail.html:65
+#: templates/core/catalog_detail.html:66
 msgid "Назад в каталог"
 msgstr "Back to catalog"
 
-#: templates/core/catalog_detail.html:87
+#: templates/core/catalog_detail.html:88
 msgid "Характеристики"
 msgstr "Specifications"
 
-#: templates/core/catalog_detail.html:100
+#: templates/core/catalog_detail.html:101
 msgid "Данные будут уточнены инженером после запроса."
 msgstr "Details will be confirmed by an engineer upon request."
 
-#: templates/core/catalog_detail.html:105
+#: templates/core/catalog_detail.html:106
 #: templates/support/request_create.html:20
 msgid "Описание"
 msgstr "Description"
@@ -486,6 +486,109 @@ msgstr "Request"
 #: templates/core/contacts.html:26
 msgid "Опишите задачу, укажите параметры и материал."
 msgstr "Describe your task, specify parameters and material."
+
+#: templates/core/contacts.html:36
+msgid "Доставка по всей России"
+msgstr "Delivery Across Russia"
+
+#: templates/core/contacts.html:37
+msgid ""
+"Отправляем любой транспортной компанией во все регионы, города и населённые "
+"пункты страны. Выберите удобного перевозчика — мы оформим отправку сами."
+msgstr ""
+"We ship with any carrier to all regions, cities and towns across Russia. "
+"Choose your preferred carrier — we handle the paperwork."
+
+#: templates/core/contacts.html:41
+msgid "Бесплатная упаковка"
+msgstr "Free Packaging"
+
+#: templates/core/contacts.html:42
+msgid "Отправка день в день"
+msgstr "Same-Day Dispatch"
+
+#: templates/core/contacts.html:43
+msgid "Сопроводительные документы"
+msgstr "Shipping Documents Included"
+
+#: templates/core/contacts.html:52
+msgid "СДЭК"
+msgstr "CDEK"
+
+#: templates/core/contacts.html:53
+msgid "По всей России и СНГ"
+msgstr "Across Russia and CIS"
+
+#: templates/core/contacts.html:61
+msgid "Деловые линии"
+msgstr "Delovye Linii"
+
+#: templates/core/contacts.html:62
+msgid "Крупные и тяжёлые грузы"
+msgstr "Bulk and Heavy Freight"
+
+#: templates/core/contacts.html:70
+msgid "Почта России"
+msgstr "Russian Post"
+
+#: templates/core/contacts.html:71
+msgid "Любые отдалённые регионы"
+msgstr "Any Remote Regions"
+
+#: templates/core/contacts.html:80
+msgid "Экспресс и международно"
+msgstr "Express & International"
+
+#: templates/core/contacts.html:89
+msgid "Дверь в дверь, курьер"
+msgstr "Door-to-Door Courier"
+
+#: templates/core/contacts.html:98
+msgid "ПВЗ и курьерская доставка"
+msgstr "Pickup Points & Courier"
+
+#: templates/core/contacts.html:106
+msgid "ПЭК"
+msgstr "PEK"
+
+#: templates/core/contacts.html:107
+msgid "Промышленные грузы и паллеты"
+msgstr "Industrial Cargo & Pallets"
+
+#: templates/core/contacts.html:115
+msgid "Яндекс Доставка"
+msgstr "Yandex Delivery"
+
+#: templates/core/contacts.html:116
+msgid "Быстро по городу и МО"
+msgstr "Fast City & Metro Area"
+
+#: templates/core/contacts.html:124
+msgid "СберЛогистика"
+msgstr "Sber Logistics"
+
+#: templates/core/contacts.html:125
+msgid "ПВЗ Сбербанка, отслеживание"
+msgstr "Sber Pickup Points, Tracking"
+
+#: templates/core/contacts.html:133
+msgid "Авито Доставка"
+msgstr "Avito Delivery"
+
+#: templates/core/contacts.html:134
+msgid "Удобно и безопасно"
+msgstr "Convenient & Secure"
+
+#: templates/core/contacts.html:140
+msgid ""
+"Не нашли нужного перевозчика? Мы работаем с любой транспортной компанией по "
+"вашему запросу."
+msgstr ""
+"Didn't find the right carrier? We work with any transport company on request."
+
+#: templates/core/contacts.html:140
+msgid "Уточните при заявке"
+msgstr "Specify in your request"
 
 #: templates/core/home.html:12
 msgid ""

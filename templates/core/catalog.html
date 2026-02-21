@@ -61,6 +61,20 @@
 </section>
 
 <section class="section">
+  {# Mobile ticker — categories strip (shown only on mobile) #}
+  <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true">
+    <div class="catalog-ticker-track" id="catalog-ticker-track">
+      <a class="catalog-ticker-item {% if not category %}is-active{% endif %}"
+         data-slug=""
+         href="/catalog/">{% trans "Все" %}</a>
+      {% for cat in categories %}
+        <a class="catalog-ticker-item {% if category and cat.id == category.id %}is-active{% endif %}"
+           data-slug="{{ cat.slug }}"
+           href="/catalog/?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ cat|tr:'name' }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
   <div class="container catalog-layout">
     <aside class="catalog-sidebar">
       <h4>{% trans "Разделы" %}</h4>
@@ -207,13 +221,20 @@
     } catch { return false; }
   };
 
-  // Обновляем подсветку активного раздела в сайдбаре
+  // Обновляем подсветку активного раздела в сайдбаре и тикере
   const syncSidebar = (url) => {
     const cat = new URL(url, location.origin).searchParams.get('category') || '';
     sidebar.querySelectorAll('.catalog-link').forEach(a => {
       const ac = new URL(a.href, location.origin).searchParams.get('category') || '';
       a.classList.toggle('active', cat === ac);
     });
+    // Sync ticker
+    const ticker = document.getElementById('catalog-ticker-track');
+    if (ticker) {
+      ticker.querySelectorAll('.catalog-ticker-item').forEach(a => {
+        a.classList.toggle('is-active', (a.dataset.slug || '') === cat);
+      });
+    }
   };
 
   // Вешаем AJAX на все навигационные ссылки внутри .catalog-main (чипы, пагинация)
@@ -257,6 +278,9 @@
 
   // Чипы подкатегорий и пагинация в начальном контенте
   bindMainLinks();
+
+  // Экспортируем go() для тикера
+  window.__catalogGo = go;
 
   // Кнопка "Назад/Вперёд" в браузере
   addEventListener('popstate', () => go(location.href, false));
@@ -321,6 +345,104 @@
 
   refresh();
   setInterval(refresh, 4000);
+})();
+
+// === Бесконечный тикер категорий (только мобиль) ===
+(() => {
+  const wrap  = document.getElementById('catalog-ticker-wrap');
+  const track = document.getElementById('catalog-ticker-track');
+  if (!wrap || !track) return;
+
+  // Только на мобиле (≤760px)
+  const isMobile = () => window.innerWidth <= 760;
+  if (!isMobile()) return;
+
+  // Дублируем элементы для бесконечного цикла
+  const origItems = Array.from(track.children);
+  origItems.forEach(item => {
+    const clone = item.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.classList.add('ticker-clone');
+    track.appendChild(clone);
+  });
+
+  const totalOrigWidth = () => {
+    let w = 0;
+    origItems.forEach(el => { w += el.offsetWidth + parseFloat(getComputedStyle(el).marginRight || 0) + 8; });
+    return w;
+  };
+
+  let pos = 0;            // текущий scrollLeft
+  let speed = 0.6;        // пикселей за кадр
+  let dragging = false;
+  let dragStartX = 0;
+  let dragStartPos = 0;
+  let rafId = null;
+
+  const animate = () => {
+    if (!dragging) {
+      pos += speed;
+      const halfWidth = totalOrigWidth();
+      if (halfWidth > 0 && pos >= halfWidth) {
+        pos -= halfWidth;
+      }
+      track.style.transform = `translateX(${-pos}px)`;
+    }
+    rafId = requestAnimationFrame(animate);
+  };
+
+  // Подсветка активного элемента (по всем — включая клоны)
+  const setActive = (slug) => {
+    Array.from(track.querySelectorAll('.catalog-ticker-item')).forEach(el => {
+      el.classList.toggle('is-active', el.dataset.slug === slug);
+    });
+  };
+
+  // Перехват кликов
+  track.addEventListener('click', e => {
+    const item = e.target.closest('.catalog-ticker-item');
+    if (!item) return;
+    e.preventDefault();
+    const slug = item.dataset.slug || '';
+    setActive(slug);
+    const href = item.getAttribute('href');
+    // Используем AJAX навигацию если доступна
+    if (window.__catalogGo) {
+      window.__catalogGo(href);
+    } else {
+      location.href = href;
+    }
+  });
+
+  // Touch / pointer drag
+  const onDragStart = (clientX) => {
+    dragging = true;
+    dragStartX = clientX;
+    dragStartPos = pos;
+    track.style.transition = 'none';
+  };
+  const onDragMove = (clientX) => {
+    if (!dragging) return;
+    const delta = dragStartX - clientX;
+    pos = dragStartPos + delta;
+    const halfWidth = totalOrigWidth();
+    if (halfWidth > 0) {
+      if (pos >= halfWidth) pos -= halfWidth;
+      if (pos < 0) pos += halfWidth;
+    }
+    track.style.transform = `translateX(${-pos}px)`;
+  };
+  const onDragEnd = () => { dragging = false; };
+
+  wrap.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
+  wrap.addEventListener('touchmove',  e => onDragMove(e.touches[0].clientX),  { passive: true });
+  wrap.addEventListener('touchend',   onDragEnd, { passive: true });
+  wrap.addEventListener('mousedown',  e => onDragStart(e.clientX));
+  wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDragMove(e.clientX); });
+  wrap.addEventListener('mouseup',    onDragEnd);
+  wrap.addEventListener('mouseleave', onDragEnd);
+
+  animate();
 })();
 </script>
 {% endblock %}

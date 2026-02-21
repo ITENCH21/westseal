@@ -17,7 +17,7 @@
       <h3>{% trans "Контакты" %}</h3>
       <p><strong>{% trans "Телефон" %}:</strong> <a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></p>
       <p><strong>Email:</strong> <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>
-      <p><strong>{% trans "Адрес" %}:</strong> {{ site_settings.address }}</p>
+      <p><strong>{% trans "Адрес" %}:</strong> {{ site_settings|tr:'address' }}</p>
       <p><strong>{% trans "Режим работы" %}:</strong> {{ site_settings.work_hours }}</p>
     </div>
     <div class="card media-card">
@@ -25,6 +25,119 @@
       <h3>{% trans "Заявка" %}</h3>
       <p>{% trans "Опишите задачу, укажите параметры и материал." %}</p>
       <a class="btn primary" href="/support/requests/new/">{% trans "Создать заявку" %}</a>
+    </div>
+  </div>
+</section>
+
+{# ===== Блок доставки ===== #}
+<section class="section accent delivery-section">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Доставка по всей России" %}</h2>
+      <p>{% trans "Отправляем любой транспортной компанией во все регионы, города и населённые пункты страны. Выберите удобного перевозчика — мы оформим отправку сами." %}</p>
+    </div>
+
+    <div class="delivery-badges">
+      <span class="delivery-badge delivery-badge--free">{% trans "Бесплатная упаковка" %}</span>
+      <span class="delivery-badge delivery-badge--fast">{% trans "Отправка день в день" %}</span>
+      <span class="delivery-badge delivery-badge--docs">{% trans "Сопроводительные документы" %}</span>
+    </div>
+
+    <div class="carriers-grid">
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/cdek.svg' %}" alt="СДЭК / CDEK" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "СДЭК" %}</strong>
+          <span>{% trans "По всей России и СНГ" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/dellin.svg' %}" alt="Деловые линии" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "Деловые линии" %}</strong>
+          <span>{% trans "Крупные и тяжёлые грузы" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/pochta.svg' %}" alt="Почта России" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "Почта России" %}</strong>
+          <span>{% trans "Любые отдалённые регионы" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/dhl.svg' %}" alt="DHL" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>DHL Express</strong>
+          <span>{% trans "Экспресс и международно" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/dpd.svg' %}" alt="DPD" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>DPD</strong>
+          <span>{% trans "Дверь в дверь, курьер" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/boxberry.svg' %}" alt="Boxberry" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>Boxberry</strong>
+          <span>{% trans "ПВЗ и курьерская доставка" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/pek.svg' %}" alt="ПЭК" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "ПЭК" %}</strong>
+          <span>{% trans "Промышленные грузы и паллеты" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/yandex.svg' %}" alt="Яндекс Доставка" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "Яндекс Доставка" %}</strong>
+          <span>{% trans "Быстро по городу и МО" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/sber.svg' %}" alt="СберЛогистика" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "СберЛогистика" %}</strong>
+          <span>{% trans "ПВЗ Сбербанка, отслеживание" %}</span>
+        </div>
+      </div>
+      <div class="carrier-card">
+        <div class="carrier-logo-wrap">
+          <img src="{% static 'img/carriers/avito.svg' %}" alt="Авито Доставка" class="carrier-logo">
+        </div>
+        <div class="carrier-info">
+          <strong>{% trans "Авито Доставка" %}</strong>
+          <span>{% trans "Удобно и безопасно" %}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="delivery-note">
+      <p>{% trans "Не нашли нужного перевозчика? Мы работаем с любой транспортной компанией по вашему запросу." %} <a href="/support/requests/new/">{% trans "Уточните при заявке" %} →</a></p>
     </div>
   </div>
 </section>

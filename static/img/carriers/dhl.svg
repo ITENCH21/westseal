@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 56" width="140" height="56">
+  <rect width="140" height="56" rx="10" fill="#FFCC00"/>
+  <rect x="0" y="36" width="140" height="20" rx="0" fill="#D40511"/>
+  <rect x="0" y="46" width="140" height="10" rx="0" fill="#D40511"/>
+  <path d="M0 46 h140 v10 q0 10 -10 10 H10 q-10 0 -10 -10 Z" fill="#D40511"/>
+  <text x="70" y="30" font-family="Arial,sans-serif" font-size="26" font-weight="900" fill="#D40511" text-anchor="middle" letter-spacing="2">DHL</text>
+  <text x="70" y="50" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="white" text-anchor="middle">EXPRESS</text>
+</svg>
