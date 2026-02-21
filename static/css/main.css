@@ -940,7 +940,8 @@ body.theme-dark .card:hover {
   overflow: hidden;
   box-shadow: var(--shadow);
   background: var(--surface);
-  aspect-ratio: 3 / 2;
+  height: 100%;
+  min-height: 280px;
 }
 
 .schematic-photo {
