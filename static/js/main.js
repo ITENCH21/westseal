@@ -32,93 +32,83 @@ if (navToggle && mainNav) {
   });
 }
 
-// === Drag-to-scroll для горизонтальных тикеров (мобильное меню) ===
-(function initTickerDrag() {
-  const tracks = [
-    document.getElementById('nav-menu-ticker-track'),
-    document.getElementById('catalog-ticker-track'),
-    document.getElementById('catalog-subticker-track'),
-  ].filter(Boolean);
+// === Бесконечный скролл тикеров + сохранение позиции при навигации ===
+(function initInfiniteTickers() {
+  const TICKERS = [
+    { wrapId: 'nav-menu-ticker-wrap', trackId: 'nav-menu-ticker-track' },
+    { wrapId: 'catalog-ticker-wrap',  trackId: 'catalog-ticker-track'  },
+    { wrapId: 'catalog-subticker-outer', trackId: 'catalog-subticker-track' },
+  ];
 
-  tracks.forEach((track) => {
+  TICKERS.forEach(({ wrapId, trackId }) => {
+    const wrap  = document.getElementById(wrapId);
+    const track = document.getElementById(trackId);
+    if (!wrap || !track || track.children.length === 0) return;
+
+    // 1) Клонируем пункты для бесконечного скролла
+    const originals = Array.from(track.children);
+    originals.forEach((item) => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+
+    // 2) Восстанавливаем позицию с прошлой страницы
+    const storageKey = 'ticker_sl_' + wrapId;
+    const saved = sessionStorage.getItem(storageKey);
+    if (saved !== null) {
+      // Откладываем на следующий кадр — track.scrollWidth уже известен после клонирования
+      requestAnimationFrame(() => {
+        const half = track.scrollWidth / 2;
+        const pos = parseFloat(saved);
+        wrap.scrollLeft = (pos < half) ? pos : pos % half;
+      });
+    }
+
+    // 3) Сохраняем позицию при клике на ссылку
+    wrap.addEventListener('click', (e) => {
+      if (e.target.closest('a[href]') && !e.defaultPrevented) {
+        sessionStorage.setItem(storageKey, wrap.scrollLeft);
+      }
+    });
+
+    // 4) Бесконечный цикл: при достижении середины — тихо сбрасываем назад
+    wrap.addEventListener('scroll', () => {
+      const half = track.scrollWidth / 2;
+      if (wrap.scrollLeft >= half) {
+        wrap.scrollLeft -= half;          // не вызывает ещё одного события scroll
+      }
+    }, { passive: true });
+
+    // 5) Mouse drag (для десктопного превью; тач — нативный CSS scroll)
     let isDragging = false;
     let startX = 0;
-    let currentX = 0;
-    let offset = 0;
-    let maxOffset = 0;
-    let rafId = null;
+    let startSL = 0;
     let moved = false;
 
-    const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
-
-    const getMaxOffset = () => {
-      const wrap = track.parentElement;
-      return Math.max(0, track.scrollWidth - wrap.clientWidth);
-    };
-
-    // Touch events (мобильные)
-    track.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      moved = false;
-      startX = e.touches[0].clientX - currentX;
-      maxOffset = getMaxOffset();
-    }, { passive: true });
-
-    track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      const x = e.touches[0].clientX - startX;
-      currentX = clamp(x, -maxOffset, 0);
-      moved = true;
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        track.style.transform = `translateX(${currentX}px)`;
-      });
-    }, { passive: true });
-
-    track.addEventListener('touchend', () => { isDragging = false; });
-
-    // Mouse events (десктоп preview)
     track.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      moved = false;
-      startX = e.clientX - currentX;
-      maxOffset = getMaxOffset();
+      isDragging = true; moved = false;
+      startX = e.clientX; startSL = wrap.scrollLeft;
       track.style.cursor = 'grabbing';
+      e.preventDefault();
     });
-
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
-      const x = e.clientX - startX;
-      currentX = clamp(x, -maxOffset, 0);
-      moved = true;
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        track.style.transform = `translateX(${currentX}px)`;
-      });
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      wrap.scrollLeft = startSL - dx;
     });
-
     document.addEventListener('mouseup', () => {
       if (!isDragging) return;
       isDragging = false;
       track.style.cursor = 'grab';
     });
 
-    // Блокируем переход по ссылке при drag
+    // Не переходим по ссылке если это был drag, а не tap
     track.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', (e) => {
-        if (moved) e.preventDefault();
-      });
+      a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
     });
   });
-})();
-
-// === Высота шапки → CSS-переменная --header-h (для sticky тикера) ===
-(function syncHeaderHeight() {
-  const hdr = document.querySelector('.site-header');
-  if (!hdr) return;
-  const set = () => document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
-  set();
-  window.addEventListener('resize', set, { passive: true });
 })();
 
 const counters = document.querySelectorAll('[data-counter]');
