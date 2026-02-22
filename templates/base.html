@@ -14,11 +14,11 @@
   <link rel="canonical" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
-  {% with _meta=page|tr:'meta_desc' _sub=page|tr:'hero_subtitle' %}<meta name="description" content="{{ seo_desc|default:_meta|default:_sub|truncatechars:160 }}">{% endwith %}
+  {% with meta_d=page|tr:'meta_desc' sub_d=page|tr:'hero_subtitle' %}<meta name="description" content="{{ seo_desc|default:meta_d|default:sub_d|truncatechars:160 }}">{% endwith %}
   <meta property="og:site_name" content="WESTSEAL">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
-  {% with _meta=page|tr:'meta_desc' _sub=page|tr:'hero_subtitle' %}<meta property="og:description" content="{{ seo_desc|default:_meta|default:_sub|truncatechars:160 }}">{% endwith %}
+  {% with meta_d=page|tr:'meta_desc' sub_d=page|tr:'hero_subtitle' %}<meta property="og:description" content="{{ seo_desc|default:meta_d|default:sub_d|truncatechars:160 }}">{% endwith %}
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:image" content="{{ site_url }}{% static 'img/ai/logoneo.png' %}">
@@ -26,7 +26,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
-  {% with _meta=page|tr:'meta_desc' _sub=page|tr:'hero_subtitle' %}<meta name="twitter:description" content="{{ seo_desc|default:_meta|default:_sub|truncatechars:160 }}">{% endwith %}
+  {% with meta_d=page|tr:'meta_desc' sub_d=page|tr:'hero_subtitle' %}<meta name="twitter:description" content="{{ seo_desc|default:meta_d|default:sub_d|truncatechars:160 }}">{% endwith %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
   <script defer src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
