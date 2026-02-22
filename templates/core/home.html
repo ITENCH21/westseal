@@ -38,7 +38,7 @@
       <div class="lottie pulse" data-lottie="{% static 'lottie/pulse.json' %}"></div>
       <img class="hero-image" src="{% static 'img/ai/hero.webp' %}" alt="WESTSEAL hydraulic seals" width="1536" height="1024" fetchpriority="high" loading="eager">
       <div class="hero-card tilt">
-        <h4>{% trans "Экспресс‑подбор" %}</h4>
+        <h3>{% trans "Экспресс‑подбор" %}</h3>
         <p>{% trans "Отправьте чертеж, фото или старое уплотнение — мы подберем аналог." %}</p>
         <a href="/support/requests/new/" data-track="hero_card_request_click">{% trans "Создать заявку" %}</a>
       </div>
@@ -127,22 +127,22 @@
     <div class="grid-4">
       <div class="feature reveal">
         <span>01</span>
-        <h4>{% trans "Инженерный подбор" %}</h4>
+        <h3>{% trans "Инженерный подбор" %}</h3>
         <p>{% trans "Сверяем размеры, условия и материалы, предлагаем 2-3 альтернативы." %}</p>
       </div>
       <div class="feature reveal">
         <span>02</span>
-        <h4>{% trans "Материалы" %}</h4>
+        <h3>{% trans "Материалы" %}</h3>
         <p>{% trans "PU, NBR, FKM, PTFE, HNBR, TPU — под среду и температуру." %}</p>
       </div>
       <div class="feature reveal">
         <span>03</span>
-        <h4>{% trans "Сроки" %}</h4>
+        <h3>{% trans "Сроки" %}</h3>
         <p>{% trans "Производство от 2-10 дней, подбор за 24-48 часов." %}</p>
       </div>
       <div class="feature reveal">
         <span>04</span>
-        <h4>{% trans "Документы" %}</h4>
+        <h3>{% trans "Документы" %}</h3>
         <p>{% trans "Подготовим спецификации, сопроводим проект и серию." %}</p>
       </div>
     </div>
@@ -179,19 +179,19 @@
     <div class="grid-3">
       <div class="card ghost">
         <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo">
-        <h4>{% trans "Импортные каталоги" %}</h4>
+        <h3>{% trans "Импортные каталоги" %}</h3>
         <p>{% trans "Parker, Trelleborg, SKF, Kastas и другие." %}</p>
         <a href="/catalogs/">{% trans "Перейти" %}</a>
       </div>
       <div class="card ghost">
         <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo">
-        <h4>{% trans "Гидравлика" %}</h4>
+        <h3>{% trans "Гидравлика" %}</h3>
         <p>{% trans "Справочники по условиям работы и материалам." %}</p>
         <a href="/catalogs/">{% trans "Перейти" %}</a>
       </div>
       <div class="card ghost">
         <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo">
-        <h4>{% trans "Пневматика" %}</h4>
+        <h3>{% trans "Пневматика" %}</h3>
         <p>{% trans "Подбор для высокой скорости и сухих сред." %}</p>
         <a href="/catalogs/">{% trans "Перейти" %}</a>
       </div>
@@ -209,7 +209,7 @@
       {% if case_studies %}
         {% for case in case_studies %}
           <div class="card reveal">
-            <h4>{{ case|tr:'title' }}</h4>
+            <h3>{{ case|tr:'title' }}</h3>
             {% if case.lead_time %}<p><strong>{% trans "Срок:" %}</strong> {{ case.lead_time }}</p>{% endif %}
             {% if case|tr:'task' %}<p><strong>{% trans "Задача:" %}</strong> {{ case|tr:'task' }}</p>{% endif %}
             {% if case|tr:'result' %}<p><strong>{% trans "Результат:" %}</strong> {{ case|tr:'result' }}</p>{% endif %}
@@ -217,19 +217,19 @@
         {% endfor %}
       {% else %}
         <div class="card reveal">
-          <h4>{% trans "Экскаватор JCB — подбор аналога" %}</h4>
+          <h3>{% trans "Экскаватор JCB — подбор аналога" %}</h3>
           <p><strong>{% trans "Срок:" %}</strong> 36 часов</p>
           <p><strong>{% trans "Задача:" %}</strong> {% trans "Изношенный штоковый узел без маркировки профиля." %}</p>
           <p><strong>{% trans "Результат:" %}</strong> {% trans "Подобрали аналог из PU/NBR, отгрузили комплект за 2 дня." %}</p>
         </div>
         <div class="card reveal">
-          <h4>{% trans "Линия упаковки — пневматика" %}</h4>
+          <h3>{% trans "Линия упаковки — пневматика" %}</h3>
           <p><strong>{% trans "Срок:" %}</strong> 24 часа</p>
           <p><strong>{% trans "Задача:" %}</strong> {% trans "Высокочастотный цикл и быстрый износ стандартных манжет." %}</p>
           <p><strong>{% trans "Результат:" %}</strong> {% trans "Профиль с пониженным трением, рост ресурса узла в 1.8 раза." %}</p>
         </div>
         <div class="card reveal">
-          <h4>{% trans "Гидростанция пресса — ремкомплект" %}</h4>
+          <h3>{% trans "Гидростанция пресса — ремкомплект" %}</h3>
           <p><strong>{% trans "Срок:" %}</strong> 48 часов</p>
           <p><strong>{% trans "Задача:" %}</strong> {% trans "Срочная остановка оборудования из-за утечки цилиндра." %}</p>
           <p><strong>{% trans "Результат:" %}</strong> {% trans "Собрали ремкомплект и закрыли простой в течение рабочей смены." %}</p>
@@ -250,24 +250,24 @@
         {% for review in testimonials %}
           <div class="feature reveal">
             <span>★ {{ review.rating }}/5</span>
-            <h4>{{ review.name }}{% if review.company %}, {{ review.company }}{% endif %}</h4>
+            <h3>{{ review.name }}{% if review.company %}, {{ review.company }}{% endif %}</h3>
             <p>“{{ review|tr:'text' }}”</p>
           </div>
         {% endfor %}
       {% else %}
         <div class="feature reveal">
           <span>★ 5/5</span>
-          <h4>{% trans "Снабжение, карьерная техника" %}</h4>
+          <h3>{% trans "Снабжение, карьерная техника" %}</h3>
           <p>{% trans "Оперативно подобрали замену оригиналу. Получили комплект с документами и сразу поставили в работу." %}</p>
         </div>
         <div class="feature reveal">
           <span>★ 5/5</span>
-          <h4>{% trans "Главный механик, производство" %}</h4>
+          <h3>{% trans "Главный механик, производство" %}</h3>
           <p>{% trans "Удобный формат: отправили размеры и фото, в тот же день получили варианты по материалам и срокам." %}</p>
         </div>
         <div class="feature reveal">
           <span>★ 5/5</span>
-          <h4>{% trans "Сервисная компания" %}</h4>
+          <h3>{% trans "Сервисная компания" %}</h3>
           <p>{% trans "Закрывают нестандартные позиции, есть обратная связь инженера и понятные сроки поставки." %}</p>
         </div>
       {% endif %}
@@ -285,25 +285,25 @@
       {% if faq_items %}
         {% for item in faq_items %}
           <div class="card">
-            <h4>{{ item|tr:'question' }}</h4>
+            <h3>{{ item|tr:'question' }}</h3>
             <p>{{ item|tr:'answer' }}</p>
           </div>
         {% endfor %}
       {% else %}
         <div class="card">
-          <h4>{% trans "Сколько занимает подбор аналога?" %}</h4>
+          <h3>{% trans "Сколько занимает подбор аналога?" %}</h3>
           <p>{% trans "Обычно 24–48 часов после получения размеров и условий работы." %}</p>
         </div>
         <div class="card">
-          <h4>{% trans "Можно ли по фото определить тип уплотнения?" %}</h4>
+          <h3>{% trans "Можно ли по фото определить тип уплотнения?" %}</h3>
           <p>{% trans "Да, по фото и базовым размерам мы делаем первичный подбор и уточняем детали." %}</p>
         </div>
         <div class="card">
-          <h4>{% trans "Работаете ли с нестандартными профилями?" %}</h4>
+          <h3>{% trans "Работаете ли с нестандартными профилями?" %}</h3>
           <p>{% trans "Да, изготавливаем по образцу и чертежу, включая малые партии." %}</p>
         </div>
         <div class="card">
-          <h4>{% trans "Какие материалы доступны?" %}</h4>
+          <h3>{% trans "Какие материалы доступны?" %}</h3>
           <p>{% trans "NBR, HNBR, FKM, PTFE, PU и композиты под среду, давление и температуру." %}</p>
         </div>
       {% endif %}

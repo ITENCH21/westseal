@@ -14,7 +14,7 @@
 <section class="section">
   <div class="container split">
     <div>
-      <h3>{% trans "Контакты" %}</h3>
+      <h2>{% trans "Контакты" %}</h2>
       <p><strong>{% trans "Телефон" %}:</strong> <a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></p>
       <p><strong>Email:</strong> <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>
       <p><strong>{% trans "Адрес" %}:</strong> {{ site_settings|tr:'address' }}</p>
@@ -22,7 +22,7 @@
     </div>
     <div class="card media-card">
       <img src="{% static 'img/ai/contacts-delivery.webp' %}" alt="WESTSEAL packaging">
-      <h3>{% trans "Заявка" %}</h3>
+      <h2>{% trans "Заявка" %}</h2>
       <p>{% trans "Опишите задачу, укажите параметры и материал." %}</p>
       <a class="btn primary" href="/support/requests/new/">{% trans "Создать заявку" %}</a>
     </div>
