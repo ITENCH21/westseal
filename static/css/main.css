@@ -115,13 +115,18 @@ a {
   background: rgba(209, 55, 61, 0.1);
 }
 
-.site-header {
+.sticky-top-bar {
   position: sticky;
   top: 0;
+  z-index: 100;
+}
+
+.site-header {
+  position: relative;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  z-index: 100;
+  z-index: 1;
   border-bottom: 1px solid rgba(226, 232, 242, 0.8);
   box-shadow: 0 1px 0 rgba(11, 16, 32, 0.04);
 }
@@ -3728,14 +3733,14 @@ textarea {
   display: none;
 }
 
+.catalog-ticker-wrap::-webkit-scrollbar,.catalog-subticker-wrap::-webkit-scrollbar { display: none; }
+
 /* Mobile ≤760px */
 @media (max-width: 760px) {
   /* Sticky strip pinned under the header (~60px tall on mobile) */
   .global-ticker-nav {
     display: block;
-    position: sticky;
-    top: 60px;
-    z-index: 70;
+    position: static;
     background: var(--background);
     border-bottom: 1px solid var(--steel);
     box-shadow: 0 4px 12px rgba(11,16,32,0.07);
@@ -3764,13 +3769,16 @@ textarea {
   /* ---- Nav menu ticker (site pages, scrolls right) ---- */
   .nav-menu-ticker-wrap {
     display: block;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
     padding: 8px 0 4px;
     background: var(--background);
     border-bottom: 1px solid var(--steel);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
   }
+  .nav-menu-ticker-wrap::-webkit-scrollbar { display: none; }
 
   .nav-menu-ticker-track {
     display: flex;
@@ -3780,8 +3788,7 @@ textarea {
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
-    will-change: transform;
-    padding: 2px 8px;
+padding: 2px 8px;
   }
   .nav-menu-ticker-track:active { cursor: grabbing; }
 
@@ -3823,11 +3830,15 @@ textarea {
   .catalog-ticker-wrap,
   .catalog-subticker-wrap {
     display: block;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
     position: relative;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
   }
+
+  .catalog-ticker-wrap::-webkit-scrollbar,.catalog-subticker-wrap::-webkit-scrollbar { display: none; }
 
   /* ---- Главный тикер (категории) ---- */
   .catalog-ticker-wrap {
@@ -3843,8 +3854,7 @@ textarea {
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
-    will-change: transform;
-    padding: 2px 8px;
+padding: 2px 8px;
   }
   .catalog-ticker-track:active { cursor: grabbing; }
 
@@ -3896,8 +3906,7 @@ textarea {
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
-    will-change: transform;
-    padding: 2px 8px;
+padding: 2px 8px;
   }
   .catalog-subticker-track:active { cursor: grabbing; }
 
