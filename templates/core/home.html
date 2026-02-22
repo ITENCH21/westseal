@@ -3,6 +3,10 @@
 {% load i18n_extras %}
 {% load static %}
 
+{% block head %}
+<link rel="preload" as="image" href="{% static 'img/ai/hero.webp' %}" type="image/webp">
+{% endblock %}
+
 {% block content %}
 <section class="hero">
   <div class="container hero-grid">
@@ -32,7 +36,7 @@
     </div>
     <div class="hero-visual">
       <div class="lottie pulse" data-lottie="{% static 'lottie/pulse.json' %}"></div>
-      <img class="hero-image" src="{% static 'img/ai/hero.png' %}" alt="WESTSEAL hydraulic seals">
+      <img class="hero-image" src="{% static 'img/ai/hero.webp' %}" alt="WESTSEAL hydraulic seals" width="1536" height="1024" fetchpriority="high" loading="eager">
       <div class="hero-card tilt">
         <h4>{% trans "Экспресс‑подбор" %}</h4>
         <p>{% trans "Отправьте чертеж, фото или старое уплотнение — мы подберем аналог." %}</p>
@@ -74,7 +78,7 @@
       <p>{% trans "Закрываем задачи от штучных деталей до серийных поставок." %}</p>
     </div>
     <div class="grid-3">
-      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото гидравлических уплотнений' %}" style="--peek-img: url('{% static 'img/ai/грязесьемники.png' %}');">
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото гидравлических уплотнений' %}" style="--peek-img: url('{% static 'img/ai/грязесьемники.webp' %}');">
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <span class="fold-corner" aria-hidden="true"></span>
@@ -82,11 +86,11 @@
             <p>{% trans "Штоковые, поршневые, грязесъемники, направляющие кольца." %}</p>
           </div>
           <div class="flip-face flip-back">
-            <img src="{% static 'img/ai/грязесьемники.png' %}" alt="{% trans 'Гидравлические уплотнения' %}">
+            <img src="{% static 'img/ai/грязесьемники.webp' %}" alt="{% trans 'Гидравлические уплотнения' %}">
           </div>
         </div>
       </div>
-      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото пневматических уплотнений' %}" style="--peek-img: url('{% static 'img/ai/пневматические.png' %}');">
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото пневматических уплотнений' %}" style="--peek-img: url('{% static 'img/ai/пневматические.webp' %}');">
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <span class="fold-corner" aria-hidden="true"></span>
@@ -94,11 +98,11 @@
             <p>{% trans "Высокая скорость, минимальное трение, устойчивость к износу." %}</p>
           </div>
           <div class="flip-face flip-back">
-            <img src="{% static 'img/ai/пневматические.png' %}" alt="{% trans 'Пневматические уплотнения' %}">
+            <img src="{% static 'img/ai/пневматические.webp' %}" alt="{% trans 'Пневматические уплотнения' %}">
           </div>
         </div>
       </div>
-      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото ремкомплектов' %}" style="--peek-img: url('{% static 'img/ai/ремкомплект.png' %}');">
+      <div class="card tilt reveal flip-card" tabindex="0" role="button" aria-label="{% trans 'Открыть фото ремкомплектов' %}" style="--peek-img: url('{% static 'img/ai/ремкомплект.webp' %}');">
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <span class="fold-corner" aria-hidden="true"></span>
@@ -106,7 +110,7 @@
             <p>{% trans "Подбор аналогов и поставка комплектов под технику." %}</p>
           </div>
           <div class="flip-face flip-back">
-            <img src="{% static 'img/ai/ремкомплект.png' %}" alt="{% trans 'Ремкомплекты' %}">
+            <img src="{% static 'img/ai/ремкомплект.webp' %}" alt="{% trans 'Ремкомплекты' %}">
           </div>
         </div>
       </div>
@@ -307,7 +311,7 @@
   </div>
 </section>
 
-<div class="lead-modal" id="lead-modal" aria-hidden="true">
+<div class="lead-modal" id="lead-modal" aria-hidden="true" inert>
   <div class="lead-modal-backdrop" data-close-lead></div>
   <div class="lead-modal-card">
     <button type="button" class="lead-close" data-close-lead>×</button>

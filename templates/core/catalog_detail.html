@@ -80,7 +80,7 @@
       {% if product.image %}
         <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
       {% else %}
-        <img src="{% static 'img/ai/hero.png' %}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
+        <img src="{% static 'img/ai/hero.webp' %}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
       {% endif %}
       <a class="btn primary" href="/support/requests/new/">{% trans "Оформить заявку" %}</a>
     </div>

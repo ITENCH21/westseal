@@ -14,11 +14,11 @@
   <link rel="canonical" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
-  <meta name="description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
+  {% with _meta=page|tr:'meta_desc' _sub=page|tr:'hero_subtitle' %}<meta name="description" content="{{ seo_desc|default:_meta|default:_sub|truncatechars:160 }}">{% endwith %}
   <meta property="og:site_name" content="WESTSEAL">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
-  <meta property="og:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
+  {% with _meta=page|tr:'meta_desc' _sub=page|tr:'hero_subtitle' %}<meta property="og:description" content="{{ seo_desc|default:_meta|default:_sub|truncatechars:160 }}">{% endwith %}
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:image" content="{{ site_url }}{% static 'img/ai/logoneo.png' %}">
@@ -26,7 +26,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
-  <meta name="twitter:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
+  {% with _meta=page|tr:'meta_desc' _sub=page|tr:'hero_subtitle' %}<meta name="twitter:description" content="{{ seo_desc|default:_meta|default:_sub|truncatechars:160 }}">{% endwith %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
   <script defer src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
@@ -73,7 +73,7 @@
           <form action="{% url 'set_language' %}" method="post" class="lang-switch">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ request.get_full_path }}">
-            <select name="language" onchange="this.form.submit()">
+            <select name="language" aria-label="{% trans 'Язык' %}" onchange="this.form.submit()">
               <option value="ru" {% if request.LANGUAGE_CODE == 'ru' %}selected{% endif %}>RU</option>
               <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN</option>
             </select>
@@ -93,7 +93,7 @@
   {# ── Global mobile nav ticker — shows on every page, sticky under header ── #}
   <div class="global-ticker-nav" id="global-ticker-nav">
     {# 1) Nav menu ticker (site pages, scrolls RIGHT) #}
-    <div class="nav-menu-ticker-wrap" id="nav-menu-ticker-wrap" aria-hidden="true">
+    <div class="nav-menu-ticker-wrap" id="nav-menu-ticker-wrap" aria-hidden="true" inert>
       <div class="nav-menu-ticker-track" id="nav-menu-ticker-track">
         <a class="nav-menu-ticker-item {% if current_section == 'products' %}is-active{% endif %}" href="/products/">{% trans "Продукция" %}</a>
         <a class="nav-menu-ticker-item {% if current_section == 'catalog' %}is-active{% endif %}" href="/catalog/">{% trans "Манжеты" %}</a>
@@ -104,7 +104,7 @@
       </div>
     </div>
     {# 2) Catalog categories ticker (scrolls LEFT) #}
-    <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true">
+    <div class="catalog-ticker-wrap" id="catalog-ticker-wrap" aria-hidden="true" inert>
       <div class="catalog-ticker-track" id="catalog-ticker-track">
         <a class="catalog-ticker-item {% if current_section != 'catalog' or not request.GET.category %}is-active{% endif %}"
            data-slug="" href="/catalog/">{% trans "Каталог" %}</a>
@@ -197,7 +197,7 @@
   <div class="chat-widget">
     <button type="button" class="chat-button" id="chat-open-btn" data-track="chat_button_click">{% trans "Чат" %}</button>
   </div>
-  <aside class="chat-drawer" id="chat-drawer" aria-hidden="true">
+  <aside class="chat-drawer" id="chat-drawer" aria-hidden="true" inert>
     <div class="chat-drawer-head">
       <div class="chat-agent">
         <span class="chat-agent-avatar logo" aria-hidden="true"></span>

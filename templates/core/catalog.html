@@ -161,7 +161,7 @@
                 {% if item.image %}
                   <img src="{{ item.image.url }}" alt="{{ item.name }}">
                 {% else %}
-                  <img src="{% static 'img/ai/hero.png' %}" alt="{{ item.name }}">
+                  <img src="{% static 'img/ai/hero.webp' %}" alt="{{ item.name }}">
                 {% endif %}
               </div>
               <div class="catalog-body">
@@ -312,7 +312,7 @@
   const filteredEl = panel.querySelector("[data-import-filtered]");
   const latestEl = panel.querySelector("[data-import-latest]");
   const logEl = panel.querySelector("[data-import-log]");
-  const fallbackImage = "{% static 'img/ai/hero.png' %}";
+  const fallbackImage = "{% static 'img/ai/hero.webp' %}";
 
   const makeUrl = () => {
     const url = new URL("/catalog/import-status/", window.location.origin);

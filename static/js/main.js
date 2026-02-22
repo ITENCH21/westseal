@@ -181,6 +181,7 @@ if (chatOpenBtn && chatHideBtn && chatDrawer) {
     }
     chatDrawer.classList.add("is-open");
     chatDrawer.setAttribute("aria-hidden", "false");
+    chatDrawer.removeAttribute("inert");
     document.body.classList.add("no-scroll");
     const greeted = sessionStorage.getItem("chat_greeted") === "1";
     if (!greeted && chatGreeting) {
@@ -194,6 +195,7 @@ if (chatOpenBtn && chatHideBtn && chatDrawer) {
     trackEvent("chat_hide", { location: window.location.pathname });
     chatDrawer.classList.remove("is-open");
     chatDrawer.setAttribute("aria-hidden", "true");
+    chatDrawer.setAttribute("inert", "");
     document.body.classList.remove("no-scroll");
   };
   chatOpenBtn.addEventListener("click", openChat);
@@ -205,12 +207,14 @@ if (leadModal) {
   const openLead = () => {
     leadModal.classList.add("is-open");
     leadModal.setAttribute("aria-hidden", "false");
+    leadModal.removeAttribute("inert");
     document.body.classList.add("no-scroll");
     trackEvent("quick_lead_open", { location: window.location.pathname });
   };
   const closeLead = () => {
     leadModal.classList.remove("is-open");
     leadModal.setAttribute("aria-hidden", "true");
+    leadModal.setAttribute("inert", "");
     document.body.classList.remove("no-scroll");
   };
   document.querySelectorAll("[data-open-lead]").forEach((btn) => btn.addEventListener("click", openLead));
