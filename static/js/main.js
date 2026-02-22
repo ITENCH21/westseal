@@ -32,6 +32,95 @@ if (navToggle && mainNav) {
   });
 }
 
+// === Drag-to-scroll для горизонтальных тикеров (мобильное меню) ===
+(function initTickerDrag() {
+  const tracks = [
+    document.getElementById('nav-menu-ticker-track'),
+    document.getElementById('catalog-ticker-track'),
+    document.getElementById('catalog-subticker-track'),
+  ].filter(Boolean);
+
+  tracks.forEach((track) => {
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let offset = 0;
+    let maxOffset = 0;
+    let rafId = null;
+    let moved = false;
+
+    const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+    const getMaxOffset = () => {
+      const wrap = track.parentElement;
+      return Math.max(0, track.scrollWidth - wrap.clientWidth);
+    };
+
+    // Touch events (мобильные)
+    track.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      moved = false;
+      startX = e.touches[0].clientX - currentX;
+      maxOffset = getMaxOffset();
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const x = e.touches[0].clientX - startX;
+      currentX = clamp(x, -maxOffset, 0);
+      moved = true;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        track.style.transform = `translateX(${currentX}px)`;
+      });
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => { isDragging = false; });
+
+    // Mouse events (десктоп preview)
+    track.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      moved = false;
+      startX = e.clientX - currentX;
+      maxOffset = getMaxOffset();
+      track.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const x = e.clientX - startX;
+      currentX = clamp(x, -maxOffset, 0);
+      moved = true;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        track.style.transform = `translateX(${currentX}px)`;
+      });
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      track.style.cursor = 'grab';
+    });
+
+    // Блокируем переход по ссылке при drag
+    track.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        if (moved) e.preventDefault();
+      });
+    });
+  });
+})();
+
+// === Высота шапки → CSS-переменная --header-h (для sticky тикера) ===
+(function syncHeaderHeight() {
+  const hdr = document.querySelector('.site-header');
+  if (!hdr) return;
+  const set = () => document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+  set();
+  window.addEventListener('resize', set, { passive: true });
+})();
+
 const counters = document.querySelectorAll('[data-counter]');
 const runCounter = (el) => {
   const target = parseInt(el.dataset.counter, 10) || 0;
