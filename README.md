@@ -1,6 +1,6 @@
-# EURO-SEAL Website
+# WESTSEAL Website
 
-Django project for EURO-SEAL (hydraulic & pneumatic seals). Includes:
+Django project for WESTSEAL (hydraulic & pneumatic seals). Includes:
 - Separate pages per section
 - Admin-managed content, catalogs and media
 - User cabinet with requests + support chat
@@ -32,9 +32,9 @@ Example Postgres env:
 
 ```bash
 export POSTGRES_HOST=localhost
-export POSTGRES_DB=euroseal
-export POSTGRES_USER=euroseal
-export POSTGRES_PASSWORD=euroseal
+export POSTGRES_DB=westseal
+export POSTGRES_USER=westseal
+export POSTGRES_PASSWORD=westseal
 ```
 
 Optional env vars:
@@ -43,7 +43,7 @@ Optional env vars:
 export SITE_URL=https://your-domain.ru
 export GA4_ID=G-XXXXXXXXXX
 export YANDEX_METRIKA_ID=12345678
-export DEFAULT_TO_EMAIL=euro-seal@mail.ru
+export DEFAULT_TO_EMAIL=westseal@mail.ru
 export EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 export EMAIL_HOST=smtp.your-provider.ru
 export EMAIL_PORT=587

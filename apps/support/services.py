@@ -28,7 +28,7 @@ def send_admin_notification(subject: str, body: str) -> bool:
     to_email = _notification_recipient()
     if not to_email:
         return False
-    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@euro-seal.local")
+    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@westseal.local")
     try:
         sent = send_mail(
             subject=subject[:160],

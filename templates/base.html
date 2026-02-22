@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1f4a8a">
-  <title>{% block title %}{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }}{% endblock %} | EURO-SEAL</title>
+  <title>{% block title %}{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }}{% endblock %} | WESTSEAL</title>
   <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32.png' %}">
   <link rel="apple-touch-icon" href="{% static 'img/favicon-192.png' %}">
@@ -15,9 +15,9 @@
   <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
   <meta name="description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
-  <meta property="og:site_name" content="EURO-SEAL">
+  <meta property="og:site_name" content="WESTSEAL">
   <meta property="og:locale" content="ru_RU">
-  <meta property="og:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | EURO-SEAL">
+  <meta property="og:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
   <meta property="og:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
@@ -25,7 +25,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | EURO-SEAL">
+  <meta name="twitter:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
   <meta name="twitter:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
@@ -56,8 +56,8 @@
   <header class="site-header">
     <div class="container nav-wrap">
       <a href="/" class="logo">
-        <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="logo-img logo-light">
-        <img src="{% static 'img/logo-blue.png' %}" alt="EURO-SEAL" class="logo-img logo-dark">
+        <img src="{% static 'img/logo-red.png' %}" alt="WESTSEAL" class="logo-img logo-light">
+        <img src="{% static 'img/logo-blue.png' %}" alt="WESTSEAL" class="logo-img logo-dark">
       </a>
       {# Desktop nav — hidden on mobile (ticker replaces it) #}
       <nav class="nav" id="main-nav">
@@ -155,7 +155,7 @@
     <div class="container cta-inner">
       <div>
         <h3>{% trans "Нужно подобрать аналог или изготовить уплотнение?" %}</h3>
-        <p>{% trans "Отправьте параметры и фото — инженер EURO-SEAL ответит в течение рабочего дня." %}</p>
+        <p>{% trans "Отправьте параметры и фото — инженер WESTSEAL ответит в течение рабочего дня." %}</p>
       </div>
       <a class="btn primary" href="/support/requests/new/" data-track="band_cta_click">{% trans "Создать заявку" %}</a>
     </div>
@@ -165,8 +165,8 @@
     <div class="container footer-grid">
       <div>
         <div class="logo small">
-          <img src="{% static 'img/logo-red.png' %}" alt="EURO-SEAL" class="logo-img logo-light small">
-          <img src="{% static 'img/logo-blue.png' %}" alt="EURO-SEAL" class="logo-img logo-dark small">
+          <img src="{% static 'img/logo-red.png' %}" alt="WESTSEAL" class="logo-img logo-light small">
+          <img src="{% static 'img/logo-blue.png' %}" alt="WESTSEAL" class="logo-img logo-dark small">
         </div>
         <p>{{ site_settings|tr:'org_legal' }}</p>
         <p>{{ site_settings|tr:'address' }}</p>
@@ -204,7 +204,7 @@
       <div class="chat-agent">
         <span class="chat-agent-avatar logo" aria-hidden="true"></span>
         <div class="chat-agent-meta">
-          <strong>EURO-SEAL</strong>
+          <strong>WESTSEAL</strong>
           <span>{% trans "Инженер по гидравлическим уплотнениям" %}</span>
         </div>
       </div>

@@ -97,7 +97,7 @@ def request_create(request):
         for f in request.FILES.getlist("files"):
             RequestAttachment.objects.create(message=msg, file=f)
         send_admin_notification(
-            "Новая заявка EURO-SEAL",
+            "Новая заявка WESTSEAL",
             (
                 f"Тема: {thread.subject}\n"
                 f"Пользователь: {request.user.email}\n"
@@ -247,7 +247,7 @@ def quick_lead_create(request):
         lead.source_page = request.POST.get("source_page", "")
         lead.save()
         send_admin_notification(
-            "Новая быстрая заявка EURO-SEAL",
+            "Новая быстрая заявка WESTSEAL",
             (
                 f"Тип: {lead.get_request_type_display()}\n"
                 f"Имя: {lead.name or '-'}\n"
@@ -392,7 +392,7 @@ def admin_chat_reply(request, thread_id):
     if thread.telegram_chat_id:
         send_telegram_message(
             thread.telegram_chat_id,
-            f"Менеджер EURO-SEAL: {body}",
+            f"Менеджер WESTSEAL: {body}",
         )
 
     # Telegram: notify admin group if configured

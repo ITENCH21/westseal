@@ -21,7 +21,7 @@ items = json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 for item in items:
     title = item.get("title_ru") or item.get("title_en") or "Catalog"
-    manufacturer = item.get("manufacturer", "EURO-SEAL")
+    manufacturer = item.get("manufacturer", "WESTSEAL")
     category = item.get("category", "other")
     c1, c2 = palette.get(category, palette["other"])
     filename = (item.get("filename") or "catalog").replace(".pdf", "") + ".svg"
@@ -42,7 +42,7 @@ for item in items:
   <rect x="30" y="30" width="740" height="390" rx="28" fill="url(#g)" filter="url(#shadow)"/>
   <circle cx="650" cy="140" r="90" fill="rgba(255,255,255,0.15)"/>
   <circle cx="650" cy="140" r="55" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="16"/>
-  <text x="70" y="120" fill="#ffffff" font-size="28" font-family="Manrope, Arial, sans-serif" letter-spacing="1">EURO-SEAL</text>
+  <text x="70" y="120" fill="#ffffff" font-size="28" font-family="Manrope, Arial, sans-serif" letter-spacing="1">WESTSEAL</text>
   <text x="70" y="185" fill="#ffffff" font-size="36" font-family="Manrope, Arial, sans-serif" font-weight="700">{title}</text>
   <text x="70" y="230" fill="#f7f7f7" font-size="20" font-family="Manrope, Arial, sans-serif">{manufacturer} · {category.upper()}</text>
   <text x="70" y="360" fill="#f7f7f7" font-size="16" font-family="Manrope, Arial, sans-serif">Updated {datetime.now().strftime('%Y-%m-%d')}</text>

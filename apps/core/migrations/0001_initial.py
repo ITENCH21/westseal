@@ -148,7 +148,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("org_name", models.CharField(default="EURO-SEAL", max_length=200)),
+                ("org_name", models.CharField(default="WESTSEAL", max_length=200)),
                 (
                     "org_legal",
                     models.CharField(
@@ -158,7 +158,7 @@ class Migration(migrations.Migration):
                 ("phone", models.CharField(default="+79626849611", max_length=50)),
                 (
                     "email",
-                    models.EmailField(default="euro-seal@mail.ru", max_length=254),
+                    models.EmailField(default="westseal@mail.ru", max_length=254),
                 ),
                 (
                     "address",

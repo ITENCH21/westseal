@@ -153,10 +153,10 @@ msgstr "Need to find an alternative or manufacture a seal?"
 
 #: templates/base.html:140
 msgid ""
-"Отправьте параметры и фото — инженер EURO-SEAL ответит в течение рабочего "
+"Отправьте параметры и фото — инженер WESTSEAL ответит в течение рабочего "
 "дня."
 msgstr ""
-"Send parameters and photos — a EURO-SEAL engineer will respond within one "
+"Send parameters and photos — a WESTSEAL engineer will respond within one "
 "business day."
 
 #: templates/base.html:142 templates/core/about.html:29
@@ -696,8 +696,8 @@ msgid "Подбор аналогов и поставка комплектов п
 msgstr "Analog selection and kit supply for your equipment."
 
 #: templates/core/home.html:120
-msgid "Почему EURO-SEAL"
-msgstr "Why EURO-SEAL"
+msgid "Почему WESTSEAL"
+msgstr "Why WESTSEAL"
 
 #: templates/core/home.html:121
 msgid ""
@@ -862,8 +862,8 @@ msgid "Отзывы клиентов"
 msgstr "Customer Reviews"
 
 #: templates/core/home.html:242
-msgid "Что говорят о скорости подбора и качестве поставок EURO-SEAL."
-msgstr "What they say about EURO-SEAL selection speed and delivery quality."
+msgid "Что говорят о скорости подбора и качестве поставок WESTSEAL."
+msgstr "What they say about WESTSEAL selection speed and delivery quality."
 
 #: templates/core/home.html:256
 msgid "Снабжение, карьерная техника"
@@ -1156,10 +1156,10 @@ msgstr "Support Chat"
 
 #: templates/support/chat.html:19 templates/support/chat_embed.html:26
 msgid ""
-"Здравствуйте! Я автоматический помощник EURO-SEAL. Задайте вопрос — подберём "
+"Здравствуйте! Я автоматический помощник WESTSEAL. Задайте вопрос — подберём "
 "уплотнение и подключим менеджера при необходимости."
 msgstr ""
-"Hello! I am the EURO-SEAL automated assistant. Ask a question — we will "
+"Hello! I am the WESTSEAL automated assistant. Ask a question — we will "
 "select a seal and connect you with a manager if needed."
 
 #: templates/support/chat.html:53 templates/support/chat_embed.html:60
@@ -1200,10 +1200,10 @@ msgstr "Clear conversation (for you). The manager's history will remain."
 
 #: templates/support/chat_guest_embed.html:17
 msgid ""
-"Здравствуйте! Я автоматический помощник EURO-SEAL. Чтобы написать менеджеру "
+"Здравствуйте! Я автоматический помощник WESTSEAL. Чтобы написать менеджеру "
 "и отправить файлы, войдите или зарегистрируйтесь."
 msgstr ""
-"Hello! I am the EURO-SEAL automated assistant. To message a manager and send "
+"Hello! I am the WESTSEAL automated assistant. To message a manager and send "
 "files, please sign in or register."
 
 #: templates/support/chat_guest_embed.html:31

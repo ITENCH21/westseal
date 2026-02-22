@@ -3,11 +3,11 @@ from django.utils import timezone
 
 
 class SiteSettings(models.Model):
-    org_name = models.CharField(max_length=200, default="EURO-SEAL")
+    org_name = models.CharField(max_length=200, default="WESTSEAL")
     org_legal = models.CharField(max_length=200, default="ИП Туманов Иван Сергеевич")
     org_legal_en = models.CharField(max_length=200, blank=True, default="IE Tumanov Ivan Sergeyevich")
     phone = models.CharField(max_length=50, default="+79626849611")
-    email = models.EmailField(default="euro-seal@mail.ru")
+    email = models.EmailField(default="westseal@mail.ru")
     address = models.CharField(max_length=255, default="Арцеуловская аллея 15")
     address_en = models.CharField(max_length=255, blank=True, default="Artseulovsky alley 15")
     work_hours = models.CharField(max_length=120, blank=True, default="Пн–Пт 9:00–18:00 (МСК)")

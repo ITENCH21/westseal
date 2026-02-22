@@ -60,7 +60,7 @@ def home(request):
 
 
 def page_about(request):
-    page = _get_or_create_page("about", "about", "О компании", "About EURO-SEAL")
+    page = _get_or_create_page("about", "about", "О компании", "About WESTSEAL")
     return render(request, "core/about.html", {"page": page})
 
 
@@ -189,9 +189,9 @@ def seal_catalog(request):
                     v = (attr.get("value") or "").strip()
                     if not raw_name or not v:
                         continue
-                    # Производитель заменяем на EURO-SEAL
+                    # Производитель заменяем на WESTSEAL
                     if "производ" in raw_name.lower():
-                        specs.append({"name": "Производитель", "value": "EURO-SEAL"})
+                        specs.append({"name": "Производитель", "value": "WESTSEAL"})
                         continue
                     n = _short_attr_name(raw_name)
                     if len(v) > 38:
@@ -232,9 +232,9 @@ def seal_catalog(request):
                 else None
             ),
             "seo_desc": (
-                f"Каталог уплотнений EURO-SEAL — {subcategory.name}. "
+                f"Каталог уплотнений WESTSEAL — {subcategory.name}. "
                 f"Подбор и заказ уплотнений {subcategory.name.lower()} по техническим характеристикам." if subcategory
-                else f"Каталог уплотнений EURO-SEAL — {category.name}. "
+                else f"Каталог уплотнений WESTSEAL — {category.name}. "
                 f"Гидравлические уплотнения {category.name.lower()}: характеристики, подбор, заказ." if category
                 else None
             ),
@@ -258,7 +258,7 @@ def seal_product(request, slug):
             continue
         k, v = a["name"], a["value"]
         if "производ" in k.lower() and v.lower().strip() in _BRANDS_REPLACE:
-            v = "EURO-SEAL"
+            v = "WESTSEAL"
         attr_dict[k] = v
     for key in priority_keys:
         if key in attr_dict:
@@ -270,16 +270,16 @@ def seal_product(request, slug):
 
     cat_name = product.category.name if product.category else ""
     if spec_parts:
-        meta_desc = f"{product.name} — {cat_name}. {', '.join(spec_parts)}. Купить уплотнение в EURO-SEAL."
+        meta_desc = f"{product.name} — {cat_name}. {', '.join(spec_parts)}. Купить уплотнение в WESTSEAL."
     elif product.description:
         meta_desc = f"{product.name} — {cat_name}. {product.description[:180]}"
     else:
-        meta_desc = f"{product.name} — {cat_name}. Технические характеристики и заказ в EURO-SEAL."
+        meta_desc = f"{product.name} — {cat_name}. Технические характеристики и заказ в WESTSEAL."
     meta_desc = meta_desc[:300]
 
     meta_title = f"{product.name} — купить, характеристики"
     if cat_name:
-        meta_title = f"{product.name} | {cat_name} | EURO-SEAL"
+        meta_title = f"{product.name} | {cat_name} | WESTSEAL"
 
     page = SimpleNamespace(
         title_ru=product.name,
@@ -292,17 +292,17 @@ def seal_product(request, slug):
         if product.subcategory:
             back_url += f"&sub={product.subcategory.slug}"
 
-    # Brand for structured data — всегда EURO-SEAL
-    brand_name = "EURO-SEAL"
+    # Brand for structured data — всегда WESTSEAL
+    brand_name = "WESTSEAL"
 
-    # Очищенный список атрибутов — заменяем чужой бренд на EURO-SEAL
+    # Очищенный список атрибутов — заменяем чужой бренд на WESTSEAL
     _THIRD_PARTY_BRANDS = {"krpms", "kastas", "aston seals", "aston", "seal-tech", "sealtech", "mkt", "mkt-rti", "quers"}
     display_attrs = []
     for a in attrs:
         name = a.get("name", "")
         value = a.get("value", "")
         if "производ" in name.lower() and (value or "").lower().strip() in _THIRD_PARTY_BRANDS:
-            display_attrs.append({"name": name, "value": "EURO-SEAL"})
+            display_attrs.append({"name": name, "value": "WESTSEAL"})
         else:
             display_attrs.append(a)
 

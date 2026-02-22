@@ -100,7 +100,7 @@ class Command(BaseCommand):
         session = requests.Session()
         session.headers.update(
             {
-                "User-Agent": "Mozilla/5.0 (compatible; EURO-SEAL bot)",
+                "User-Agent": "Mozilla/5.0 (compatible; WESTSEAL bot)",
                 "Accept-Language": "ru,en;q=0.8",
             }
         )
