@@ -21,7 +21,7 @@
   <meta property="og:description" content="{{ seo_desc|default:page|tr:'meta_desc'|default:page|tr:'hero_subtitle'|default:page|tr:'body'|truncatechars:160 }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  <meta property="og:image" content="{{ site_url }}{% static 'img/logo-blue.png' %}">
+  <meta property="og:image" content="{{ site_url }}{% static 'img/ai/logoneo.png' %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -56,8 +56,7 @@
   <header class="site-header">
     <div class="container nav-wrap">
       <a href="/" class="logo">
-        <img src="{% static 'img/logo-red.png' %}" alt="WESTSEAL" class="logo-img logo-light">
-        <img src="{% static 'img/logo-blue.png' %}" alt="WESTSEAL" class="logo-img logo-dark">
+        <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img">
       </a>
       {# Desktop nav — hidden on mobile (ticker replaces it) #}
       <nav class="nav" id="main-nav">
@@ -165,8 +164,7 @@
     <div class="container footer-grid">
       <div>
         <div class="logo small">
-          <img src="{% static 'img/logo-red.png' %}" alt="WESTSEAL" class="logo-img logo-light small">
-          <img src="{% static 'img/logo-blue.png' %}" alt="WESTSEAL" class="logo-img logo-dark small">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img small">
         </div>
         <p>{{ site_settings|tr:'org_legal' }}</p>
         <p>{{ site_settings|tr:'address' }}</p>
