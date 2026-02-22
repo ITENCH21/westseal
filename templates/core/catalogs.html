@@ -30,7 +30,7 @@
         <div class="pdf-card">
           <div class="pdf-card__cover">
             {% if item.cover_image %}
-              <img src="{{ item.cover_image.url }}?v=2" alt="{{ item|tr:'title' }}" loading="lazy">
+              <img src="{{ item.cover_image.url }}?v=4" alt="{{ item|tr:'title' }}" width="800" height="450" loading="eager">
             {% else %}
               <div class="pdf-card__placeholder">PDF</div>
             {% endif %}
