@@ -3,6 +3,10 @@
 {% load i18n_extras %}
 {% load static %}
 
+{% block head %}
+<link rel="preload" as="image" href="{% static 'img/ai/catalogs.webp' %}" fetchpriority="high">
+{% endblock %}
+
 {% block content %}
 <section class="page-hero">
   <div class="container">
@@ -14,7 +18,7 @@
 <section class="section">
   <div class="container">
     <div class="media-banner">
-      <img src="{% static 'img/ai/catalogs.webp' %}" alt="WESTSEAL catalogs">
+      <img src="{% static 'img/ai/catalogs.webp' %}" alt="WESTSEAL catalogs" fetchpriority="high" loading="eager">
       <div>
         <h3>{% trans "Быстрый доступ к каталогам" %}</h3>
         <p>{% trans "Скачивайте PDF и прикладывайте их к заявке — это ускорит подбор." %}</p>
@@ -25,7 +29,7 @@
         <div class="pdf-card tilt reveal">
           <div class="pdf-card__cover">
             {% if item.cover_image %}
-              <img src="{{ item.cover_image.url }}" alt="{{ item|tr:'title' }}" loading="lazy">
+              <img src="{{ item.cover_image.url }}?v=2" alt="{{ item|tr:'title' }}" loading="lazy">
             {% else %}
               <div class="pdf-card__placeholder">PDF</div>
             {% endif %}

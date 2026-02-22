@@ -1745,28 +1745,26 @@ body.theme-dark .pdf-card:hover {
   box-shadow: 0 12px 32px rgba(6, 10, 20, 0.38), 0 4px 14px rgba(74, 140, 255, 0.16);
 }
 
-/* Обложка — высота по изображению, без пустых полей */
+/* Обложка — зарезервированное место (CLS = 0), положительный аспект */
 .pdf-card__cover {
+  position: relative;
   width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   flex-shrink: 0;
-  line-height: 0; /* убираем inline-gap под img */
+  background: #0e1222;
 }
 
 .pdf-card__cover img {
   width: 100%;
-  height: auto;          /* высота = натуральная высота картинки */
+  height: 100%;
+  object-fit: cover;
   display: block;
   transition: transform 0.35s ease;
 }
 
 .pdf-card:hover .pdf-card__cover img {
   transform: scale(1.03);
-}
-
-/* Плашка бренда поверх обложки */
-.pdf-card__cover {
-  position: relative;
 }
 
 .pdf-card__brand {
