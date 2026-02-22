@@ -10,7 +10,7 @@ class SiteSettings(models.Model):
     email = models.EmailField(default="westseal@mail.ru")
     address = models.CharField(max_length=255, default="Арцеуловская аллея 15")
     address_en = models.CharField(max_length=255, blank=True, default="Artseulovsky alley 15")
-    work_hours = models.CharField(max_length=120, blank=True, default="Пн–Пт 9:00–18:00 (МСК)")
+    work_hours = models.CharField(max_length=120, blank=True, default="Пн–Пт 9:00–22:00 (МСК)")
     hero_badge_ru = models.CharField(max_length=120, blank=True, default="Изготовление и поставка уплотнений")
     hero_badge_en = models.CharField(max_length=120, blank=True, default="Manufacture & supply of seals")
     hero_cta_text_ru = models.CharField(max_length=120, blank=True, default="Отправить заявку")
