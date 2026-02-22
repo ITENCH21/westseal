@@ -22,15 +22,19 @@
     </div>
     <div class="grid-3">
       {% for item in catalogs %}
-        <div class="card catalog-card tilt reveal">
-          {% if item.cover_image %}
-            <img src="{{ item.cover_image.url }}" alt="{{ item|tr:'title' }}">
-          {% else %}
-            <div class="catalog-cover">PDF</div>
-          {% endif %}
-          <h3>{{ item|tr:'title' }}</h3>
-          <p>{{ item|tr:'description'|truncatechars:120 }}</p>
-          <a href="{{ item.file.url }}" class="btn ghost" target="_blank">{% trans "Скачать" %}</a>
+        <div class="pdf-card tilt reveal">
+          <div class="pdf-card__cover">
+            {% if item.cover_image %}
+              <img src="{{ item.cover_image.url }}" alt="{{ item|tr:'title' }}" loading="lazy">
+            {% else %}
+              <div class="pdf-card__placeholder">PDF</div>
+            {% endif %}
+          </div>
+          <div class="pdf-card__body">
+            <h3>{{ item|tr:'title' }}</h3>
+            {% with desc=item|tr:'description' %}{% if desc %}<p>{{ desc|truncatechars:100 }}</p>{% endif %}{% endwith %}
+            <a href="{{ item.file.url }}" class="btn ghost" target="_blank">{% trans "Скачать" %}</a>
+          </div>
         </div>
       {% empty %}
         <p>{% trans "Каталоги загружаются. Добавьте PDF в админке." %}</p>
