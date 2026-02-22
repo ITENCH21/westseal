@@ -1842,9 +1842,12 @@ body.theme-dark .pdf-card__body h3 {
 .media-card img,
 .media-banner img {
   width: 100%;
+  height: auto;        /* резервируем высоту через width+height атрибуты */
+  aspect-ratio: 1 / 1; /* catalogs.webp = 1024x1024 */
   border-radius: 16px;
   margin-bottom: 12px;
   box-shadow: var(--shadow);
+  display: block;
 }
 
 .media-banner {
