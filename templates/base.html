@@ -7,26 +7,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1f4a8a">
-  <title>{% block title %}{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }}{% endblock %} | WESTSEAL</title>
+  <title>{% block title %}{% if page %}{{ page|tr:'title' }}{% else %}WESTSEAL{% endif %}{% endblock %} | WESTSEAL</title>
   <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32.png' %}">
   <link rel="apple-touch-icon" href="{% static 'img/favicon-192.png' %}">
   <link rel="canonical" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
-  {% with meta_d=page|tr:'meta_desc' sub_d=page|tr:'hero_subtitle' %}<meta name="description" content="{{ seo_desc|default:meta_d|default:sub_d|truncatechars:160 }}">{% endwith %}
+  {% with pt=page|tr:'title' pm=page|tr:'meta_title' md=page|tr:'meta_desc' sd=page|tr:'hero_subtitle' %}
+  <meta name="description" content="{{ seo_desc|default:md|default:sd|truncatechars:160 }}">
   <meta property="og:site_name" content="WESTSEAL">
   <meta property="og:locale" content="ru_RU">
-  <meta property="og:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
-  {% with meta_d=page|tr:'meta_desc' sub_d=page|tr:'hero_subtitle' %}<meta property="og:description" content="{{ seo_desc|default:meta_d|default:sub_d|truncatechars:160 }}">{% endwith %}
+  <meta property="og:title" content="{{ seo_title|default:pm|default:pt }} | WESTSEAL">
+  <meta property="og:description" content="{{ seo_desc|default:md|default:sd|truncatechars:160 }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:image" content="{{ site_url }}{% static 'img/ai/logoneo.png' %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ seo_title|default:page|tr:'meta_title'|default:page|tr:'title' }} | WESTSEAL">
-  {% with meta_d=page|tr:'meta_desc' sub_d=page|tr:'hero_subtitle' %}<meta name="twitter:description" content="{{ seo_desc|default:meta_d|default:sub_d|truncatechars:160 }}">{% endwith %}
+  <meta name="twitter:title" content="{{ seo_title|default:pm|default:pt }} | WESTSEAL">
+  <meta name="twitter:description" content="{{ seo_desc|default:md|default:sd|truncatechars:160 }}">
+  {% endwith %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -236,17 +238,35 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["LocalBusiness", "Organization"],
     "name": "{{ site_settings.org_name }}",
     "legalName": "{{ site_settings.org_legal }}",
-    "url": "{{ request.build_absolute_uri }}",
+    "url": "{{ site_url }}/",
+    "logo": "{{ site_url }}{% static 'img/ai/logoneo.png' %}",
+    "image": "{{ site_url }}{% static 'img/ai/hero.webp' %}",
     "email": "{{ site_settings.email }}",
     "telephone": "{{ site_settings.phone }}",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "{{ site_settings.address }}",
+      "addressLocality": "Москва",
+      "addressRegion": "Москва",
       "addressCountry": "RU"
-    }
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ],
+    "description": "Поставка и изготовление гидравлических и пневматических уплотнений. Подбор аналогов, малые серии, нестандартные профили.",
+    "priceRange": "₽₽",
+    "currenciesAccepted": "RUB",
+    "paymentAccepted": "Безналичный расчёт",
+    "areaServed": "RU",
+    "sameAs": []
   }
   </script>
   {% if request.path != '/' %}

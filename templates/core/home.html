@@ -86,7 +86,7 @@
             <p>{% trans "Штоковые, поршневые, грязесъемники, направляющие кольца." %}</p>
           </div>
           <div class="flip-face flip-back">
-            <img src="{% static 'img/ai/грязесьемники.webp' %}" alt="{% trans 'Гидравлические уплотнения' %}">
+            <img src="{% static 'img/ai/грязесьемники.webp' %}" alt="{% trans 'Гидравлические уплотнения' %}" loading="lazy">
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@
             <p>{% trans "Высокая скорость, минимальное трение, устойчивость к износу." %}</p>
           </div>
           <div class="flip-face flip-back">
-            <img src="{% static 'img/ai/пневматические.webp' %}" alt="{% trans 'Пневматические уплотнения' %}">
+            <img src="{% static 'img/ai/пневматические.webp' %}" alt="{% trans 'Пневматические уплотнения' %}" loading="lazy">
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@
             <p>{% trans "Подбор аналогов и поставка комплектов под технику." %}</p>
           </div>
           <div class="flip-face flip-back">
-            <img src="{% static 'img/ai/ремкомплект.webp' %}" alt="{% trans 'Ремкомплекты' %}">
+            <img src="{% static 'img/ai/ремкомплект.webp' %}" alt="{% trans 'Ремкомплекты' %}" loading="lazy">
           </div>
         </div>
       </div>
@@ -351,4 +351,45 @@
   ]
 }
 </script>
+
+{% if testimonials %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Подбор и поставка гидравлических и пневматических уплотнений",
+  "provider": {
+    "@type": "Organization",
+    "name": "{{ site_settings.org_name }}"
+  },
+  "areaServed": "RU",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "{{ testimonials|length }}",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "review": [
+    {% for t in testimonials %}
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "{{ t.name|escapejs }}"{% if t.company %},
+        "worksFor": {"@type":"Organization","name":"{{ t.company|escapejs }}"}{% endif %}
+      },
+      "reviewBody": "{{ t|tr:'text'|escapejs }}",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "{{ t.rating }}",
+        "bestRating": "5"
+      }
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
 {% endblock %}

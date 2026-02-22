@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}404 — {% trans "Страница не найдена" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="min-height:60vh;display:flex;align-items:center;text-align:center;padding:80px 24px;">
+  <div class="container" style="max-width:600px;margin:0 auto;">
+    <p style="font-size:7rem;font-weight:900;color:var(--primary);line-height:1;margin:0 0 16px;">404</p>
+    <h1 style="font-size:2rem;font-weight:700;margin:0 0 16px;">{% trans "Страница не найдена" %}</h1>
+    <p class="text-muted" style="font-size:1.1rem;margin:0 0 40px;">
+      {% trans "Возможно, она была перемещена или удалена. Воспользуйтесь навигацией или вернитесь на главную." %}
+    </p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="/" class="btn primary">{% trans "На главную" %}</a>
+      <a href="/support/requests/new/" class="btn outline">{% trans "Создать заявку" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
