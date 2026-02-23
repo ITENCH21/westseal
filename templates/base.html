@@ -102,7 +102,7 @@
     @media(max-width:480px){.logo-img{width:200px}}
     /* CLS prevention — reserve space for ticker nav before main.css loads */
     .global-ticker-nav{display:none}
-    @media(max-width:760px){.global-ticker-nav{display:block;height:94px;overflow:clip;contain:layout style paint;background:var(--background);border-bottom:1px solid var(--steel)}}
+    @media(max-width:760px){.global-ticker-nav{display:block;min-height:105px;background:var(--background);border-bottom:1px solid var(--steel)}}
   </style>
   <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>

@@ -3813,9 +3813,7 @@ textarea {
   .global-ticker-nav {
     display: block;
     position: static;
-    height: 94px;
-    overflow: clip;
-    contain: layout style paint;
+    min-height: 105px;
     background: var(--background);
     border-bottom: 1px solid var(--steel);
     box-shadow: 0 4px 12px rgba(11,16,32,0.07);
