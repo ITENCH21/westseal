@@ -2455,7 +2455,7 @@ body.theme-dark .chat-quick-btn:hover {
 }
 
 .chat-agent-avatar.logo {
-  background: #fff url("../img/logo-blue.png") center/70% no-repeat;
+  background: #fff url("../img/logo-avatar.webp") center/70% no-repeat;
 }
 
 .chat-hide-btn.icon {
@@ -2738,7 +2738,7 @@ body.theme-dark .site-footer {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #fff url("../img/logo-blue.png") center/70% no-repeat;
+  background: #fff url("../img/logo-avatar.webp") center/70% no-repeat;
   border: 2px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -3805,7 +3805,7 @@ padding: 2px 8px;
     border: 1px solid var(--steel);
     letter-spacing: 0.03em;
     text-transform: uppercase;
-    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    transition: opacity 0.18s, transform 0.15s;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -3869,7 +3869,7 @@ padding: 2px 8px;
     white-space: nowrap;
     text-decoration: none;
     border: 1px solid transparent;
-    transition: background 0.18s, color 0.18s, transform 0.15s;
+    transition: opacity 0.18s, transform 0.15s;
     -webkit-tap-highlight-color: transparent;
     letter-spacing: 0.01em;
     box-shadow: 0 2px 8px rgba(11,16,32,0.18);
@@ -3921,7 +3921,7 @@ padding: 2px 8px;
     white-space: nowrap;
     color: var(--muted);
     text-decoration: none;
-    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    transition: opacity 0.18s, transform 0.15s;
     -webkit-tap-highlight-color: transparent;
     font-family: "Manrope", monospace;
     letter-spacing: 0.02em;

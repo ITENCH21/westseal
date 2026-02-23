@@ -32,11 +32,14 @@ if (navToggle && mainNav) {
   });
 }
 
-// === Бесконечный скролл тикеров + сохранение позиции при навигации ===
+// === Бесконечный двунаправленный скролл тикеров ===
+// 3 набора пунктов, старт в set 2 (середине).
+// Буфер MARGIN = 20% от W гарантирует что даже быстрый momentum-scroll
+// словит сброс до того как упрётся в стену.
 (function initInfiniteTickers() {
   const TICKERS = [
-    { wrapId: 'nav-menu-ticker-wrap', trackId: 'nav-menu-ticker-track' },
-    { wrapId: 'catalog-ticker-wrap',  trackId: 'catalog-ticker-track'  },
+    { wrapId: 'nav-menu-ticker-wrap',    trackId: 'nav-menu-ticker-track'   },
+    { wrapId: 'catalog-ticker-wrap',     trackId: 'catalog-ticker-track'    },
     { wrapId: 'catalog-subticker-outer', trackId: 'catalog-subticker-track' },
   ];
 
@@ -45,68 +48,77 @@ if (navToggle && mainNav) {
     const track = document.getElementById(trackId);
     if (!wrap || !track || track.children.length === 0) return;
 
-    // 1) Клонируем пункты для бесконечного скролла
+    // 3 набора: оригинал + 2 клона → есть буфер в обе стороны
+    // Клоны скрыты от AT через inert-обёртку (aria-hidden не на <a>-элементах).
     const originals = Array.from(track.children);
-    originals.forEach((item) => {
-      const clone = item.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      track.appendChild(clone);
+    [0, 1].forEach(() => {
+      // Один inert-контейнер на весь набор клонов → display:contents
+      // сохраняет flex-раскладку, inert + aria-hidden убирают из AT и фокуса.
+      const ghost = document.createElement('span');
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.setAttribute('inert', '');
+      ghost.style.cssText = 'display:contents';
+      originals.forEach((item) => ghost.appendChild(item.cloneNode(true)));
+      track.appendChild(ghost);
     });
 
-    // 2) Восстанавливаем позицию с прошлой страницы
-    const storageKey = 'ticker_sl_' + wrapId;
-    const saved = sessionStorage.getItem(storageKey);
-    if (saved !== null) {
-      // Откладываем на следующий кадр — track.scrollWidth уже известен после клонирования
-      requestAnimationFrame(() => {
-        const half = track.scrollWidth / 2;
-        const pos = parseFloat(saved);
-        wrap.scrollLeft = (pos < half) ? pos : pos % half;
+    const storageKey = 'ticker_pos_' + wrapId;
+
+    requestAnimationFrame(() => {
+      const W = track.scrollWidth / 3;  // ширина одного набора
+      if (W < 10) return;
+
+      // MARGIN: чем больше — тем раньше ловим рывок до стены.
+      // 20% W надёжно покрывает любой momentum на iOS/Android.
+      const MARGIN = Math.max(80, W * 0.20);
+
+      // Восстанавливаем смещение внутри одного набора → позиция в set 2
+      const saved  = sessionStorage.getItem(storageKey);
+      const offset = saved !== null ? parseFloat(saved) % W : 0;
+      wrap.scrollLeft = W + (isNaN(offset) ? 0 : offset);
+
+      // Сохраняем смещение внутри набора при клике
+      wrap.addEventListener('click', (e) => {
+        if (e.target.closest('a[href]') && !e.defaultPrevented) {
+          sessionStorage.setItem(storageKey, ((wrap.scrollLeft % W) + W) % W);
+        }
       });
-    }
 
-    // 3) Сохраняем позицию при клике на ссылку
-    wrap.addEventListener('click', (e) => {
-      if (e.target.closest('a[href]') && !e.defaultPrevented) {
-        sessionStorage.setItem(storageKey, wrap.scrollLeft);
-      }
-    });
+      // Бесконечный цикл: вправо и влево
+      wrap.addEventListener('scroll', () => {
+        const sl = wrap.scrollLeft;
+        if (sl >= W * 2) {
+          wrap.scrollLeft = sl - W;   // ушли за set 3 → тихо назад на W
+        } else if (sl < MARGIN) {
+          wrap.scrollLeft = sl + W;   // приближаемся к 0 → вперёд на W
+        }
+      }, { passive: true });
 
-    // 4) Бесконечный цикл: при достижении середины — тихо сбрасываем назад
-    wrap.addEventListener('scroll', () => {
-      const half = track.scrollWidth / 2;
-      if (wrap.scrollLeft >= half) {
-        wrap.scrollLeft -= half;          // не вызывает ещё одного события scroll
-      }
-    }, { passive: true });
+      // Mouse-drag (десктоп/превью; тач работает через overflow-x: auto)
+      let isDragging = false, startX = 0, startSL = 0, moved = false;
 
-    // 5) Mouse drag (для десктопного превью; тач — нативный CSS scroll)
-    let isDragging = false;
-    let startX = 0;
-    let startSL = 0;
-    let moved = false;
+      track.addEventListener('mousedown', (e) => {
+        isDragging = true; moved = false;
+        startX = e.clientX; startSL = wrap.scrollLeft;
+        track.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        wrap.scrollLeft = startSL - dx;
+      });
+      document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.cursor = 'grab';
+      });
 
-    track.addEventListener('mousedown', (e) => {
-      isDragging = true; moved = false;
-      startX = e.clientX; startSL = wrap.scrollLeft;
-      track.style.cursor = 'grabbing';
-      e.preventDefault();
-    });
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 3) moved = true;
-      wrap.scrollLeft = startSL - dx;
-    });
-    document.addEventListener('mouseup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      track.style.cursor = 'grab';
-    });
-
-    // Не переходим по ссылке если это был drag, а не tap
-    track.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
+      // Блокируем переход по ссылке если был drag, а не tap
+      track.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
+      });
     });
   });
 })();

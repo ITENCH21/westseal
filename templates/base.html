@@ -100,6 +100,9 @@
     @media(max-width:760px){.logo-img{width:270px}}
     @media(max-width:600px){.logo-img{width:230px}}
     @media(max-width:480px){.logo-img{width:200px}}
+    /* CLS prevention — reserve space for ticker nav before main.css loads */
+    .global-ticker-nav{display:none}
+    @media(max-width:760px){.global-ticker-nav{display:block;min-height:94px;background:var(--background);border-bottom:1px solid var(--steel)}}
   </style>
   <link rel="preload" as="style" href="{% static 'css/main.css' %}" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="{% static 'css/main.css' %}"></noscript>
@@ -131,7 +134,10 @@
   <header class="site-header">
     <div class="container nav-wrap">
       <a href="/" class="logo">
-        <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img" width="794" height="181">
+        <picture>
+          <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img" width="794" height="181">
+        </picture>
       </a>
       {# Desktop nav — hidden on mobile (ticker replaces it) #}
       <nav class="nav" id="main-nav">
