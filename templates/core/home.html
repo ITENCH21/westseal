@@ -41,7 +41,7 @@ if ('requestIdleCallback' in window) {
     <div>
       <div class="badge">{{ site_settings|tr:'hero_badge' }}</div>
       {% trans "Изготовление и поставка уплотнений" as default_h1 %}
-      <h1>{{ page|tr:'hero_title'|default:page|tr:'title'|default:default_h1 }}</h1>
+      <h1 class="sr-only">{{ page|tr:'hero_title'|default:page|tr:'title'|default:default_h1 }}</h1>
       {% trans "Поставляем оригинальные и подбираем аналоги, проектируем и изготавливаем уплотнения под размеры и условия." as default_lead %}
       <p class="lead">{{ page|tr:'hero_subtitle'|default:default_lead }}</p>
       <div class="hero-actions">

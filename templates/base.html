@@ -102,7 +102,7 @@
     @media(max-width:480px){.logo-img{width:200px}}
     /* CLS prevention — reserve space for ticker nav before main.css loads */
     .global-ticker-nav{display:none}
-    @media(max-width:760px){.global-ticker-nav{display:block;height:94px;overflow:hidden;contain:strict;background:var(--background);border-bottom:1px solid var(--steel)}}
+    @media(max-width:760px){.global-ticker-nav{display:block;height:94px;overflow:clip;contain:layout style paint;background:var(--background);border-bottom:1px solid var(--steel)}}
   </style>
   <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
@@ -144,6 +144,10 @@
           <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img" width="400" height="91">
         </picture>
       </a>
+      {# Hamburger toggle — visible only on tablet/mobile #}
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="{% trans 'Меню' %}" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
       {# Desktop nav — hidden on mobile (ticker replaces it) #}
       <nav class="nav" id="main-nav">
         <a href="/products/" class="{% if current_section == 'products' %}active{% endif %}">{% trans "Продукция" %}</a>

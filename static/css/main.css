@@ -50,6 +50,19 @@ body.theme-dark {
   box-sizing: border-box;
 }
 
+/* Screen-reader only — visually hidden, accessible to bots and assistive tech */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 body {
   margin: 0;
   font-family: "Manrope", system-ui, -apple-system, sans-serif;
@@ -2960,8 +2973,43 @@ body.theme-dark .sticky-cta-inner {
   100% { box-shadow: 0 0 0 0 rgba(43, 130, 255, 0); }
 }
 
+/* === Hamburger toggle (hidden on desktop, visible on tablet/mobile) === */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: none;
+  border: 1px solid var(--steel);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  order: 3;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.nav-toggle.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 /* === Nav: tablet ≤900px — nav links collapse, actions shift ===  */
 @media (max-width: 900px) {
+  .nav-toggle { display: flex; }
   .nav-wrap {
     flex-wrap: nowrap;
     gap: 8px;
@@ -3072,6 +3120,8 @@ body.theme-dark .sticky-cta-inner {
 
   /* Full-screen nav overlay on mobile */
   .nav.is-open {
+    display: flex !important;
+    flex-direction: column;
     position: fixed;
     top: 60px;
     left: 0;
@@ -3082,8 +3132,23 @@ body.theme-dark .sticky-cta-inner {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     z-index: 200;
+    background: var(--surface, #fff);
+    padding: 16px 20px;
+    gap: 4px;
+    white-space: normal;
+    flex-wrap: wrap;
     border-bottom: none;
-    box-shadow: none;
+    box-shadow: var(--shadow-lg);
+  }
+  .nav.is-open a {
+    display: block;
+    padding: 12px 0;
+    font-size: 16px;
+    border-bottom: 1px solid var(--steel);
+    width: 100%;
+  }
+  .nav.is-open a:last-child {
+    border-bottom: none;
   }
 
   /* Backdrop behind the full-screen nav */
@@ -3749,8 +3814,8 @@ textarea {
     display: block;
     position: static;
     height: 94px;
-    overflow: hidden;
-    contain: strict;
+    overflow: clip;
+    contain: layout style paint;
     background: var(--background);
     border-bottom: 1px solid var(--steel);
     box-shadow: 0 4px 12px rgba(11,16,32,0.07);
