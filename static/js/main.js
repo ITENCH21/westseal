@@ -38,12 +38,12 @@ if (navToggle && mainNav) {
 // словит сброс до того как упрётся в стену.
 (function initInfiniteTickers() {
   const TICKERS = [
-    { wrapId: 'nav-menu-ticker-wrap',    trackId: 'nav-menu-ticker-track'   },
-    { wrapId: 'catalog-ticker-wrap',     trackId: 'catalog-ticker-track'    },
-    { wrapId: 'catalog-subticker-outer', trackId: 'catalog-subticker-track' },
+    { wrapId: 'nav-menu-ticker-wrap',    trackId: 'nav-menu-ticker-track',   speed: 0.4  },
+    { wrapId: 'catalog-ticker-wrap',     trackId: 'catalog-ticker-track',    speed: -0.35 },
+    { wrapId: 'catalog-subticker-outer', trackId: 'catalog-subticker-track', speed: 0.3  },
   ];
 
-  TICKERS.forEach(({ wrapId, trackId }) => {
+  TICKERS.forEach(({ wrapId, trackId, speed }) => {
     const wrap  = document.getElementById(wrapId);
     const track = document.getElementById(trackId);
     if (!wrap || !track || track.children.length === 0) return;
@@ -119,6 +119,35 @@ if (navToggle && mainNav) {
       track.querySelectorAll('a').forEach((a) => {
         a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
       });
+
+      // === Auto-scroll: медленное непрерывное движение ===
+      const dir = speed || 0.4;
+      let paused = false;
+      let pauseTimer = null;
+
+      const pauseAutoScroll = () => {
+        paused = true;
+        clearTimeout(pauseTimer);
+        pauseTimer = setTimeout(() => { paused = false; }, 2000);
+      };
+
+      // Пауза при touch / drag
+      wrap.addEventListener('touchstart', pauseAutoScroll, { passive: true });
+      wrap.addEventListener('mousedown', pauseAutoScroll);
+      wrap.addEventListener('wheel', pauseAutoScroll, { passive: true });
+
+      // rAF loop
+      let lastTime = 0;
+      const autoScroll = (now) => {
+        if (!lastTime) lastTime = now;
+        const dt = now - lastTime;
+        lastTime = now;
+        if (!paused && dt < 100) { // skip big gaps (tab was hidden)
+          wrap.scrollLeft += dir * (dt / 16); // normalize to ~60fps
+        }
+        requestAnimationFrame(autoScroll);
+      };
+      requestAnimationFrame(autoScroll);
     });
   });
 })();
