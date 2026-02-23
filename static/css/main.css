@@ -301,13 +301,11 @@ body.theme-dark .nav-aux {
   cursor: pointer;
   font-size: 15px;
   flex-shrink: 0;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: background 0.2s;
 }
 
 .btn-icon:hover {
   background: var(--surface-alt);
-  border-color: var(--blue-dark);
-  color: var(--blue-dark);
 }
 
 body.theme-dark .btn-icon {

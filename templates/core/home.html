@@ -4,8 +4,8 @@
 {% load static %}
 
 {% block head %}
-<link rel="preload" as="image" href="{% static 'img/ai/hero.webp' %}" type="image/webp"
-      imagesrcset="{% static 'img/ai/hero_800.webp' %} 800w, {% static 'img/ai/hero.webp' %} 1536w"
+<link rel="preload" as="image" href="{% static 'img/ai/hero_600.webp' %}" type="image/webp"
+      imagesrcset="{% static 'img/ai/hero_600.webp' %} 600w, {% static 'img/ai/hero_800.webp' %} 800w, {% static 'img/ai/hero.webp' %} 1536w"
       imagesizes="(max-width: 600px) 80vw, (max-width: 900px) 420px, 420px">
 <script>
 {# Lottie — load only after page becomes interactive to reduce TBT #}
@@ -40,7 +40,8 @@ if ('requestIdleCallback' in window) {
   <div class="container hero-grid">
     <div>
       <div class="badge">{{ site_settings|tr:'hero_badge' }}</div>
-      <h1>{{ page|tr:'hero_title'|default:page|tr:'title' }}</h1>
+      {% trans "Изготовление и поставка уплотнений" as default_h1 %}
+      <h1>{{ page|tr:'hero_title'|default:page|tr:'title'|default:default_h1 }}</h1>
       {% trans "Поставляем оригинальные и подбираем аналоги, проектируем и изготавливаем уплотнения под размеры и условия." as default_lead %}
       <p class="lead">{{ page|tr:'hero_subtitle'|default:default_lead }}</p>
       <div class="hero-actions">
@@ -65,7 +66,7 @@ if ('requestIdleCallback' in window) {
     <div class="hero-visual">
       <div class="lottie pulse" data-lottie="{% static 'lottie/pulse.json' %}"></div>
       <img class="hero-image"
-           srcset="{% static 'img/ai/hero_800.webp' %} 800w, {% static 'img/ai/hero.webp' %} 1536w"
+           srcset="{% static 'img/ai/hero_600.webp' %} 600w, {% static 'img/ai/hero_800.webp' %} 800w, {% static 'img/ai/hero.webp' %} 1536w"
            sizes="(max-width: 600px) 80vw, (max-width: 900px) 420px, 420px"
            src="{% static 'img/ai/hero.webp' %}"
            alt="WESTSEAL hydraulic seals" width="1536" height="1024" fetchpriority="high" loading="eager">
