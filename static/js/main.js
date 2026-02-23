@@ -64,17 +64,27 @@ if (navToggle && mainNav) {
     track.style.cursor     = 'grab';
 
     // Создаём 5 наборов (оригинал + 4 клона) → буфер 4×W с каждой стороны
+    // ВАЖНО: НЕ используем inert — он блокирует pointer events на клонах,
+    // а пользователь видит именно клоны (оригиналы сдвинуты за экран).
+    // aria-hidden скрывает от screen reader'ов, tabindex="-1" убирает из Tab-порядка.
     const originals = Array.from(track.children);
+    const storageKey = 'ticker_pos2_' + wrapId;
+
     for (let i = 0; i < 4; i++) {
       const ghost = document.createElement('span');
       ghost.setAttribute('aria-hidden', 'true');
-      ghost.setAttribute('inert', '');
       ghost.style.cssText = 'display:contents';
-      originals.forEach(item => ghost.appendChild(item.cloneNode(true)));
+      originals.forEach(item => {
+        const clone = item.cloneNode(true);
+        // Убираем клоны из Tab-порядка клавиатуры
+        if (clone.hasAttribute('href') || clone.tagName === 'A') {
+          clone.setAttribute('tabindex', '-1');
+        }
+        clone.querySelectorAll('a,[href]').forEach(a => a.setAttribute('tabindex', '-1'));
+        ghost.appendChild(clone);
+      });
       track.appendChild(ghost);
     }
-
-    const storageKey = 'ticker_pos2_' + wrapId;
 
     requestAnimationFrame(() => {
       const W = track.scrollWidth / 5;   // ширина одного набора
@@ -210,9 +220,11 @@ if (navToggle && mainNav) {
         if (!dragging) return;
         dragging = false;
         track.style.cursor = 'grab';
+        // mouseMoved не сбрасываем здесь — сбрасывается на следующем mousedown
       });
 
-      // Блокируем переход при drag (но не при tap)
+      // Блокируем переход при drag (но не при tap/touch)
+      // querySelectorAll включает и клоны (они уже в DOM без inert)
       track.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', e => { if (mouseMoved) e.preventDefault(); });
       });
