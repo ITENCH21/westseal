@@ -32,15 +32,24 @@ if (navToggle && mainNav) {
   });
 }
 
-// === Бесконечный двунаправленный скролл тикеров ===
-// 3 набора пунктов, старт в set 2 (середине).
-// Буфер MARGIN = 20% от W гарантирует что даже быстрый momentum-scroll
-// словит сброс до того как упрётся в стену.
+// === Обновляем CSS-переменную высоты шапки для sticky тикера ===
+(function updateHeaderHeight() {
+  const hdr = document.querySelector('.site-header');
+  if (!hdr) return;
+  const set = () => document.documentElement.style.setProperty('--site-header-h', hdr.offsetHeight + 'px');
+  set();
+  window.addEventListener('resize', set, { passive: true });
+})();
+
+// === Бесконечный двунаправленный тикер — transform-based, без стен ===
+// Subticker (#catalog-subticker-outer) управляется catalog.html (__initSubticker).
+// Здесь — только 1-й и 2-й тикеры.
 (function initInfiniteTickers() {
+  // speed > 0 → движение вправо-влево (контент скроллит влево)
+  // speed < 0 → движение влево-вправо (контент скроллит вправо)
   const TICKERS = [
-    { wrapId: 'nav-menu-ticker-wrap',    trackId: 'nav-menu-ticker-track',   speed: 0.4  },
-    { wrapId: 'catalog-ticker-wrap',     trackId: 'catalog-ticker-track',    speed: -0.35 },
-    { wrapId: 'catalog-subticker-outer', trackId: 'catalog-subticker-track', speed: 0.3  },
+    { wrapId: 'nav-menu-ticker-wrap', trackId: 'nav-menu-ticker-track', speed:  0.40 },
+    { wrapId: 'catalog-ticker-wrap',  trackId: 'catalog-ticker-track',  speed: -0.35 },
   ];
 
   TICKERS.forEach(({ wrapId, trackId, speed }) => {
@@ -48,106 +57,165 @@ if (navToggle && mainNav) {
     const track = document.getElementById(trackId);
     if (!wrap || !track || track.children.length === 0) return;
 
-    // 3 набора: оригинал + 2 клона → есть буфер в обе стороны
-    // Клоны скрыты от AT через inert-обёртку (aria-hidden не на <a>-элементах).
+    // Переключаемся на JS-управляемый transform: отключаем нативный scroll
+    wrap.style.overflow    = 'hidden';
+    wrap.style.touchAction = 'pan-y';   // вертикальный скролл страницы не блокируем
+    track.style.willChange = 'transform';
+    track.style.cursor     = 'grab';
+
+    // Создаём 5 наборов (оригинал + 4 клона) → буфер 4×W с каждой стороны
     const originals = Array.from(track.children);
-    [0, 1].forEach(() => {
-      // Один inert-контейнер на весь набор клонов → display:contents
-      // сохраняет flex-раскладку, inert + aria-hidden убирают из AT и фокуса.
+    for (let i = 0; i < 4; i++) {
       const ghost = document.createElement('span');
       ghost.setAttribute('aria-hidden', 'true');
       ghost.setAttribute('inert', '');
       ghost.style.cssText = 'display:contents';
-      originals.forEach((item) => ghost.appendChild(item.cloneNode(true)));
+      originals.forEach(item => ghost.appendChild(item.cloneNode(true)));
       track.appendChild(ghost);
-    });
+    }
 
-    const storageKey = 'ticker_pos_' + wrapId;
+    const storageKey = 'ticker_pos2_' + wrapId;
 
     requestAnimationFrame(() => {
-      const W = track.scrollWidth / 3;  // ширина одного набора
+      const W = track.scrollWidth / 5;   // ширина одного набора
       if (W < 10) return;
 
-      // MARGIN: чем больше — тем раньше ловим рывок до стены.
-      // 20% W надёжно покрывает любой momentum на iOS/Android.
-      const MARGIN = Math.max(80, W * 0.20);
+      // Восстанавливаем позицию с прошлой страницы или стартуем с set 2
+      const saved    = sessionStorage.getItem(storageKey);
+      const savedOff = saved !== null ? parseFloat(saved) % W : 0;
+      // pos — сколько пикселей мы сдвинули трек влево (transform: translateX(-pos))
+      let pos = W + (isNaN(savedOff) ? 0 : savedOff);
 
-      // Восстанавливаем смещение внутри одного набора → позиция в set 2
-      const saved  = sessionStorage.getItem(storageKey);
-      const offset = saved !== null ? parseFloat(saved) % W : 0;
-      wrap.scrollLeft = W + (isNaN(offset) ? 0 : offset);
+      const apply = () => { track.style.transform = `translateX(${-pos}px)`; };
 
-      // Сохраняем смещение внутри набора при клике
-      wrap.addEventListener('click', (e) => {
+      // Нормализация: держим pos в [W, W*4) — всегда ≥1W буфера с каждой стороны
+      const norm = () => {
+        const range = W * 3;
+        pos = ((pos - W) % range + range) % range + W;
+      };
+
+      apply();
+
+      // Сохраняем смещение при клике → на следующей странице начинаем с того же места
+      wrap.addEventListener('click', e => {
         if (e.target.closest('a[href]') && !e.defaultPrevented) {
-          sessionStorage.setItem(storageKey, ((wrap.scrollLeft % W) + W) % W);
+          sessionStorage.setItem(storageKey, ((pos - W) % W + W) % W);
         }
       });
 
-      // Бесконечный цикл: вправо и влево
-      wrap.addEventListener('scroll', () => {
-        const sl = wrap.scrollLeft;
-        if (sl >= W * 2) {
-          wrap.scrollLeft = sl - W;   // ушли за set 3 → тихо назад на W
-        } else if (sl < MARGIN) {
-          wrap.scrollLeft = sl + W;   // приближаемся к 0 → вперёд на W
+      // === Auto-scroll: никогда не останавливается (даже при клике) ===
+      let lt       = 0;
+      let touching = false;
+      let dragging = false;
+
+      const tick = ts => {
+        if (lt && !touching && !dragging) {
+          const dt = ts - lt;
+          if (dt > 0 && dt < 200) {      // пропускаем большие паузы (скрытая вкладка)
+            pos += speed * (dt / 16.67); // нормализация к 60fps
+            norm();
+            apply();
+          }
         }
+        lt = ts;
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+
+      // === Touch: ручная обработка с momentum-декеем ===
+      let touchStartX  = 0;
+      let touchStartY  = 0;
+      let touchLastX   = 0;
+      let touchVel     = 0;
+      let touchLastT   = 0;
+      let isHorizSwipe = false;
+      let momentumId   = null;
+
+      const cancelMomentum = () => {
+        if (momentumId) { cancelAnimationFrame(momentumId); momentumId = null; }
+      };
+
+      wrap.addEventListener('touchstart', e => {
+        touching     = true;
+        isHorizSwipe = false;
+        cancelMomentum();
+        touchStartX  = touchLastX = e.touches[0].clientX;
+        touchStartY  = e.touches[0].clientY;
+        touchVel     = 0;
+        touchLastT   = performance.now();
       }, { passive: true });
 
-      // Mouse-drag (десктоп/превью; тач работает через overflow-x: auto)
-      let isDragging = false, startX = 0, startSL = 0, moved = false;
+      wrap.addEventListener('touchmove', e => {
+        const x   = e.touches[0].clientX;
+        const y   = e.touches[0].clientY;
+        const absDx = Math.abs(x - touchStartX);
+        const absDy = Math.abs(y - touchStartY);
 
-      track.addEventListener('mousedown', (e) => {
-        isDragging = true; moved = false;
-        startX = e.clientX; startSL = wrap.scrollLeft;
+        // Определяем направление на первом значимом движении
+        if (!isHorizSwipe && (absDx > 4 || absDy > 4)) {
+          isHorizSwipe = absDx >= absDy;
+        }
+
+        if (isHorizSwipe) {
+          if (e.cancelable) e.preventDefault(); // блокируем горизонтальный скролл страницы
+          const now    = performance.now();
+          const dt     = now - touchLastT || 1;
+          const moveDx = x - touchLastX;
+          touchVel     = moveDx / dt * 16.67;  // px/frame
+          touchLastX   = x;
+          touchLastT   = now;
+          pos -= moveDx;
+          norm();
+          apply();
+        }
+      }, { passive: false });
+
+      wrap.addEventListener('touchend', () => {
+        touching = false;
+        if (!isHorizSwipe) return;
+        // Momentum: плавное затухание скорости
+        const decay = () => {
+          if (Math.abs(touchVel) < 0.15) { cancelMomentum(); return; }
+          pos -= touchVel;
+          touchVel *= 0.92;
+          norm();
+          apply();
+          momentumId = requestAnimationFrame(decay);
+        };
+        momentumId = requestAnimationFrame(decay);
+      });
+
+      // === Mouse drag (десктоп) ===
+      let mouseStartX   = 0;
+      let mousePosStart = 0;
+      let mouseMoved    = false;
+
+      track.addEventListener('mousedown', e => {
+        dragging      = true;
+        mouseMoved    = false;
+        mouseStartX   = e.clientX;
+        mousePosStart = pos;
         track.style.cursor = 'grabbing';
         e.preventDefault();
       });
-      document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const dx = e.clientX - startX;
-        if (Math.abs(dx) > 3) moved = true;
-        wrap.scrollLeft = startSL - dx;
+      document.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const dx = e.clientX - mouseStartX;
+        if (Math.abs(dx) > 3) mouseMoved = true;
+        pos = mousePosStart - dx;
+        norm();
+        apply();
       });
       document.addEventListener('mouseup', () => {
-        if (!isDragging) return;
-        isDragging = false;
+        if (!dragging) return;
+        dragging = false;
         track.style.cursor = 'grab';
       });
 
-      // Блокируем переход по ссылке если был drag, а не tap
-      track.querySelectorAll('a').forEach((a) => {
-        a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
+      // Блокируем переход при drag (но не при tap)
+      track.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', e => { if (mouseMoved) e.preventDefault(); });
       });
-
-      // === Auto-scroll: медленное непрерывное движение ===
-      const dir = speed || 0.4;
-      let paused = false;
-      let pauseTimer = null;
-
-      const pauseAutoScroll = () => {
-        paused = true;
-        clearTimeout(pauseTimer);
-        pauseTimer = setTimeout(() => { paused = false; }, 2000);
-      };
-
-      // Пауза при touch / drag
-      wrap.addEventListener('touchstart', pauseAutoScroll, { passive: true });
-      wrap.addEventListener('mousedown', pauseAutoScroll);
-      wrap.addEventListener('wheel', pauseAutoScroll, { passive: true });
-
-      // rAF loop
-      let lastTime = 0;
-      const autoScroll = (now) => {
-        if (!lastTime) lastTime = now;
-        const dt = now - lastTime;
-        lastTime = now;
-        if (!paused && dt < 100) { // skip big gaps (tab was hidden)
-          wrap.scrollLeft += dir * (dt / 16); // normalize to ~60fps
-        }
-        requestAnimationFrame(autoScroll);
-      };
-      requestAnimationFrame(autoScroll);
     });
   });
 })();

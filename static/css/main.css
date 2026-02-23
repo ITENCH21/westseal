@@ -135,7 +135,9 @@ a {
 }
 
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -3809,10 +3811,12 @@ textarea {
 
 /* Mobile ≤760px */
 @media (max-width: 760px) {
-  /* Sticky strip pinned under the header — fixed 94px height prevents CLS */
+  /* Sticky strip pinned under the header — min-height prevents CLS */
   .global-ticker-nav {
     display: block;
-    position: static;
+    position: sticky;
+    top: var(--site-header-h, 60px);
+    z-index: 99;
     min-height: 105px;
     background: var(--background);
     border-bottom: 1px solid var(--steel);
@@ -3842,8 +3846,7 @@ textarea {
   /* ---- Nav menu ticker (site pages, scrolls right) ---- */
   .nav-menu-ticker-wrap {
     display: block;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     scrollbar-width: none;
     padding: 8px 0 4px;
     background: var(--background);
@@ -3905,8 +3908,7 @@ padding: 2px 8px;
   .catalog-ticker-wrap,
   .catalog-subticker-wrap {
     display: block;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     scrollbar-width: none;
     position: relative;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
