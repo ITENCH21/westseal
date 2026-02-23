@@ -217,17 +217,7 @@ if (panel) {
   });
 }
 
-document.querySelectorAll("[data-lottie]").forEach((el) => {
-  const path = el.getAttribute("data-lottie");
-  if (!path || !window.lottie) return;
-  window.lottie.loadAnimation({
-    container: el,
-    renderer: "svg",
-    loop: true,
-    autoplay: true,
-    path,
-  });
-});
+// Lottie initialization moved to home.html for deferred loading
 
 document.querySelectorAll(".flip-card").forEach((card) => {
   card.addEventListener("click", () => {

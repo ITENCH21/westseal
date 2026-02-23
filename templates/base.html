@@ -102,31 +102,37 @@
     @media(max-width:480px){.logo-img{width:200px}}
     /* CLS prevention — reserve space for ticker nav before main.css loads */
     .global-ticker-nav{display:none}
-    @media(max-width:760px){.global-ticker-nav{display:block;min-height:94px;background:var(--background);border-bottom:1px solid var(--steel)}}
+    @media(max-width:760px){.global-ticker-nav{display:block;height:94px;overflow:hidden;contain:strict;background:var(--background);border-bottom:1px solid var(--steel)}}
   </style>
-  <link rel="preload" as="style" href="{% static 'css/main.css' %}" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="{% static 'css/main.css' %}"></noscript>
+  <link rel="preload" as="style" href="{% static 'css/main.min.css' %}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{% static 'css/main.min.css' %}"></noscript>
   <script defer src="{% static 'js/main.js' %}"></script>
-  {% if ga4_id %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{{ ga4_id }}');
-    </script>
-  {% endif %}
-  {% if yandex_metrika_id %}
-    <script>
-      window.__YANDEX_ID = {{ yandex_metrika_id }};
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-      ym({{ yandex_metrika_id }}, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer:document.referrer, url:location.href, accurateTrackBounce:true, trackLinks:true });
-    </script>
-  {% endif %}
+  {# Analytics deferred to reduce TBT — loads after page becomes interactive #}
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    function __loadAnalytics() {
+      {% if ga4_id %}
+        var gs = document.createElement('script');
+        gs.async = true;
+        gs.src = 'https://www.googletagmanager.com/gtag/js?id={{ ga4_id }}';
+        document.head.appendChild(gs);
+        gtag('js', new Date());
+        gtag('config', '{{ ga4_id }}');
+      {% endif %}
+      {% if yandex_metrika_id %}
+        window.__YANDEX_ID = {{ yandex_metrika_id }};
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        ym({{ yandex_metrika_id }}, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer:document.referrer, url:location.href, accurateTrackBounce:true, trackLinks:true });
+      {% endif %}
+    }
+    if ('requestIdleCallback' in window) { requestIdleCallback(__loadAnalytics, {timeout: 3000}); }
+    else { setTimeout(__loadAnalytics, 2000); }
+  </script>
   {% block head %}{% endblock %}
 </head>
 <body>
@@ -136,7 +142,7 @@
       <a href="/" class="logo">
         <picture>
           <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
-          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img" width="794" height="181">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img" width="400" height="91">
         </picture>
       </a>
       {# Desktop nav — hidden on mobile (ticker replaces it) #}
@@ -246,7 +252,10 @@
     <div class="container footer-grid">
       <div>
         <div class="logo small">
-          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img small" width="794" height="181">
+          <picture>
+            <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
+            <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="logo-img small" width="400" height="91" loading="lazy">
+          </picture>
         </div>
         <p>{{ site_settings|tr:'org_legal' }}</p>
         <p>{{ site_settings|tr:'address' }}</p>
@@ -358,143 +367,6 @@
     </script>
   {% endif %}
 
-  <script>
-  // ================================================================
-  // Nav menu ticker — scrolls RIGHT (opposite direction)
-  // ================================================================
-  (() => {
-    const wrap  = document.getElementById('nav-menu-ticker-wrap');
-    const track = document.getElementById('nav-menu-ticker-track');
-    if (!wrap || !track || window.innerWidth > 760) return;
-
-    const origItems = Array.from(track.children);
-    origItems.forEach(item => {
-      const clone = item.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      clone.classList.add('ticker-clone');
-      track.appendChild(clone);
-    });
-
-    const origWidth = () => {
-      let w = 0;
-      origItems.forEach(el => { w += el.offsetWidth + 8; });
-      return w;
-    };
-
-    // RTL scroll: pos starts at origWidth, decreases toward 0, then wraps
-    let pos = -1; // -1 = not yet initialized (wait for layout)
-    const speed = 0.45;
-    let dragging = false, dragStartX = 0, dragStartPos = 0;
-
-    const animate = () => {
-      if (!dragging) {
-        const hw = origWidth();
-        if (pos < 0) pos = hw; // initialize after layout
-        pos -= speed;
-        if (hw > 0 && pos <= 0) pos += hw;
-        track.style.transform = `translateX(${-pos}px)`;
-        sessionStorage.setItem('_navMenuTickerPos', pos.toFixed(2));
-      }
-      requestAnimationFrame(animate);
-    };
-
-    track.addEventListener('click', e => {
-      const item = e.target.closest('.nav-menu-ticker-item');
-      if (!item) return;
-      e.preventDefault();
-      location.href = item.getAttribute('href');
-    });
-
-    const onDS = (x) => { dragging = true; dragStartX = x; dragStartPos = pos; };
-    const onDM = (x) => {
-      if (!dragging) return;
-      const hw = origWidth();
-      pos = dragStartPos + (dragStartX - x);
-      if (hw > 0) { if (pos >= hw) pos -= hw; if (pos < 0) pos += hw; }
-      track.style.transform = `translateX(${-pos}px)`;
-    };
-    const onDE = () => { dragging = false; };
-    wrap.addEventListener('touchstart', e => onDS(e.touches[0].clientX), { passive: true });
-    wrap.addEventListener('touchmove',  e => onDM(e.touches[0].clientX),  { passive: true });
-    wrap.addEventListener('touchend',   onDE, { passive: true });
-    wrap.addEventListener('mousedown',  e => onDS(e.clientX));
-    wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDM(e.clientX); });
-    wrap.addEventListener('mouseup',    onDE);
-    wrap.addEventListener('mouseleave', onDE);
-
-    animate();
-  })();
-
-  // ================================================================
-  // Global mobile nav ticker (runs on every page)
-  // ================================================================
-  (() => {
-    const wrap  = document.getElementById('catalog-ticker-wrap');
-    const track = document.getElementById('catalog-ticker-track');
-    if (!wrap || !track || window.innerWidth > 760) return;
-
-    // Clone items for infinite loop
-    const origItems = Array.from(track.children);
-    origItems.forEach(item => {
-      const clone = item.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      clone.classList.add('ticker-clone');
-      track.appendChild(clone);
-    });
-
-    const origWidth = () => {
-      let w = 0;
-      origItems.forEach(el => { w += el.offsetWidth + 8; });
-      return w;
-    };
-
-    // Restore position across page loads
-    let pos = parseFloat(sessionStorage.getItem('_catTickerPos') || '0');
-    const speed = 0.45;
-    let dragging = false, dragStartX = 0, dragStartPos = 0;
-
-    const animate = () => {
-      if (!dragging) {
-        pos += speed;
-        const hw = origWidth();
-        if (hw > 0 && pos >= hw) pos -= hw;
-        track.style.transform = `translateX(${-pos}px)`;
-        sessionStorage.setItem('_catTickerPos', pos.toFixed(2));
-      }
-      requestAnimationFrame(animate);
-    };
-
-    // Click → AJAX on catalog page, full nav otherwise
-    track.addEventListener('click', e => {
-      const item = e.target.closest('.catalog-ticker-item');
-      if (!item) return;
-      e.preventDefault();
-      document.querySelectorAll('.catalog-ticker-item').forEach(el =>
-        el.classList.toggle('is-active', el.dataset.slug === (item.dataset.slug || '')));
-      const href = item.getAttribute('href');
-      if (typeof window.__catalogGo === 'function') window.__catalogGo(href);
-      else location.href = href;
-    });
-
-    const onDS = (x) => { dragging = true; dragStartX = x; dragStartPos = pos; };
-    const onDM = (x) => {
-      if (!dragging) return;
-      const hw = origWidth();
-      pos = dragStartPos + (dragStartX - x);
-      if (hw > 0) { if (pos >= hw) pos -= hw; if (pos < 0) pos += hw; }
-      track.style.transform = `translateX(${-pos}px)`;
-    };
-    const onDE = () => { dragging = false; };
-    wrap.addEventListener('touchstart', e => onDS(e.touches[0].clientX), { passive: true });
-    wrap.addEventListener('touchmove',  e => onDM(e.touches[0].clientX),  { passive: true });
-    wrap.addEventListener('touchend',   onDE, { passive: true });
-    wrap.addEventListener('mousedown',  e => onDS(e.clientX));
-    wrap.addEventListener('mousemove',  e => { if (e.buttons !== 1) return; onDM(e.clientX); });
-    wrap.addEventListener('mouseup',    onDE);
-    wrap.addEventListener('mouseleave', onDE);
-
-    animate();
-  })();
-  </script>
+  {# Ticker scripts removed — main.js handles all ticker initialization #}
 </body>
 </html>

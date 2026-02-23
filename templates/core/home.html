@@ -6,8 +6,33 @@
 {% block head %}
 <link rel="preload" as="image" href="{% static 'img/ai/hero.webp' %}" type="image/webp"
       imagesrcset="{% static 'img/ai/hero_800.webp' %} 800w, {% static 'img/ai/hero.webp' %} 1536w"
-      imagesizes="(max-width: 900px) 800px, 1536px">
-<script defer src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+      imagesizes="(max-width: 600px) 80vw, (max-width: 900px) 420px, 420px">
+<script>
+{# Lottie — load only after page becomes interactive to reduce TBT #}
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(function() {
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js';
+    s.onload = function() {
+      document.querySelectorAll('[data-lottie]').forEach(function(el) {
+        window.lottie.loadAnimation({container:el,renderer:'svg',loop:true,autoplay:true,path:el.getAttribute('data-lottie')});
+      });
+    };
+    document.head.appendChild(s);
+  }, {timeout: 4000});
+} else {
+  setTimeout(function() {
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js';
+    s.onload = function() {
+      document.querySelectorAll('[data-lottie]').forEach(function(el) {
+        window.lottie.loadAnimation({container:el,renderer:'svg',loop:true,autoplay:true,path:el.getAttribute('data-lottie')});
+      });
+    };
+    document.head.appendChild(s);
+  }, 3000);
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -41,11 +66,11 @@
       <div class="lottie pulse" data-lottie="{% static 'lottie/pulse.json' %}"></div>
       <img class="hero-image"
            srcset="{% static 'img/ai/hero_800.webp' %} 800w, {% static 'img/ai/hero.webp' %} 1536w"
-           sizes="(max-width: 900px) 800px, 1536px"
+           sizes="(max-width: 600px) 80vw, (max-width: 900px) 420px, 420px"
            src="{% static 'img/ai/hero.webp' %}"
            alt="WESTSEAL hydraulic seals" width="1536" height="1024" fetchpriority="high" loading="eager">
       <div class="hero-card tilt">
-        <h3>{% trans "Экспресс‑подбор" %}</h3>
+        <h2 class="h3-visual">{% trans "Экспресс‑подбор" %}</h2>
         <p>{% trans "Отправьте чертеж, фото или старое уплотнение — мы подберем аналог." %}</p>
         <a href="/support/requests/new/" data-track="hero_card_request_click">{% trans "Создать заявку" %}</a>
       </div>
@@ -94,7 +119,7 @@
           </div>
           <div class="flip-face flip-back">
             <img srcset="{% static 'img/ai/грязесьемники_800.webp' %} 800w, {% static 'img/ai/грязесьемники.webp' %} 1536w"
-                 sizes="(max-width: 900px) 800px, 1536px"
+                 sizes="(max-width: 600px) 92vw, (max-width: 900px) 45vw, 340px"
                  src="{% static 'img/ai/грязесьемники.webp' %}"
                  alt="{% trans 'Гидравлические уплотнения' %}" loading="lazy" width="1536" height="1024">
           </div>
@@ -109,7 +134,7 @@
           </div>
           <div class="flip-face flip-back">
             <img srcset="{% static 'img/ai/пневматические_800.webp' %} 800w, {% static 'img/ai/пневматические.webp' %} 1536w"
-                 sizes="(max-width: 900px) 800px, 1536px"
+                 sizes="(max-width: 600px) 92vw, (max-width: 900px) 45vw, 340px"
                  src="{% static 'img/ai/пневматические.webp' %}"
                  alt="{% trans 'Пневматические уплотнения' %}" loading="lazy" width="1536" height="1024">
           </div>
@@ -124,7 +149,7 @@
           </div>
           <div class="flip-face flip-back">
             <img srcset="{% static 'img/ai/ремкомплект_800.webp' %} 800w, {% static 'img/ai/ремкомплект.webp' %} 1536w"
-                 sizes="(max-width: 900px) 800px, 1536px"
+                 sizes="(max-width: 600px) 92vw, (max-width: 900px) 45vw, 340px"
                  src="{% static 'img/ai/ремкомплект.webp' %}"
                  alt="{% trans 'Ремкомплекты' %}" loading="lazy" width="1536" height="1024">
           </div>
@@ -196,7 +221,7 @@
       <div class="card ghost">
         <picture>
           <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
-          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo" width="794" height="181" loading="lazy">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo" width="400" height="91" loading="lazy">
         </picture>
         <h3>{% trans "Импортные каталоги" %}</h3>
         <p>{% trans "Parker, Trelleborg, SKF, Kastas и другие." %}</p>
@@ -205,7 +230,7 @@
       <div class="card ghost">
         <picture>
           <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
-          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo" width="794" height="181" loading="lazy">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo" width="400" height="91" loading="lazy">
         </picture>
         <h3>{% trans "Гидравлика" %}</h3>
         <p>{% trans "Справочники по условиям работы и материалам." %}</p>
@@ -214,7 +239,7 @@
       <div class="card ghost">
         <picture>
           <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
-          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo" width="794" height="181" loading="lazy">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" class="section-logo" width="400" height="91" loading="lazy">
         </picture>
         <h3>{% trans "Пневматика" %}</h3>
         <p>{% trans "Подбор для высокой скорости и сухих сред." %}</p>
