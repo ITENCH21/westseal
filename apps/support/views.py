@@ -415,7 +415,7 @@ def admin_chat_list(request):
 
     for t in qs:
         t.unread_count = t.messages.filter(
-            via__in=("site", "telegram"), is_hidden_by_user=False,
+            via__in=("site", "telegram"), is_admin_seen=False,
         ).count()
         t.search_snippets = search_matches.get(t.id, [])
 
@@ -430,6 +430,10 @@ def admin_chat_list(request):
 def admin_chat_thread(request, thread_id):
     """Полноэкранный чат с конкретным пользователем."""
     thread = get_object_or_404(SupportChatThread, pk=thread_id)
+    # Помечаем все входящие от пользователя сообщения как просмотренные администратором
+    thread.messages.filter(
+        via__in=("site", "telegram"), is_admin_seen=False
+    ).update(is_admin_seen=True)
     msgs = (
         thread.messages
         .select_related("author")
@@ -448,10 +452,11 @@ def admin_chat_thread(request, thread_id):
 @staff_member_required
 @require_POST
 def admin_chat_reply(request, thread_id):
-    """Admins send a reply. Broadcasts via WS + optionally Telegram."""
+    """Admins send a reply. Broadcasts via WS + optionally Telegram. Supports file uploads."""
     thread = get_object_or_404(SupportChatThread, pk=thread_id)
     body = (request.POST.get("body") or "").strip()
-    if not body:
+    files = request.FILES.getlist("files")
+    if not body and not files:
         return JsonResponse({"ok": False, "error": "empty"})
 
     msg = SupportChatMessage.objects.create(
@@ -460,6 +465,11 @@ def admin_chat_reply(request, thread_id):
         body=body,
         via="admin",
     )
+    for f in files:
+        SupportChatAttachment.objects.create(message=msg, file=f)
+    # Перечитываем сообщение с вложениями для корректной сериализации
+    msg.refresh_from_db()
+    msg = SupportChatMessage.objects.prefetch_related("attachments").get(pk=msg.pk)
     # WebSocket broadcast to the user's chat
     _broadcast_chat_message(msg)
 
@@ -498,7 +508,12 @@ def admin_chat_messages_api(request, thread_id):
         .prefetch_related("attachments")
         .order_by("id")[:80]
     )
-    msgs = [_serialize_chat_message(m, request.user.id) for m in queryset]
+    msgs_list = list(queryset)
+    # Помечаем входящие сообщения как просмотренные
+    user_msg_ids = [m.id for m in msgs_list if m.via in ("site", "telegram") and not m.is_admin_seen]
+    if user_msg_ids:
+        SupportChatMessage.objects.filter(id__in=user_msg_ids).update(is_admin_seen=True)
+    msgs = [_serialize_chat_message(m, request.user.id) for m in msgs_list]
     return JsonResponse({"messages": msgs})
 
 
@@ -511,8 +526,8 @@ def admin_counts_api(request):
     """Return JSON with unread/new counts for admin sidebar badges."""
     requests_new = RequestThread.objects.filter(status=RequestStatus.SENT).count()
     chats_new = SupportChatThread.objects.filter(
-        status="open", messages__via__in=("site", "telegram"),
-        messages__is_hidden_by_user=False,
+        messages__via__in=("site", "telegram"),
+        messages__is_admin_seen=False,
     ).distinct().count()
     return JsonResponse({"requests_new": requests_new, "chats_new": chats_new})
 

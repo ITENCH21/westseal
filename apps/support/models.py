@@ -94,6 +94,8 @@ class SupportChatMessage(models.Model):
     is_bot = models.BooleanField(default=False)
     is_hidden_by_user = models.BooleanField(default=False,
         help_text="Скрыто клиентом (очистка беседы). В БД сохраняется.")
+    is_admin_seen = models.BooleanField(default=False,
+        help_text="Сообщение просмотрено администратором.")
     # TG message_id форварда этого сообщения администратору.
     # Reply на этот ID в чате Ивана → ответ уйдёт именно этому пользователю на сайт.
     admin_tg_message_id = models.BigIntegerField(
