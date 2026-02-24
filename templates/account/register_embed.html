@@ -14,29 +14,107 @@
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next_url }}">
       <input type="hidden" name="embed" value="{% if embed_mode %}1{% else %}0{% endif %}">
+      {# Honeypot: боты заполтяют, люди не видят #}
+      <div class="hp-field" aria-hidden="true">
+        <label>Сайт {{ form.website }}</label>
+      </div>
+      {{ form.reg_ts }}
       <h2 style="margin:0 0 4px;">{% trans "Регистрация" %}</h2>
       {{ form.non_field_errors }}
       <label>Email
         {{ form.email }}
+        {% if form.email.errors %}<span class="field-error">{{ form.email.errors|join:", " }}</span>{% endif %}
       </label>
       <label>{% trans "Телефон" %}
         {{ form.phone }}
+        {% if form.phone.errors %}<span class="field-error">{{ form.phone.errors|join:", " }}</span>{% endif %}
       </label>
       <label>{% trans "Имя" %}
         {{ form.first_name }}
+        {% if form.first_name.errors %}<span class="field-error">{{ form.first_name.errors|join:", " }}</span>{% endif %}
       </label>
       <label>{% trans "Фамилия" %}
         {{ form.last_name }}
+        {% if form.last_name.errors %}<span class="field-error">{{ form.last_name.errors|join:", " }}</span>{% endif %}
       </label>
       <label>{% trans "Пароль" %}
-        {{ form.password1 }}
+        <div class="pw-wrap">
+          {{ form.password1 }}
+          <button type="button" class="pw-eye" data-target="id_password1" aria-label="{% trans 'Показать пароль' %}">
+            <svg class="eye-icon eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-icon eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        {% if form.password1.errors %}<span class="field-error">{{ form.password1.errors|join:", " }}</span>{% endif %}
+        <ul class="pw-hints" id="pw-hints">
+          <li class="pw-hint" id="hint-len">{% trans "Не менее 8 символов" %}</li>
+          <li class="pw-hint" id="hint-num">{% trans "Не только цифры" %}</li>
+        </ul>
       </label>
       <label>{% trans "Повторите пароль" %}
-        {{ form.password2 }}
+        <div class="pw-wrap">
+          {{ form.password2 }}
+          <button type="button" class="pw-eye" data-target="id_password2" aria-label="{% trans 'Показать пароль' %}">
+            <svg class="eye-icon eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-icon eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        {% if form.password2.errors %}<span class="field-error">{{ form.password2.errors|join:", " }}</span>{% endif %}
+        <p class="pw-match" id="pw-match"></p>
       </label>
       <button class="btn primary" type="submit">{% trans "Создать" %}</button>
       <p style="margin:0;"><a href="/account/login/?embed=1&next={{ next_url|urlencode }}">{% trans "Уже есть аккаунт? Войти" %}</a></p>
     </form>
   </section>
+  <script>
+  (function () {
+    // Timestamp anti-bot
+    var tsField = document.querySelector('input[name="reg_ts"]');
+    if (tsField) tsField.value = Date.now() / 1000;
+
+    document.querySelectorAll('.pw-eye').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var inp = document.getElementById(btn.dataset.target);
+        if (!inp) return;
+        var show = inp.type === 'password';
+        inp.type = show ? 'text' : 'password';
+        btn.querySelector('.eye-open').style.display = show ? 'none' : '';
+        btn.querySelector('.eye-closed').style.display = show ? '' : 'none';
+      });
+    });
+    var p1 = document.getElementById('id_password1');
+    var p2 = document.getElementById('id_password2');
+    var hintLen = document.getElementById('hint-len');
+    var hintNum = document.getElementById('hint-num');
+    var matchEl = document.getElementById('pw-match');
+    function setHint(el, ok) {
+      el.className = 'pw-hint ' + (ok ? 'ok' : 'fail');
+      el.textContent = (ok ? '✓ ' : '✗ ') + el.textContent.replace(/^[✓✗]\s/, '');
+    }
+    function updateHints() {
+      if (!p1) return;
+      var v = p1.value;
+      if (v.length > 0) {
+        setHint(hintLen, v.length >= 8);
+        setHint(hintNum, !/^\d+$/.test(v));
+      } else {
+        hintLen.className = 'pw-hint';
+        hintLen.textContent = hintLen.textContent.replace(/^[✓✗]\s/, '');
+        hintNum.className = 'pw-hint';
+        hintNum.textContent = hintNum.textContent.replace(/^[✓✗]\s/, '');
+      }
+      updateMatch();
+    }
+    function updateMatch() {
+      if (!p2 || !matchEl) return;
+      if (!p2.value) { matchEl.textContent = ''; matchEl.className = 'pw-match'; return; }
+      var same = p1.value === p2.value;
+      matchEl.className = 'pw-match ' + (same ? 'ok' : 'fail');
+      matchEl.textContent = same ? '✓ Пароли совпадают' : '✗ Пароли не совпадают';
+    }
+    if (p1) p1.addEventListener('input', updateHints);
+    if (p2) p2.addEventListener('input', updateMatch);
+  })();
+  </script>
 </body>
 </html>

@@ -1990,6 +1990,74 @@ body.theme-dark .pdf-card__body h3 {
   gap: 12px;
 }
 
+/* ── Honeypot anti-spam field (hidden from real users) ───────── */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  tabindex: -1;
+}
+
+/* ── Password field with eye toggle ─────────────────────────── */
+.pw-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.pw-wrap input {
+  width: 100%;
+  padding-right: 42px;
+}
+.pw-eye {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.18s ease;
+}
+.pw-eye:hover { color: var(--blue); }
+
+/* ── Password hints checklist ────────────────────────────────── */
+.pw-hints {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+.pw-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: color 0.18s ease;
+}
+.pw-hint.ok  { color: #22a06b; }
+.pw-hint.fail { color: #e5484d; }
+
+/* ── Password match indicator ────────────────────────────────── */
+.pw-match {
+  font-size: 12px;
+  margin: 4px 0 0;
+  transition: color 0.18s ease;
+}
+.pw-match.ok   { color: #22a06b; }
+.pw-match.fail { color: #e5484d; }
+
+/* ── Field-level error text ──────────────────────────────────── */
+.field-error {
+  font-size: 12px;
+  color: #e5484d;
+  font-weight: 400;
+}
+
 label {
   display: grid;
   gap: 6px;
