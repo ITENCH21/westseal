@@ -18,56 +18,6 @@
 
 {% block nav-global %}{% endblock %}
 
-{% block sidebar %}
-{{ block.super }}
-<div id="ws-quick-access" style="
-  background:#fff;border-radius:10px;padding:18px 20px;
-  box-shadow:0 1px 6px rgba(0,0,0,.08);margin:16px 12px 0;">
-  <h3 style="margin:0 0 12px;font-size:.72rem;color:#aaa;font-weight:700;
-    text-transform:uppercase;letter-spacing:.06em;">Быстрый доступ</h3>
-  <div style="display:flex;flex-direction:column;gap:8px;">
-    <a href="/support/admin-requests/" style="
-      display:flex;align-items:center;gap:10px;padding:10px 14px;
-      background:linear-gradient(135deg,#fff3cd,#ffe082);
-      border-radius:8px;text-decoration:none;color:#856404;
-      font-weight:600;font-size:.9rem;">
-      <span>📋</span>
-      <span>Заявки</span>
-      <span id="ws-req-badge" style="
-        margin-left:auto;background:#d1373d;color:#fff;
-        border-radius:20px;padding:1px 8px;font-size:.75rem;
-        font-weight:700;display:none;"></span>
-    </a>
-    <a href="/support/admin-chat/" style="
-      display:flex;align-items:center;gap:10px;padding:10px 14px;
-      background:linear-gradient(135deg,#e3f2fd,#bbdefb);
-      border-radius:8px;text-decoration:none;color:#0d47a1;
-      font-weight:600;font-size:.9rem;">
-      <span>💬</span>
-      <span>Чаты</span>
-      <span id="ws-chat-badge" style="
-        margin-left:auto;background:#d1373d;color:#fff;
-        border-radius:20px;padding:1px 8px;font-size:.75rem;
-        font-weight:700;display:none;"></span>
-    </a>
-  </div>
-</div>
-<script>
-(function () {
-  fetch('/support/admin-counts/', { credentials: 'same-origin' })
-    .then(r => r.ok ? r.json() : null)
-    .then(d => {
-      if (!d) return;
-      const rb = document.getElementById('ws-req-badge');
-      const cb = document.getElementById('ws-chat-badge');
-      if (d.requests_new && rb) { rb.textContent = d.requests_new; rb.style.display = 'inline-block'; }
-      if (d.chats_new    && cb) { cb.textContent = d.chats_new;    cb.style.display = 'inline-block'; }
-    })
-    .catch(() => {});
-})();
-</script>
-{% endblock %}
-
 {% block extrahead %}
 {{ block.super }}
 <style>
@@ -88,50 +38,103 @@
   }
   /* ── Top bar accent ─────────────────────────── */
   #header { background: linear-gradient(135deg,#d1373d 0%,#1f4a8a 100%); }
+  /* ── Quick access panel ─────────────────────── */
+  #ws-quick-access {
+    margin: 12px 8px 8px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.10);
+  }
+  #ws-quick-access h4 {
+    margin: 0 0 10px;
+    font-size: .68rem;
+    color: #aaa;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+  }
+  #ws-quick-access .ws-qa-links { display:flex; flex-direction:column; gap:6px; }
+  #ws-quick-access a {
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px; border-radius:7px;
+    text-decoration:none; font-weight:600; font-size:.85rem;
+    transition:opacity .15s;
+  }
+  #ws-quick-access a:hover { opacity:.82; }
+  #ws-quick-access a.ws-qa-req  { background:linear-gradient(135deg,#fff3cd,#ffe082); color:#856404; }
+  #ws-quick-access a.ws-qa-chat { background:linear-gradient(135deg,#e3f2fd,#bbdefb); color:#0d47a1; }
+  #ws-quick-access .ws-qa-badge {
+    margin-left:auto; background:#d1373d; color:#fff;
+    border-radius:20px; padding:0 7px; font-size:.72rem;
+    font-weight:700; display:none;
+  }
 </style>
 {% endblock %}
 
 {% block footer %}
 {{ block.super }}
-{# JS: inject unread badges into sidebar links #}
 <script>
 (function () {
-  function injectBadges(data) {
-    // Map of URL fragment → count
-    const targets = [
-      { href: '/support/requestthread/', count: data.requests_new },
-      { href: '/support/supportchatthread/', count: data.chats_new },
-    ];
-    targets.forEach(function (t) {
-      if (!t.count) return;
+  /* Inject quick-access panel into the left nav-sidebar (works on ALL admin pages) */
+  function injectPanel() {
+    var sticky = document.querySelector('#nav-sidebar .sticky');
+    if (!sticky || document.getElementById('ws-quick-access')) return;
+    var panel = document.createElement('div');
+    panel.id = 'ws-quick-access';
+    panel.innerHTML =
+      '<h4>Быстрый доступ</h4>' +
+      '<div class="ws-qa-links">' +
+        '<a href="/support/admin-requests/" class="ws-qa-req">' +
+          '<span>📋</span><span>Заявки</span>' +
+          '<span id="ws-req-badge" class="ws-qa-badge"></span>' +
+        '</a>' +
+        '<a href="/support/admin-chat/" class="ws-qa-chat">' +
+          '<span>💬</span><span>Чаты поддержки</span>' +
+          '<span id="ws-chat-badge" class="ws-qa-badge"></span>' +
+        '</a>' +
+      '</div>';
+    sticky.appendChild(panel);
+  }
+
+  function applyBadges(d) {
+    /* quick-access panel */
+    var rb = document.getElementById('ws-req-badge');
+    var cb = document.getElementById('ws-chat-badge');
+    if (rb) { if (d.requests_new) { rb.textContent = d.requests_new; rb.style.display = 'inline-block'; } else { rb.style.display = 'none'; } }
+    if (cb) { if (d.chats_new)    { cb.textContent = d.chats_new;    cb.style.display = 'inline-block'; } else { cb.style.display = 'none'; } }
+
+    /* nav-sidebar model links */
+    [
+      { href: '/support/requestthread/',     count: d.requests_new },
+      { href: '/support/supportchatthread/', count: d.chats_new },
+    ].forEach(function (t) {
       document.querySelectorAll('#nav-sidebar a').forEach(function (a) {
-        if (a.href && a.href.includes(t.href)) {
-          // avoid double-adding
-          if (!a.querySelector('.ws-nav-badge')) {
-            var badge = document.createElement('span');
-            badge.className = 'ws-nav-badge';
-            badge.textContent = t.count;
-            a.appendChild(badge);
-          }
-        }
+        if (!a.href || !a.href.includes(t.href)) return;
+        var el = a.querySelector('.ws-nav-badge');
+        if (t.count) {
+          if (!el) { el = document.createElement('span'); el.className = 'ws-nav-badge'; a.appendChild(el); }
+          el.textContent = t.count;
+        } else if (el) { el.remove(); }
       });
     });
   }
 
-  function loadBadges() {
+  function loadCounts() {
     fetch('/support/admin-counts/', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { if (d) injectBadges(d); })
+      .then(function (d) { if (d) applyBadges(d); })
       .catch(function () {});
   }
 
-  // Run after DOM ready and then every 60 s
+  function init() { injectPanel(); loadCounts(); }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadBadges);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    loadBadges();
+    init();
   }
-  setInterval(loadBadges, 60000);
+  setInterval(loadCounts, 60000);
 })();
 </script>
 {% endblock %}
