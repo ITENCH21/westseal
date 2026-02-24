@@ -4286,3 +4286,406 @@ padding: 2px 8px;
   color: var(--text-muted);
   line-height: 1.55;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   LK NAVIGATION — кнопка «назад» и заголовок страницы
+   ═══════════════════════════════════════════════════════════════ */
+.lk-page-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.lk-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--steel);
+  border-radius: 10px;
+  padding: 6px 12px;
+  background: var(--white);
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  white-space: nowrap;
+}
+.lk-back-btn:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: #f0f5ff;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FULL-PAGE CHAT (ЛК /support/chat/)
+   ═══════════════════════════════════════════════════════════════ */
+.lk-chat-page {
+  padding: 24px 0 0;
+}
+.lk-chat-wrap {
+  max-width: 820px;
+  margin: 0 auto 40px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Шапка */
+.lk-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-radius: 18px 18px 0 0;
+  padding: 12px 16px;
+  border-bottom: none;
+}
+.lk-chat-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+.lk-chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1f4a8a, #c62828);
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.lk-chat-title strong {
+  font-size: 14px;
+  display: block;
+}
+.lk-chat-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.lk-chat-status-dot.online { background: #22a06b; }
+
+/* Быстрые кнопки */
+.lk-chat-quick {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-top: none;
+  border-bottom: none;
+}
+
+/* Лента сообщений */
+.lk-chat-log {
+  background: #f0f2f5;
+  border: 1px solid var(--steel);
+  border-top: none;
+  border-bottom: none;
+  padding: 16px 14px;
+  height: 60vh;
+  min-height: 320px;
+  max-height: 620px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+.lk-chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  flex: 1;
+  padding: 40px 20px;
+}
+
+/* Строка ввода */
+.lk-chat-input-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: end;
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-top: 1px solid rgba(0,0,0,0.07);
+  border-radius: 0 0 18px 18px;
+}
+.lk-chat-input-bar textarea,
+.lk-chat-input-bar .chat-input {
+  width: 100%;
+  min-height: 44px;
+  max-height: 140px;
+  resize: none;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  padding: 11px 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  font-family: inherit;
+  background: #f7f9fc;
+  overflow-y: auto;
+}
+.lk-chat-input-bar textarea:focus,
+.lk-chat-input-bar .chat-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(31,74,138,0.1);
+  background: #fff;
+  outline: none;
+}
+.lk-chat-input-bar .chat-send-btn {
+  align-self: flex-end;
+}
+
+@media (max-width: 600px) {
+  .lk-chat-log { height: 55vh; min-height: 260px; }
+  .lk-chat-quick { gap: 6px; padding: 8px 10px; }
+  .lk-chat-quick .chat-quick-btn { font-size: 11px; padding: 7px 10px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REQUESTS LIST — список заявок
+   ═══════════════════════════════════════════════════════════════ */
+.req-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.req-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 20px;
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-radius: 14px;
+  min-width: 80px;
+}
+.req-stat-card.accent { border-color: rgba(31,74,138,0.35); background: #f0f5ff; }
+.req-stat-num { font-size: 22px; font-weight: 800; color: var(--ink); }
+.req-stat-label { font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+.req-new-btn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+@media (max-width: 520px) { .req-new-btn { margin-left: 0; width: 100%; justify-content: center; } }
+
+/* Фильтр-бар */
+.req-filter-bar {
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.req-filter-group { display: flex; flex-direction: column; gap: 8px; }
+.req-filter-group.dates { }
+.req-filter-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.req-status-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.status-pill {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--steel);
+  background: var(--white);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+.status-pill:hover, .status-pill.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.req-date-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.req-date-input {
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--steel);
+  font-size: 13px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  outline: none;
+}
+.req-date-input:focus { border-color: var(--blue); }
+
+/* Список карточек */
+.req-list { display: flex; flex-direction: column; gap: 10px; }
+.req-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.req-card:hover {
+  border-color: rgba(31,74,138,0.35);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+.req-card-main { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.req-card-subject { font-size: 15px; font-weight: 600; }
+.req-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.req-card-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.req-card-updated { margin-left: auto; }
+.req-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.req-empty svg { opacity: 0.3; }
+
+/* Статусные бейджи */
+.req-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.req-badge-sent     { background: #e8f0fe; color: #1a56db; }
+.req-badge-review   { background: #fff3e0; color: #e65100; }
+.req-badge-answered { background: #e8f5e9; color: #1b5e20; }
+.req-badge-closed   { background: #f5f5f5; color: #666; }
+
+/* ═══════════════════════════════════════════════════════════════
+   REQUEST DETAIL — просмотр заявки
+   ═══════════════════════════════════════════════════════════════ */
+.req-detail-wrap { max-width: 760px; }
+
+/* Тред сообщений */
+.req-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 28px;
+  background: #f7f9fc;
+  border: 1px solid var(--steel);
+  border-radius: 18px;
+  padding: 20px 18px;
+}
+.req-msg { display: flex; flex-direction: column; gap: 5px; }
+.req-msg-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.req-msg-who {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.req-msg-who.you     { background: #e8f0fe; color: #1a56db; }
+.req-msg-who.support { background: #f3e5f5; color: #6a1b9a; }
+.req-msg-bubble {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 100%;
+  background: var(--white);
+  border: 1px solid var(--steel);
+}
+.req-msg.mine .req-msg-bubble { background: #eef4ff; border-color: rgba(31,74,138,0.2); }
+.req-msg.mine .req-msg-meta   { flex-direction: row-reverse; }
+.req-msg-time { font-size: 11px; color: #aaa; }
+
+/* Форма ответа */
+.req-reply-form {
+  background: var(--white);
+  border: 1px solid var(--steel);
+  border-radius: 18px;
+  padding: 16px;
+}
+.req-reply-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.req-reply-wrap textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1px solid var(--steel);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f7f9fc;
+}
+.req-reply-wrap textarea:focus {
+  border-color: var(--blue);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(31,74,138,0.1);
+}
+.req-reply-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.req-closed-note {
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}

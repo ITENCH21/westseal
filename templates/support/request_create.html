@@ -2,12 +2,18 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% trans "Создать заявку" %}{% endblock %}
+{% block title %}{% trans "Новая заявка" %}{% endblock %}
 
 {% block content %}
 <section class="page-hero">
   <div class="container">
-    <h1>{% trans "Создать заявку" %}</h1>
+    <div class="lk-page-nav">
+      <a href="{% url 'support_requests' %}" class="lk-back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        {% trans "Мои заявки" %}
+      </a>
+      <h1>{% trans "Новая заявка" %}</h1>
+    </div>
   </div>
 </section>
 
@@ -18,14 +24,16 @@
       {{ form.non_field_errors }}
       <label>{% trans "Тема" %}
         {{ form.subject }}
+        {% if form.subject.errors %}<span class="field-error">{{ form.subject.errors|join:", " }}</span>{% endif %}
       </label>
       <label>{% trans "Описание" %}
         {{ form.message }}
+        {% if form.message.errors %}<span class="field-error">{{ form.message.errors|join:", " }}</span>{% endif %}
       </label>
-      <label>{% trans "Файлы" %}
+      <label>{% trans "Файлы (необязательно)" %}
         {{ form.files }}
       </label>
-      <button class="btn primary" type="submit">{% trans "Отправить" %}</button>
+      <button class="btn primary" type="submit">{% trans "Отправить заявку" %}</button>
     </form>
   </div>
 </section>

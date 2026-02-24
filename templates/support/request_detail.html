@@ -6,30 +6,42 @@
 {% block content %}
 <section class="page-hero">
   <div class="container">
+    <div class="lk-page-nav">
+      <a href="{% url 'support_requests' %}" class="lk-back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        {% trans "Мои заявки" %}
+      </a>
+      <span class="req-badge req-badge-{{ thread.status }}">{{ thread.get_status_display }}</span>
+    </div>
     <h1>{{ thread.subject }}</h1>
-    <p class="lead">{{ thread.get_status_display }}</p>
+    <p class="lead" style="opacity:.7;font-size:.9rem;">№{{ thread.id }} • {% trans "создана " %}{{ thread.created_at|date:"d.m.Y" }}</p>
   </div>
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="chat-log telegram">
+  <div class="container req-detail-wrap">
+
+    {# ── История сообщений ── #}
+    <div class="req-thread">
       {% for msg in thread.messages.all %}
-        <div class="chat-line {% if msg.author == request.user %}mine{% endif %}">
-          <div class="chat-meta">{{ msg.author.email }} · {{ msg.created_at|date:"d.m.Y H:i" }}</div>
-          <div class="chat-bubble">
-            <p>{{ msg.body|linebreaks }}</p>
+        <div class="req-msg {% if msg.author == request.user %}mine{% else %}admin{% endif %}">
+          <div class="req-msg-meta">
+            {% if msg.author == request.user %}
+              <span class="req-msg-who you">{% trans "Вы" %}</span>
+            {% else %}
+              <span class="req-msg-who support">{% trans "Поддержка" %}</span>
+            {% endif %}
+            <span class="req-msg-time">{{ msg.created_at|date:"d.m.Y, H:i" }}</span>
+          </div>
+          <div class="req-msg-bubble">
+            {{ msg.body|linebreaks }}
             {% if msg.attachments.all %}
               <div class="attachments-grid">
                 {% for f in msg.attachments.all %}
                   {% if f.file.url|is_image %}
-                    <a href="{{ f.file.url }}" target="_blank" class="attachment-card">
-                      <img src="{{ f.file.url }}" alt="attachment">
-                    </a>
+                    <a href="{{ f.file.url }}" target="_blank" class="attachment-card"><img src="{{ f.file.url }}" alt="attachment"></a>
                   {% elif f.file.url|is_video %}
-                    <div class="attachment-card">
-                      <video src="{{ f.file.url }}" controls></video>
-                    </div>
+                    <div class="attachment-card"><video src="{{ f.file.url }}" controls></video></div>
                   {% else %}
                     <a href="{{ f.file.url }}" target="_blank" class="attachment-file">{{ f.file.name|slice:"-40:" }}</a>
                   {% endif %}
@@ -40,17 +52,27 @@
         </div>
       {% endfor %}
     </div>
-    <form method="post" class="card form" enctype="multipart/form-data">
+
+    {# ── Форма ответа ── #}
+    {% if thread.status != 'closed' %}
+    <form method="post" class="req-reply-form" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.non_field_errors }}
-      <label>{% trans "Ответ" %}
+      <div class="req-reply-wrap">
         {{ form.body }}
-      </label>
-      <label>{% trans "Файлы" %}
-        {{ form.files }}
-      </label>
-      <button class="btn primary" type="submit">{% trans "Отправить" %}</button>
+        <div class="req-reply-actions">
+          <label class="chat-icon-btn" for="{{ form.files.id_for_label }}" title="{% trans 'Прикрепить файл' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+          </label>
+          {{ form.files }}
+          <button class="btn primary" type="submit">{% trans "Отправить" %}</button>
+        </div>
+      </div>
     </form>
+    {% else %}
+    <p class="req-closed-note">{% trans "Заявка закрыта." %} <a href="{% url 'support_request_create' %}">{% trans "Создать новую" %}</a></p>
+    {% endif %}
+
   </div>
 </section>
 {% endblock %}

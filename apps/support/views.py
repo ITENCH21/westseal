@@ -77,8 +77,40 @@ def _broadcast_chat_message(msg: SupportChatMessage):
 
 @login_required
 def request_list(request):
-    threads = RequestThread.objects.filter(user=request.user)
-    return render(request, "support/requests_list.html", {"threads": threads, "page": None})
+    from django.utils.dateparse import parse_date
+    qs = RequestThread.objects.filter(user=request.user)
+
+    # ── Фильтры ────────────────────────────────────────────────────────────
+    status_filter = request.GET.get("status", "")
+    date_from     = request.GET.get("date_from", "")
+    date_to       = request.GET.get("date_to", "")
+
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+    if date_from:
+        d = parse_date(date_from)
+        if d:
+            qs = qs.filter(created_at__date__gte=d)
+    if date_to:
+        d = parse_date(date_to)
+        if d:
+            qs = qs.filter(created_at__date__lte=d)
+
+    total = RequestThread.objects.filter(user=request.user).count()
+    open_count = RequestThread.objects.filter(
+        user=request.user, status__in=["sent", "review", "answered"]
+    ).count()
+
+    return render(request, "support/requests_list.html", {
+        "threads": qs,
+        "page": None,
+        "status_filter": status_filter,
+        "date_from": date_from,
+        "date_to": date_to,
+        "total": total,
+        "open_count": open_count,
+        "status_choices": RequestStatus.choices,
+    })
 
 
 @login_required
