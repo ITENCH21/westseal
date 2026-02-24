@@ -4,10 +4,16 @@ from django.utils import timezone
 
 
 class RequestStatus(models.TextChoices):
-    SENT = "sent", "Отправлено"
-    IN_REVIEW = "review", "На проверке"
-    ANSWERED = "answered", "Поступил ответ"
-    CLOSED = "closed", "Закрыто"
+    SENT           = "sent",           "Новая"
+    IN_REVIEW      = "review",         "Прочитана"
+    IN_WORK        = "in_work",        "В работе"
+    PAYMENT        = "payment",        "На оплате"
+    PAID           = "paid",           "Оплачено"
+    IN_TRANSIT     = "in_transit",     "В пути"
+    ANSWERED       = "answered",       "Поступил ответ"
+    CLOSED_SUCCESS = "closed_success", "Закрыта успешно"
+    CLOSED_FAIL    = "closed_fail",    "Закрыто неуспешно"
+    CLOSED         = "closed",         "Закрыто"
 
 
 class RequestThread(models.Model):
@@ -19,6 +25,8 @@ class RequestThread(models.Model):
 
     class Meta:
         ordering = ["-updated_at"]
+        verbose_name = "Заявка"
+        verbose_name_plural = "Заявки"
 
     def __str__(self) -> str:
         return f"{self.subject} ({self.get_status_display()})"
@@ -32,6 +40,8 @@ class RequestMessage(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+        verbose_name = "Сообщение заявки"
+        verbose_name_plural = "Сообщения заявок"
 
     def __str__(self) -> str:
         return f"{self.author.email}: {self.body[:30]}"
@@ -41,6 +51,10 @@ class RequestAttachment(models.Model):
     message = models.ForeignKey(RequestMessage, related_name="attachments", on_delete=models.CASCADE)
     file = models.FileField(upload_to="requests/attachments/")
     uploaded_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "Вложение заявки"
+        verbose_name_plural = "Вложения заявок"
 
     def __str__(self) -> str:
         return self.file.name
@@ -65,9 +79,11 @@ class SupportChatThread(models.Model):
 
     class Meta:
         ordering = ["-updated_at"]
+        verbose_name = "Чат поддержки"
+        verbose_name_plural = "Чаты поддержки"
 
     def __str__(self) -> str:
-        return f"Chat {self.user.email}"
+        return f"Чат {self.user.email}"
 
 
 class SupportChatMessage(models.Model):
@@ -88,6 +104,8 @@ class SupportChatMessage(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+        verbose_name = "Сообщение чата"
+        verbose_name_plural = "Сообщения чатов"
 
     def __str__(self) -> str:
         return f"{self.author.email}: {self.body[:30]}"
@@ -97,6 +115,10 @@ class SupportChatAttachment(models.Model):
     message = models.ForeignKey(SupportChatMessage, related_name="attachments", on_delete=models.CASCADE)
     file = models.FileField(upload_to="chat/attachments/")
     uploaded_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "Вложение чата"
+        verbose_name_plural = "Вложения чатов"
 
     def __str__(self) -> str:
         return self.file.name
@@ -120,6 +142,8 @@ class QuickLead(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        verbose_name = "Быстрая заявка"
+        verbose_name_plural = "Быстрые заявки"
 
     def __str__(self) -> str:
         return self.phone or self.email or f"Lead {self.pk}"

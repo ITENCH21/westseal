@@ -1,0 +1,176 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Заявки — WESTSEAL Админ</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #f0f2f7; font-family: system-ui, sans-serif; margin: 0; }
+
+    /* ── Top bar ── */
+    .ar-topbar {
+      background: #fff;
+      border-bottom: 1px solid #e6e9f0;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .ar-topbar a.ar-back { color: #1f4a8a; text-decoration: none; font-size: .88rem; white-space: nowrap; }
+    .ar-topbar a.ar-back:hover { text-decoration: underline; }
+    .ar-title { font-weight: 700; font-size: 1rem; flex: 1; white-space: nowrap; }
+    {% if new_count %}.ar-new-badge {
+      background: #d1373d; color: #fff;
+      border-radius: 20px; padding: 2px 10px;
+      font-size: .8rem; font-weight: 700; flex-shrink: 0;
+    }{% endif %}
+
+    /* ── Filter bar ── */
+    .ar-filter {
+      background: #fff;
+      border-bottom: 1px solid #e6e9f0;
+      padding: 10px 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .ar-filter input[type="text"] {
+      border: 1.5px solid #dce0ea;
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: .88rem;
+      outline: none;
+      flex: 1 1 220px;
+      min-width: 0;
+      transition: border-color .15s;
+    }
+    .ar-filter input[type="text"]:focus { border-color: #1f4a8a; }
+    .ar-filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ar-pill {
+      border: 1.5px solid #dce0ea;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: .78rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: #555;
+      background: #fff;
+      white-space: nowrap;
+      transition: all .15s;
+    }
+    .ar-pill:hover, .ar-pill.active { background: #1f4a8a; color: #fff; border-color: #1f4a8a; }
+    .ar-filter-btn {
+      background: linear-gradient(135deg, #d1373d, #1f4a8a);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 7px 18px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ── List ── */
+    .ar-wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+    .ar-list { display: flex; flex-direction: column; gap: 8px; }
+    .ar-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      transition: box-shadow .15s;
+      flex-wrap: wrap;
+    }
+    .ar-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+    .ar-num { font-size: .75rem; color: #aaa; flex-shrink: 0; width: 30px; }
+    .ar-info { flex: 1 1 200px; min-width: 0; }
+    .ar-subject { font-weight: 600; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ar-user { color: #888; font-size: .8rem; margin-top: 2px; }
+    .ar-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+    .ar-time { color: #aaa; font-size: .78rem; white-space: nowrap; }
+    .ar-msgs { color: #1f4a8a; font-size: .78rem; }
+
+    /* ── Status badges ── */
+    .ar-badge {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 3px 11px;
+      font-size: .75rem;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .ar-badge-sent           { background: #fff3cd; color: #856404; }
+    .ar-badge-review         { background: #cce5ff; color: #004085; }
+    .ar-badge-in_work        { background: #e0d7ff; color: #3d108a; }
+    .ar-badge-payment        { background: #ffe0b2; color: #7a3800; }
+    .ar-badge-paid           { background: #d4edda; color: #155724; }
+    .ar-badge-in_transit     { background: #e0f4ff; color: #0d47a1; }
+    .ar-badge-answered       { background: #d0f0e0; color: #1b5e20; }
+    .ar-badge-closed_success { background: #c8e6c9; color: #1b5e20; }
+    .ar-badge-closed_fail    { background: #ffcdd2; color: #b71c1c; }
+    .ar-badge-closed         { background: #e2e3e5; color: #383d41; }
+
+    .ar-empty { color: #999; text-align: center; padding: 40px 0; }
+    .ar-stat { font-size: .8rem; color: #888; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="ar-topbar">
+    <a class="ar-back" href="/admin/">← Панель</a>
+    <span class="ar-title">📋 Заявки</span>
+    {% if new_count %}
+      <span class="ar-new-badge">{{ new_count }} новых</span>
+    {% endif %}
+    <a class="ar-back" href="{% url 'support_admin_chat_list' %}" style="margin-left:auto">💬 Чаты</a>
+  </div>
+
+  <form class="ar-filter" method="get" action="">
+    <input type="text" name="q" value="{{ q }}" placeholder="Поиск по теме, email, тексту…">
+    <div class="ar-filter-pills">
+      <a class="ar-pill {% if not status_filter %}active{% endif %}" href="?q={{ q }}">Все</a>
+      {% for val, label in status_choices %}
+        <a class="ar-pill ar-pill-{{ val }} {% if status_filter == val %}active{% endif %}"
+           href="?q={{ q }}&status={{ val }}">{{ label }}</a>
+      {% endfor %}
+    </div>
+    <button class="ar-filter-btn" type="submit">Найти</button>
+  </form>
+
+  <div class="ar-wrap">
+    <div class="ar-stat">Найдено заявок: {{ threads|length }}</div>
+    <div class="ar-list">
+      {% for thread in threads %}
+        <a class="ar-item" href="{% url 'support_admin_request_thread' thread.id %}">
+          <div class="ar-num">#{{ thread.id }}</div>
+          <div class="ar-info">
+            <div class="ar-subject">{{ thread.subject }}</div>
+            <div class="ar-user">{{ thread.user.email }}</div>
+          </div>
+          <span class="ar-badge ar-badge-{{ thread.status }}">{{ thread.get_status_display }}</span>
+          <div class="ar-meta">
+            <span class="ar-time">{{ thread.created_at|date:"d.m.y H:i" }}</span>
+            <span class="ar-msgs">💬 {{ thread.msg_count }}</span>
+          </div>
+        </a>
+      {% empty %}
+        <p class="ar-empty">Заявок не найдено.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</body>
+</html>

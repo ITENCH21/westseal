@@ -367,20 +367,63 @@ def telegram_webhook(request):
 
 @staff_member_required
 def admin_chat_list(request):
-    """Список всех активных чатов для быстрого доступа."""
-    threads = (
+    """Список всех активных чатов для быстрого доступа с поиском."""
+    q = request.GET.get("q", "").strip()
+    status_filter = request.GET.get("status", "")
+
+    qs = (
         SupportChatThread.objects
         .select_related("user")
         .prefetch_related("messages")
         .order_by("-updated_at")
     )
-    # Добавим счётчик непрочитанных (сообщений не от бота)
-    for t in threads:
+
+    search_matches = {}  # thread_id → [snippet, ...]
+
+    if q:
+        from django.db.models import Q
+        # Ищем по email и по тексту сообщений
+        thread_ids_by_email = set(
+            qs.filter(user__email__icontains=q).values_list("id", flat=True)
+        )
+        # Поиск по содержимому сообщений
+        matching_msgs = (
+            SupportChatMessage.objects
+            .filter(body__icontains=q)
+            .select_related("thread")
+            .order_by("-created_at")
+        )
+        thread_ids_by_msg = set()
+        for msg in matching_msgs:
+            tid = msg.thread_id
+            thread_ids_by_msg.add(tid)
+            # Храним сниппет контекста
+            idx = msg.body.lower().find(q.lower())
+            start = max(0, idx - 30)
+            snippet = ("…" if start else "") + msg.body[start:idx + len(q) + 40] + "…"
+            search_matches.setdefault(tid, []).append({
+                "snippet": snippet,
+                "match_word": q,
+                "date": timezone.localtime(msg.created_at).strftime("%d.%m %H:%M"),
+            })
+
+        all_ids = thread_ids_by_email | thread_ids_by_msg
+        qs = qs.filter(id__in=all_ids)
+
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+
+    for t in qs:
         t.unread_count = t.messages.filter(
-            via__in=("site", "telegram"),
-            is_hidden_by_user=False,
+            via__in=("site", "telegram"), is_hidden_by_user=False,
         ).count()
-    return render(request, "support/admin_chat_list.html", {"threads": threads})
+        t.search_snippets = search_matches.get(t.id, [])
+
+    return render(request, "support/admin_chat_list.html", {
+        "threads": qs,
+        "q": q,
+        "status_filter": status_filter,
+    })
 
 
 @staff_member_required
@@ -457,3 +500,117 @@ def admin_chat_messages_api(request, thread_id):
     )
     msgs = [_serialize_chat_message(m, request.user.id) for m in queryset]
     return JsonResponse({"messages": msgs})
+
+
+# ─────────────────────────────────────────────────────────────────
+# Admin counts API (for sidebar badges in Django Admin)
+# ─────────────────────────────────────────────────────────────────
+
+@staff_member_required
+def admin_counts_api(request):
+    """Return JSON with unread/new counts for admin sidebar badges."""
+    requests_new = RequestThread.objects.filter(status=RequestStatus.SENT).count()
+    chats_new = SupportChatThread.objects.filter(
+        status="open", messages__via__in=("site", "telegram"),
+        messages__is_hidden_by_user=False,
+    ).distinct().count()
+    return JsonResponse({"requests_new": requests_new, "chats_new": chats_new})
+
+
+# ─────────────────────────────────────────────────────────────────
+# Admin Requests (staff-only) — аналог admin-chat для заявок
+# ─────────────────────────────────────────────────────────────────
+
+@staff_member_required
+def admin_requests_list(request):
+    """Список всех заявок для администратора."""
+    q = request.GET.get("q", "").strip()
+    status_filter = request.GET.get("status", "")
+
+    qs = (
+        RequestThread.objects
+        .select_related("user")
+        .prefetch_related("messages")
+        .order_by("-created_at")
+    )
+
+    if q:
+        from django.db.models import Q
+        qs = qs.filter(
+            Q(subject__icontains=q) |
+            Q(user__email__icontains=q) |
+            Q(messages__body__icontains=q)
+        ).distinct()
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+
+    # Аннотируем
+    for t in qs:
+        t.msg_count = t.messages.count()
+
+    return render(request, "support/admin_requests_list.html", {
+        "threads": qs,
+        "q": q,
+        "status_filter": status_filter,
+        "status_choices": RequestStatus.choices,
+        "new_count": RequestThread.objects.filter(status=RequestStatus.SENT).count(),
+    })
+
+
+@staff_member_required
+def admin_request_thread(request, thread_id):
+    """Полноэкранный просмотр заявки с перепиской и ответом."""
+    thread = get_object_or_404(RequestThread, pk=thread_id)
+    msgs = thread.messages.select_related("author").prefetch_related("attachments").order_by("created_at")
+    return render(request, "support/admin_request_thread.html", {
+        "thread": thread,
+        "msgs": msgs,
+        "status_choices": RequestStatus.choices,
+    })
+
+
+@staff_member_required
+@require_POST
+def admin_request_reply(request, thread_id):
+    """Администратор отвечает на заявку; меняет статус на answered."""
+    thread = get_object_or_404(RequestThread, pk=thread_id)
+    body = (request.POST.get("body") or "").strip()
+    new_status = request.POST.get("new_status", "answered")
+    if not body:
+        messages.error(request, "Введите текст ответа.")
+        return redirect("support_admin_request_thread", thread_id=thread_id)
+
+    RequestMessage.objects.create(
+        thread=thread,
+        author=request.user,
+        body=body,
+    )
+    if new_status in dict(RequestStatus.choices):
+        thread.status = new_status
+    else:
+        thread.status = RequestStatus.ANSWERED
+    thread.save(update_fields=["status", "updated_at"])
+
+    # Email/TG уведомление пользователю
+    try:
+        send_admin_notification(
+            f"Ответ на заявку #{thread.id}",
+            f"Заявка: {thread.subject}\nОтвет: {body[:600]}",
+        )
+    except Exception:
+        pass
+
+    messages.success(request, "Ответ отправлен.")
+    return redirect("support_admin_request_thread", thread_id=thread_id)
+
+
+@staff_member_required
+@require_POST
+def admin_request_set_status(request, thread_id):
+    """Быстрое изменение статуса заявки без ответа."""
+    thread = get_object_or_404(RequestThread, pk=thread_id)
+    new_status = request.POST.get("new_status", "")
+    if new_status in dict(RequestStatus.choices):
+        thread.status = new_status
+        thread.save(update_fields=["status", "updated_at"])
+    return redirect("support_admin_request_thread", thread_id=thread_id)

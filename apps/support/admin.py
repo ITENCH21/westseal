@@ -8,6 +8,31 @@ from .models import (
 )
 from .services import send_telegram_message
 
+# ── Заголовки панели администрирования ─────────────────────────
+admin.site.site_header = "WESTSEAL — Панель управления"
+admin.site.site_title  = "WESTSEAL Admin"
+admin.site.index_title = "Административная панель"
+
+# Цвета статусов заявок
+_REQUEST_STATUS_COLORS = {
+    "sent":           ("#fff3cd", "#856404"),   # жёлтый    — Новая
+    "review":         ("#cce5ff", "#004085"),   # синий     — Прочитана
+    "in_work":        ("#e0d7ff", "#3d108a"),   # фиолетовый— В работе
+    "payment":        ("#ffe0b2", "#7a3800"),   # оранжевый — На оплате
+    "paid":           ("#d4edda", "#155724"),   # зелёный   — Оплачено
+    "in_transit":     ("#e0f4ff", "#0d47a1"),   # голубой   — В пути
+    "answered":       ("#d0f0e0", "#1b5e20"),   # тёмно-зелёный — Поступил ответ
+    "closed_success": ("#c8e6c9", "#1b5e20"),   # зелёный   — Закрыта успешно
+    "closed_fail":    ("#ffcdd2", "#b71c1c"),   # красный   — Закрыто неуспешно
+    "closed":         ("#e2e3e5", "#383d41"),   # серый     — Закрыто
+}
+
+# Цвета статусов чата
+_CHAT_STATUS_COLORS = {
+    "open":   ("#d4edda", "#155724"),
+    "closed": ("#e2e3e5", "#383d41"),
+}
+
 
 # ─────────────────────────────────────────────────────────────────
 # Заявки (RequestThread)
@@ -15,6 +40,8 @@ from .services import send_telegram_message
 
 class RequestMessageInline(admin.StackedInline):
     model = RequestMessage
+    verbose_name = "Сообщение"
+    verbose_name_plural = "Сообщения в заявке"
     extra = 1
     fields = ("author", "body", "created_at")
     readonly_fields = ("created_at",)
@@ -32,10 +59,40 @@ class RequestMessageInline(admin.StackedInline):
 
 @admin.register(RequestThread)
 class RequestThreadAdmin(admin.ModelAdmin):
-    list_display = ("subject", "user", "status", "updated_at")
-    list_filter = ("status",)
+    list_display = ("subject", "user_email", "status_badge", "msg_count", "open_request_link", "created_at")
+    list_filter  = ("status",)
     search_fields = ("subject", "user__email")
-    inlines = [RequestMessageInline]
+    ordering     = ("-created_at",)
+    inlines      = [RequestMessageInline]
+    list_per_page = 30
+
+    @admin.display(description="Пользователь", ordering="user__email")
+    def user_email(self, obj):
+        return obj.user.email
+
+    @admin.display(description="Статус", ordering="status")
+    def status_badge(self, obj):
+        bg, fg = _REQUEST_STATUS_COLORS.get(obj.status, ("#eee", "#333"))
+        label = obj.get_status_display()
+        return format_html(
+            '<span style="background:{};color:{};padding:3px 10px;border-radius:20px;'
+            'font-size:.78rem;font-weight:600;white-space:nowrap;">{}</span>',
+            bg, fg, label,
+        )
+
+    @admin.display(description="Сообщений")
+    def msg_count(self, obj):
+        return obj.messages.count()
+
+    @admin.display(description="Открыть")
+    def open_request_link(self, obj):
+        url = reverse("support_admin_request_thread", args=[obj.pk])
+        return format_html(
+            '<a href="{}" style="background:linear-gradient(135deg,#d1373d,#1f4a8a);'
+            'color:#fff;padding:3px 12px;border-radius:8px;font-size:.8rem;'
+            'text-decoration:none;white-space:nowrap;">📋 Заявка</a>',
+            url,
+        )
 
 
 @admin.register(RequestAttachment)
@@ -50,6 +107,8 @@ class RequestAttachmentAdmin(admin.ModelAdmin):
 
 class SupportChatMessageInline(admin.TabularInline):
     model = SupportChatMessage
+    verbose_name = "Сообщение"
+    verbose_name_plural = "Сообщения в чате"
     extra = 0
     fields = ("created_at", "author", "via", "is_bot", "is_hidden_by_user", "body_short")
     readonly_fields = ("created_at", "author", "via", "is_bot", "is_hidden_by_user", "body_short")
@@ -65,12 +124,12 @@ class SupportChatMessageInline(admin.TabularInline):
 @admin.register(SupportChatThread)
 class SupportChatThreadAdmin(admin.ModelAdmin):
     list_display = (
-        "user_email", "status", "messages_count",
-        "telegram_chat_id", "admin_telegram_chat_id",
-        "updated_at", "open_chat_link",
+        "user_email", "chat_status_badge", "unread_badge",
+        "messages_count", "updated_at", "open_chat_link",
     )
-    list_filter = ("status",)
+    list_filter  = ("status",)
     search_fields = ("user__email", "telegram_chat_id", "admin_telegram_chat_id")
+    ordering     = ("-updated_at",)
     readonly_fields = ("created_at", "updated_at", "open_chat_link_big")
     fields = (
         "user", "status",
@@ -80,20 +139,48 @@ class SupportChatThreadAdmin(admin.ModelAdmin):
         "open_chat_link_big",
     )
     inlines = [SupportChatMessageInline]
+    list_per_page = 30
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related("messages")
 
     @admin.display(description="Пользователь", ordering="user__email")
     def user_email(self, obj):
         return obj.user.email
 
+    @admin.display(description="Статус чата", ordering="status")
+    def chat_status_badge(self, obj):
+        bg, fg = _CHAT_STATUS_COLORS.get(obj.status, ("#eee", "#333"))
+        label = obj.get_status_display()
+        return format_html(
+            '<span style="background:{};color:{};padding:3px 10px;border-radius:20px;'
+            'font-size:.78rem;font-weight:600;">{}</span>',
+            bg, fg, label,
+        )
+
+    @admin.display(description="Новых")
+    def unread_badge(self, obj):
+        count = obj.messages.filter(
+            via__in=("site", "telegram"), is_hidden_by_user=False,
+        ).count()
+        if count:
+            return format_html(
+                '<span style="background:#d1373d;color:#fff;padding:2px 9px;'
+                'border-radius:20px;font-size:.78rem;font-weight:700;">{}</span>',
+                count,
+            )
+        return "—"
+
     @admin.display(description="Сообщений")
     def messages_count(self, obj):
-        total = obj.messages.count()
+        total  = obj.messages.count()
         hidden = obj.messages.filter(is_hidden_by_user=True).count()
         if hidden:
-            return f"{total} ({hidden} скрыто)"
+            return f"{total} ({hidden} скр.)"
         return total
 
-    @admin.display(description="Открыть чат")
+    @admin.display(description="Чат")
     def open_chat_link(self, obj):
         url = reverse("support_admin_chat_thread", args=[obj.pk])
         return format_html(

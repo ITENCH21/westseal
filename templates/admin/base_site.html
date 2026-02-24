@@ -1,0 +1,87 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block branding %}
+<div id="site-name">
+  <a href="{% url 'admin:index' %}" style="
+      display:flex;align-items:center;gap:10px;
+      text-decoration:none;color:#fff;">
+    <span style="
+      background:rgba(255,255,255,.18);
+      border-radius:8px;padding:3px 10px;
+      font-size:.78rem;font-weight:800;letter-spacing:.08em;">WS</span>
+    <span style="font-size:1rem;font-weight:700;">WESTSEAL</span>
+    <span style="font-size:.78rem;opacity:.75;font-weight:400;">Панель управления</span>
+  </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+  /* ── Sidebar section labels ─────────────────── */
+  #nav-sidebar .module caption { font-size:.72rem; letter-spacing:.06em; color:#aaa; }
+  /* ── Admin badge pill ───────────────────────── */
+  .ws-nav-badge {
+    display:inline-block;
+    background:#d1373d;
+    color:#fff;
+    border-radius:20px;
+    padding:0 7px;
+    font-size:.7rem;
+    font-weight:700;
+    line-height:1.6;
+    vertical-align:middle;
+    margin-left:5px;
+  }
+  /* ── Top bar accent ─────────────────────────── */
+  #header { background: linear-gradient(135deg,#d1373d 0%,#1f4a8a 100%); }
+</style>
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+{# JS: inject unread badges into sidebar links #}
+<script>
+(function () {
+  function injectBadges(data) {
+    // Map of URL fragment → count
+    const targets = [
+      { href: '/support/requestthread/', count: data.requests_new },
+      { href: '/support/supportchatthread/', count: data.chats_new },
+    ];
+    targets.forEach(function (t) {
+      if (!t.count) return;
+      document.querySelectorAll('#nav-sidebar a').forEach(function (a) {
+        if (a.href && a.href.includes(t.href)) {
+          // avoid double-adding
+          if (!a.querySelector('.ws-nav-badge')) {
+            var badge = document.createElement('span');
+            badge.className = 'ws-nav-badge';
+            badge.textContent = t.count;
+            a.appendChild(badge);
+          }
+        }
+      });
+    });
+  }
+
+  function loadBadges() {
+    fetch('/support/admin-counts/', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) injectBadges(d); })
+      .catch(function () {});
+  }
+
+  // Run after DOM ready and then every 60 s
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadBadges);
+  } else {
+    loadBadges();
+  }
+  setInterval(loadBadges, 60000);
+})();
+</script>
+{% endblock %}

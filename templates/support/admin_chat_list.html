@@ -1,43 +1,104 @@
-{% load i18n %}
 {% load static %}
 <!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Чаты поддержки — WESTSEAL</title>
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <style>
-    body { background: #f0f2f7; font-family: system-ui, sans-serif; }
-    .ac-wrap { max-width: 820px; margin: 0 auto; padding: 24px 16px; }
-    .ac-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
-    .ac-list { display: flex; flex-direction: column; gap: 10px; }
-    .ac-item { background: #fff; border-radius: 12px; padding: 14px 18px;
-                display: flex; align-items: center; gap: 16px;
-                text-decoration: none; color: inherit;
-                box-shadow: 0 1px 4px rgba(0,0,0,.08);
-                transition: box-shadow .15s; }
-    .ac-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.13); }
-    .ac-avatar { width: 40px; height: 40px; border-radius: 50%;
-                  background: linear-gradient(135deg,#d1373d,#1f4a8a);
-                  display: flex; align-items: center; justify-content: center;
-                  color: #fff; font-weight: 700; font-size: .9rem; flex-shrink: 0; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #f0f2f7; font-family: system-ui, sans-serif; margin: 0; }
+    .ac-topbar {
+      background: #fff; border-bottom: 1px solid #e6e9f0;
+      padding: 10px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .ac-topbar a { color: #1f4a8a; text-decoration: none; font-size: .88rem; white-space: nowrap; }
+    .ac-topbar a:hover { text-decoration: underline; }
+    .ac-title { font-weight: 700; font-size: 1rem; flex: 1; }
+    .ac-filter {
+      background: #fff; border-bottom: 1px solid #e6e9f0;
+      padding: 10px 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .ac-filter input[type="text"] {
+      border: 1.5px solid #dce0ea; border-radius: 10px;
+      padding: 7px 14px; font-size: .88rem; outline: none;
+      flex: 1 1 220px; min-width: 0; transition: border-color .15s;
+    }
+    .ac-filter input:focus { border-color: #1f4a8a; }
+    .ac-filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ac-pill {
+      border: 1.5px solid #dce0ea; border-radius: 20px;
+      padding: 4px 12px; font-size: .78rem; cursor: pointer;
+      text-decoration: none; color: #555; background: #fff; white-space: nowrap; transition: all .15s;
+    }
+    .ac-pill:hover, .ac-pill.active { background: #1f4a8a; color: #fff; border-color: #1f4a8a; }
+    .ac-filter-btn {
+      background: linear-gradient(135deg,#d1373d,#1f4a8a); color: #fff;
+      border: none; border-radius: 10px; padding: 7px 18px;
+      font-size: .88rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+    }
+    .ac-wrap { max-width: 820px; margin: 0 auto; padding: 18px 16px; }
+    .ac-stat { font-size: .8rem; color: #888; margin-bottom: 10px; }
+    .ac-list { display: flex; flex-direction: column; gap: 8px; }
+    .ac-item {
+      background: #fff; border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: flex-start; gap: 14px;
+      text-decoration: none; color: inherit;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07); transition: box-shadow .15s;
+    }
+    .ac-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+    .ac-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg,#d1373d,#1f4a8a);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: .9rem; flex-shrink: 0;
+    }
     .ac-info { flex: 1 1 auto; min-width: 0; }
     .ac-email { font-weight: 600; font-size: .95rem; }
-    .ac-last { color: #888; font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .ac-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
-    .ac-time { color: #aaa; font-size: .78rem; }
+    .ac-last { color: #888; font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .ac-snippets { margin-top: 6px; }
+    .ac-snippet {
+      background: #fffde7; border-left: 3px solid #f9a825;
+      padding: 4px 8px; font-size: .78rem; color: #555;
+      margin-top: 4px; border-radius: 0 6px 6px 0; line-height: 1.4;
+    }
+    .ac-snippet-date { color: #bbb; font-size: .72rem; margin-left: 6px; }
+    .ac-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+    .ac-time { color: #aaa; font-size: .78rem; white-space: nowrap; }
     .ac-tg { font-size: .78rem; color: #1f4a8a; }
-    .ac-empty { color: #999; font-size: .9rem; }
-    .ac-back { display: inline-block; margin-bottom: 16px; color: #1f4a8a;
-                font-size: .9rem; text-decoration: none; }
-    .ac-back:hover { text-decoration: underline; }
+    .ac-unread {
+      background: #d1373d; color: #fff;
+      border-radius: 20px; padding: 1px 8px; font-size: .75rem; font-weight: 700;
+    }
+    .ac-status-badge { border-radius: 20px; padding: 2px 9px; font-size: .72rem; font-weight: 600; }
+    .ac-status-open { background: #d4edda; color: #155724; }
+    .ac-status-closed { background: #e2e3e5; color: #383d41; }
+    .ac-empty { color: #999; text-align: center; padding: 40px 0; }
   </style>
 </head>
 <body>
+
+  <div class="ac-topbar">
+    <a href="/admin/">← Панель</a>
+    <span class="ac-title">💬 Чаты поддержки</span>
+    <a href="{% url 'support_admin_requests_list' %}" style="margin-left:auto">📋 Заявки</a>
+  </div>
+
+  <form class="ac-filter" method="get" action="">
+    <input type="text" name="q" value="{{ q }}"
+           placeholder="Искать по email, тексту сообщений, дате… (от 2 символов)">
+    <div class="ac-filter-pills">
+      <a class="ac-pill {% if not status_filter %}active{% endif %}" href="?q={{ q }}">Все</a>
+      <a class="ac-pill {% if status_filter == 'open' %}active{% endif %}" href="?q={{ q }}&status=open">Открытые</a>
+      <a class="ac-pill {% if status_filter == 'closed' %}active{% endif %}" href="?q={{ q }}&status=closed">Закрытые</a>
+    </div>
+    <button class="ac-filter-btn" type="submit">Найти</button>
+  </form>
+
   <div class="ac-wrap">
-    <a class="ac-back" href="/admin/">← Назад в панель</a>
-    <div class="ac-title">💬 Чаты с пользователями</div>
+    <div class="ac-stat">Чатов: {{ threads|length }}{% if q %} по запросу «{{ q }}»{% endif %}</div>
     <div class="ac-list">
       {% for thread in threads %}
         {% with last=thread.messages.last %}
@@ -48,17 +109,32 @@
             <div class="ac-last">
               {% if last %}{{ last.body|truncatechars:80 }}{% else %}— нет сообщений —{% endif %}
             </div>
+            {% if thread.search_snippets %}
+              <div class="ac-snippets">
+                {% for s in thread.search_snippets|slice:":3" %}
+                  <div class="ac-snippet">
+                    {{ s.snippet|truncatechars:120 }}
+                    <span class="ac-snippet-date">{{ s.date }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
           <div class="ac-meta">
             <span class="ac-time">{{ thread.updated_at|date:"d.m H:i" }}</span>
+            <span class="ac-status-badge ac-status-{{ thread.status }}">{{ thread.get_status_display }}</span>
+            {% if thread.unread_count %}<span class="ac-unread">{{ thread.unread_count }}</span>{% endif %}
             {% if thread.telegram_chat_id %}<span class="ac-tg">📱 TG</span>{% endif %}
           </div>
         </a>
         {% endwith %}
       {% empty %}
-        <p class="ac-empty">Нет активных чатов.</p>
+        <p class="ac-empty">
+          {% if q %}Ничего не найдено по запросу «{{ q }}».{% else %}Нет чатов.{% endif %}
+        </p>
       {% endfor %}
     </div>
   </div>
+
 </body>
 </html>
