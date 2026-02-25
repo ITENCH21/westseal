@@ -162,7 +162,7 @@ class SupportChatThreadAdmin(admin.ModelAdmin):
     @admin.display(description="Новых")
     def unread_badge(self, obj):
         count = obj.messages.filter(
-            via__in=("site", "telegram"), is_hidden_by_user=False,
+            via__in=("site", "telegram"), is_admin_seen=False,
         ).count()
         if count:
             return format_html(
