@@ -470,6 +470,16 @@ window.__initSubticker();
       const li = document.createElement('li');
       li.setAttribute('role', 'option');
       li.textContent = text;
+      li.addEventListener('mouseenter', function() {
+        _active = i;
+        list.querySelectorAll('li').forEach(function(el, j) {
+          el.classList.toggle('is-active', j === i);
+        });
+      });
+      li.addEventListener('mouseleave', function() {
+        li.classList.remove('is-active');
+        _active = -1;
+      });
       li.addEventListener('mousedown', function(e) {
         e.preventDefault();
         input.value = text;
