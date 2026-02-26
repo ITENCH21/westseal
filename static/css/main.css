@@ -141,9 +141,12 @@ a {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  z-index: 1;
   border-bottom: 1px solid rgba(226, 232, 242, 0.8);
   box-shadow: 0 1px 0 rgba(11, 16, 32, 0.04);
+  /* Windows Chrome/Edge: force own GPU layer to prevent backdrop-filter repaint flicker on hover */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  isolation: isolate;
 }
 
 body.theme-dark .site-header {
@@ -241,6 +244,8 @@ body.theme-dark .nav {
 
 .nav a {
   position: relative;
+  /* explicit transition prevents abrupt color flash on Windows */
+  transition: color 0.25s ease;
 }
 
 body.theme-dark .nav a {
