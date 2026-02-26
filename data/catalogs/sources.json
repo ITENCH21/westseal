@@ -217,13 +217,39 @@
     "cover_svg": "data/catalogs/covers/Hydraulic_sealing_products_size_charts.svg"
   },
   {
-    "title_ru": "Каталог КРПМС",
-    "title_en": "KRPMS catalog",
+    "title_ru": "Каталог GUARNITEC",
+    "title_en": "GUARNITEC seals catalog",
     "category": "hydraulic",
-    "manufacturer": "КРПМС",
-    "url": "https://www.krpms.ru/upload/iblock/7d6/dv7wsr2iz0o6ehyg8rmih8tc3jsabn1t.pdf",
-    "filename": "KRPMS_catalog.pdf",
-    "local_path": "data/catalogs/files/KRPMS_catalog.pdf",
-    "cover_svg": "data/catalogs/covers/KRPMS_catalog.svg"
+    "manufacturer": "GUARNITEC",
+    "filename": "GUARNITEC_catalog.pdf",
+    "local_path": "data/catalogs/files/GUARNITEC_catalog.pdf",
+    "cover_svg": "data/catalogs/covers/GUARNITEC_catalog.svg"
+  },
+  {
+    "title_ru": "Arctic Seals GAPI 2020",
+    "title_en": "Arctic Seals GAPI 2020",
+    "category": "hydraulic",
+    "manufacturer": "GAPI",
+    "filename": "Arctic_seals_GAPI_2020.pdf",
+    "local_path": "data/catalogs/files/Arctic_seals_GAPI_2020.pdf",
+    "cover_svg": "data/catalogs/covers/Arctic_seals_GAPI_2020.svg"
+  },
+  {
+    "title_ru": "Seal-Maker (рус.)",
+    "title_en": "Seal-Maker catalog",
+    "category": "hydraulic",
+    "manufacturer": "Seal-Maker",
+    "filename": "SEAL-MAKER_rus.pdf",
+    "local_path": "data/catalogs/files/SEAL-MAKER_rus.pdf",
+    "cover_svg": "data/catalogs/covers/SEAL-MAKER_rus.svg"
+  },
+  {
+    "title_ru": "Simrit 2015 (Freudenberg)",
+    "title_en": "Simrit 2015",
+    "category": "hydraulic",
+    "manufacturer": "Simrit",
+    "filename": "Simrit_2015.pdf",
+    "local_path": "data/catalogs/files/Simrit_2015.pdf",
+    "cover_svg": "data/catalogs/covers/Simrit_2015.svg"
   }
 ]
