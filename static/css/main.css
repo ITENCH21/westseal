@@ -2074,6 +2074,37 @@ body.theme-dark .pdf-card__body h3 {
   padding: 6px 14px;
 }
 
+.pdf-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.pdf-card__actions .btn {
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
+.mfr-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  border-color: var(--steel);
+}
+
+.mfr-link:hover {
+  color: var(--blue-dark);
+  border-color: rgba(31, 74, 138, 0.4);
+}
+
+.catalog-detail-media .mfr-link {
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
+}
+
 .media-card img,
 .media-banner img {
   width: 100%;

@@ -33,9 +33,12 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(CatalogPDF)
 class CatalogPDFAdmin(admin.ModelAdmin):
-    list_display = ("title_ru", "category", "manufacturer", "published_at")
+    list_display = ("title_ru", "category", "manufacturer", "manufacturer_website", "published_at")
     list_filter = ("category",)
     search_fields = ("title_ru", "title_en", "manufacturer")
+    fields = ("title_ru", "title_en", "description_ru", "description_en",
+              "category", "manufacturer", "manufacturer_website",
+              "file", "cover_image", "published_at")
 
 
 @admin.register(Article)

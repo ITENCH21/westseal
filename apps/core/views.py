@@ -24,6 +24,27 @@ from .models import (
 from apps.support.forms import QuickLeadForm
 from .search import seal_product_search
 
+# Сайты производителей (ключ — нижний регистр, чтобы совпадало с любым регистром)
+MANUFACTURER_WEBSITES = {
+    "skf":            "https://www.skf.com",
+    "parker":         "https://www.parker.com",
+    "trelleborg":     "https://www.trelleborg.com",
+    "kastas":         "https://www.kastas.com",
+    "hallite":        "https://www.hallite.com",
+    "hunger":         "https://www.hunger-hydraulik.de",
+    "alp":            "https://www.alpcaucuk.com.tr",
+    "france joint":   "https://www.francejoint.com",
+    "freudenberg":    "https://www.freudenberg-sealing.com",
+    "nok":            "https://www.nok.co.jp",
+    "sim":            "https://www.simrit.com",
+    "merkel":         "https://www.freudenberg-sealing.com",
+    "busak+shamban":  "https://www.trelleborg.com",
+    "busak shamban":  "https://www.trelleborg.com",
+    "garlock":        "https://www.garlock.com",
+    "eriks":          "https://www.eriks.com",
+    "meiller":        "https://www.meiller.com",
+}
+
 
 def _get_or_create_page(slug: str, template: str, title_ru: str, title_en: str):
     page, _ = Page.objects.get_or_create(
@@ -84,8 +105,15 @@ def page_consent(request):
 
 def catalogs(request):
     page = _get_or_create_page("catalogs", "catalogs", "Каталоги PDF", "PDF catalogs")
-    catalogs = CatalogPDF.objects.all()
-    return render(request, "core/catalogs.html", {"page": page, "catalogs": catalogs})
+    catalogs_qs = CatalogPDF.objects.all()
+    # Авто-проставляем сайт производителя если поле пустое
+    for cat in catalogs_qs:
+        if not cat.manufacturer_website and cat.manufacturer:
+            key = cat.manufacturer.lower().strip()
+            website = MANUFACTURER_WEBSITES.get(key)
+            if website:
+                cat.manufacturer_website = website
+    return render(request, "core/catalogs.html", {"page": page, "catalogs": catalogs_qs})
 
 
 def articles(request):
@@ -309,6 +337,14 @@ def seal_product(request, slug):
     # Brand for structured data — всегда WESTSEAL
     brand_name = "WESTSEAL"
 
+    # Сайт производителя для кнопки (на основании атрибута "Производитель")
+    manufacturer_website = ""
+    for a in display_attrs:
+        if "производ" in a.get("name", "").lower():
+            mfr_val = a.get("value", "").lower().strip()
+            manufacturer_website = MANUFACTURER_WEBSITES.get(mfr_val, "")
+            break
+
     # Очищенный список атрибутов — заменяем чужой бренд на WESTSEAL
     _THIRD_PARTY_BRANDS = {"krpms", "kastas", "aston seals", "aston", "seal-tech", "sealtech", "mkt", "mkt-rti", "quers"}
     display_attrs = []
@@ -327,6 +363,7 @@ def seal_product(request, slug):
             "product": product,
             "display_attrs": display_attrs,
             "clean_description": clean_description,
+            "manufacturer_website": manufacturer_website,
             "page": page,
             "back_url": back_url,
             "brand_name": brand_name,

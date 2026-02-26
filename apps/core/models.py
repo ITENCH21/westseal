@@ -95,6 +95,7 @@ class CatalogPDF(models.Model):
     description_en = models.TextField(blank=True)
     category = models.CharField(max_length=30, choices=CATEGORY_CHOICES, default="hydraulic")
     manufacturer = models.CharField(max_length=120, blank=True)
+    manufacturer_website = models.URLField(max_length=300, blank=True, verbose_name="Сайт производителя")
     file = models.FileField(upload_to="catalogs/pdfs/")
     cover_image = models.ImageField(upload_to="catalogs/covers/", blank=True, null=True)
     published_at = models.DateField(default=timezone.now)
