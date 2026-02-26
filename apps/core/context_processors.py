@@ -11,6 +11,7 @@ def site_settings(request):
         ("/production/", "production", "Производство", "/production/"),
         ("/catalog/", "catalog", "Каталог", "/catalog/"),
         ("/catalogs/", "catalogs", "Каталоги", "/catalogs/"),
+        ("/guide/", "guide", "Справочник", "/guide/"),
         ("/knowledge/", "knowledge", "База знаний", "/knowledge/"),
         ("/contacts/", "contacts", "Контакты", "/contacts/"),
     ]

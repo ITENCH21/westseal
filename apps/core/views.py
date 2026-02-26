@@ -95,6 +95,64 @@ def page_products(request):
     return render(request, "core/products.html", {"page": page})
 
 
+def guide(request):
+    import json as _json
+    data_path = os.path.join(settings.BASE_DIR, "data", "guide_catalog.json")
+    with open(data_path, encoding="utf-8") as _f:
+        catalog_rows = _json.load(_f)
+
+    materials = [
+        {"code": "M-PU90",  "name": "Полиуретан (PU)",       "hardness": 90,   "t_min": -40, "t_max": 80,  "compat": "мин. масла, гидравлика",       "note": "универсальный, износостойкий"},
+        {"code": "M-PU95",  "name": "Полиуретан (PU) усил.", "hardness": 95,   "t_min": -30, "t_max": 90,  "compat": "мин. масла, гидравлика",       "note": "для высоких давлений"},
+        {"code": "M-NBR70", "name": "Нитрил (NBR)",          "hardness": 70,   "t_min": -30, "t_max": 120, "compat": "мин. масла",                   "note": "стандарт, бюджет"},
+        {"code": "M-HNBR75","name": "HNBR",                  "hardness": 75,   "t_min": -40, "t_max": 150, "compat": "мин. масла, озон",             "note": "повышенная термостойкость"},
+        {"code": "M-FKM75", "name": "FKM (Viton)",           "hardness": 75,   "t_min": -20, "t_max": 200, "compat": "масла, топливо",               "note": "высокая хим/терм стойкость"},
+        {"code": "M-PTFE",  "name": "PTFE (тефлон)",         "hardness": None, "t_min": -60, "t_max": 200, "compat": "химстойкий, низкое трение",    "note": "часто с наполнителем"},
+        {"code": "M-PTFE-B","name": "PTFE бронзонап.",       "hardness": None, "t_min": -60, "t_max": 220, "compat": "низкое трение, износ",         "note": "для тяжёлых режимов"},
+        {"code": "M-PA6G",  "name": "Полиамид (PA6G)",       "hardness": None, "t_min": -30, "t_max": 110, "compat": "направляющие",                 "note": "кольца скольжения/направляющие"},
+    ]
+
+    profiles = [
+        {"code": "A1", "group": "Rod Seal",    "name": "U-Cup стандарт",       "type": "RS", "desc": "штоковое, универсальное",          "p_max": 250,  "v_max": 0.5,  "backup": "нет"},
+        {"code": "A2", "group": "Rod Seal",    "name": "U-Cup усиленное",      "type": "RS", "desc": "штоковое, повыш. давление",        "p_max": 350,  "v_max": 1.0,  "backup": "опционально"},
+        {"code": "A3", "group": "Rod Seal",    "name": "U-Cup + опорное",      "type": "RS", "desc": "штоковое, антиэкструзия",          "p_max": 450,  "v_max": 0.6,  "backup": "да"},
+        {"code": "A4", "group": "Rod Seal",    "name": "PTFE энерго",          "type": "RS", "desc": "штоковое, низкое трение",          "p_max": 600,  "v_max": 1.5,  "backup": "да"},
+        {"code": "B1", "group": "Piston Seal", "name": "Двустороннее PU",     "type": "PS", "desc": "поршневое двунаправл.",            "p_max": 300,  "v_max": None, "backup": "нет"},
+        {"code": "B2", "group": "Piston Seal", "name": "Компактное набор",    "type": "PS", "desc": "поршень комплект",                 "p_max": 400,  "v_max": None, "backup": "да"},
+        {"code": "B3", "group": "Piston Seal", "name": "PTFE кольцо",         "type": "PS", "desc": "низкое трение, скорость",         "p_max": 600,  "v_max": None, "backup": "да"},
+        {"code": "B4", "group": "Piston Seal", "name": "Step seal",           "type": "PS", "desc": "ступенчатое, высокий ресурс",     "p_max": 450,  "v_max": None, "backup": "да"},
+        {"code": "C1", "group": "Wiper",       "name": "Однокромочный",        "type": "WR", "desc": "грязесъёмник стандарт",           "p_max": None, "v_max": None, "backup": "—"},
+        {"code": "C2", "group": "Wiper",       "name": "Двухкромочный",        "type": "WR", "desc": "защита + удержание плёнки",       "p_max": None, "v_max": None, "backup": "—"},
+        {"code": "C3", "group": "Wiper",       "name": "Мет. обойма",          "type": "WR", "desc": "для грязи/ударов",                "p_max": None, "v_max": None, "backup": "—"},
+        {"code": "D1", "group": "Wear Ring",   "name": "Направляющее кольцо", "type": "GR", "desc": "направляющее, снижает перекос",  "p_max": None, "v_max": None, "backup": "—"},
+        {"code": "D2", "group": "Wear Ring",   "name": "Направляющее усил.",  "type": "GR", "desc": "для высоких боковых нагрузок",   "p_max": None, "v_max": None, "backup": "—"},
+        {"code": "E1", "group": "Static",      "name": "O-ring",              "type": "OR", "desc": "кольцо круглого сечения",         "p_max": 200,  "v_max": None, "backup": "—"},
+        {"code": "E2", "group": "Static",      "name": "X-ring",              "type": "XR", "desc": "четырёхкромочное стат/дин",       "p_max": 250,  "v_max": None, "backup": "—"},
+        {"code": "F1", "group": "Back-up",     "name": "Опорное кольцо",      "type": "BK", "desc": "антиэкструзия",                   "p_max": 700,  "v_max": None, "backup": "—"},
+        {"code": "F2", "group": "Back-up",     "name": "Спиральное опорное",  "type": "BK", "desc": "для динамики",                    "p_max": 700,  "v_max": None, "backup": "—"},
+    ]
+
+    conditions = [
+        {"code": "C-STD", "tag": "Стандарт",          "desc": "типовые гидроцилиндры, чистая среда"},
+        {"code": "C-HP",  "tag": "Высокое давление",  "desc": "до 450–600 бар, риск экструзии"},
+        {"code": "C-LT",  "tag": "Низкая температура","desc": "работа до −40°C и ниже"},
+        {"code": "C-HT",  "tag": "Высокая температура","desc": "работа до +150…200°C"},
+        {"code": "C-ABR", "tag": "Абразив/грязь",     "desc": "пыль, песок, ударные загрязнения"},
+        {"code": "C-HS",  "tag": "Высокая скорость",  "desc": "повышенная скорость штока/трение"},
+        {"code": "C-WG",  "tag": "Водно-гликоль",     "desc": "совместимость с HFC/HFA"},
+        {"code": "C-BIO", "tag": "Био-масла",         "desc": "совместимость с биоразлагаемыми маслами"},
+    ]
+
+    return render(request, "core/guide.html", {
+        "current_section": "guide",
+        "materials": materials,
+        "profiles": profiles,
+        "conditions": conditions,
+        "catalog_rows": catalog_rows,
+        "catalog_count": len(catalog_rows),
+    })
+
+
 def page_privacy(request):
     return render(request, "core/privacy.html", {"page": None})
 

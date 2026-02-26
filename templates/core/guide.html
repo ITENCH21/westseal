@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Справочник по уплотнениям — материалы, профили, 600 SKU | WESTSEAL{% endblock %}
+{% block meta_description %}Онлайн-справочник уплотнений: 600 SKU для гидроцилиндров. Материалы FKM, NBR, PTFE, HNBR, PU — температура, давление, совместимость. Профили Rod Seal, Piston Seal, Wiper. Скачать каталог Excel.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Справочник по уплотнениям" %}</h1>
+    <p class="lead">{% trans "600 SKU для гидроцилиндров — материалы, профили, размеры, температурные диапазоны и аналоги брендов. Подбирайте уплотнение по параметрам прямо на странице." %}</p>
+    <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+      <a href="{% static 'files/catalog_uplotneniy.xlsx' %}"
+         class="btn primary"
+         download="Каталог_уплотнений_WESTSEAL.xlsx">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        {% trans "Скачать каталог Excel" %}
+      </a>
+      <span class="guide-stat">{{ catalog_count }} {% trans "позиций" %}</span>
+    </div>
+  </div>
+</section>
+
+{# ── Блок быстрого подбора (Quick filter) ────────────────────────────────── #}
+<section class="section">
+  <div class="container">
+    <div class="guide-filter-bar">
+      <input
+        id="guide-filter"
+        type="search"
+        class="guide-filter-input"
+        placeholder="{% trans 'Фильтр: артикул, материал, размер, среда, аналог...' %}"
+        autocomplete="off"
+        aria-label="{% trans 'Поиск по каталогу' %}"
+      >
+      <span id="guide-count" class="guide-filter-count"></span>
+    </div>
+
+    <div class="guide-table-wrap">
+      <table class="guide-table" id="guide-table">
+        <thead>
+          <tr>
+            <th>{% trans "Артикул" %}</th>
+            <th>{% trans "Тип" %}</th>
+            <th>{% trans "Профиль" %}</th>
+            <th>{% trans "Материал" %}</th>
+            <th>d, мм</th>
+            <th>D, мм</th>
+            <th>H, мм</th>
+            <th>{% trans "P макс, бар" %}</th>
+            <th>t мин/макс, °C</th>
+            <th>{% trans "Среда" %}</th>
+            <th>{% trans "Аналог" %}</th>
+            <th>{% trans "Статус" %}</th>
+          </tr>
+        </thead>
+        <tbody id="guide-tbody">
+          {% for r in catalog_rows %}
+          <tr>
+            <td class="guide-sku">{{ r.0|default:"—" }}</td>
+            <td>{{ r.1|default:"—" }}</td>
+            <td>{{ r.2|default:"—" }}</td>
+            <td>{{ r.3|default:"—" }}</td>
+            <td>{{ r.4|default:"—" }}</td>
+            <td>{{ r.5|default:"—" }}</td>
+            <td>{{ r.6|default:"—" }}</td>
+            <td>{{ r.7|default:"—" }}</td>
+            <td>{{ r.8|default:"—" }} / {{ r.9|default:"—" }}</td>
+            <td>{{ r.12|default:"—" }}</td>
+            <td>{{ r.13|default:"—" }}</td>
+            <td class="guide-status guide-status--{{ r.14|lower|default:'серия' }}">{{ r.14|default:"—" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="guide-table-hint">{% trans "Отображается" %} <strong id="guide-visible-count">{{ catalog_count }}</strong> {% trans "из" %} {{ catalog_count }} {% trans "позиций" %}</p>
+  </div>
+</section>
+
+{# ── Справочник материалов ─────────────────────────────────────────────── #}
+<section class="section muted">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Материалы уплотнений" %}</h2>
+      <p>{% trans "Сравнение эластомеров и пластиков по твёрдости, рабочей температуре и химической совместимости." %}</p>
+    </div>
+    <div class="guide-table-wrap">
+      <table class="guide-table guide-table--ref">
+        <thead>
+          <tr>
+            <th>{% trans "Код" %}</th>
+            <th>{% trans "Материал" %}</th>
+            <th>{% trans "Твёрдость, ShA" %}</th>
+            <th>t мин, °C</th>
+            <th>t макс, °C</th>
+            <th>{% trans "Совместимость" %}</th>
+            <th>{% trans "Примечание" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in materials %}
+          <tr>
+            <td><code>{{ m.code }}</code></td>
+            <td><strong>{{ m.name }}</strong></td>
+            <td>{{ m.hardness|default:"—" }}</td>
+            <td>{{ m.t_min }}</td>
+            <td>{{ m.t_max }}</td>
+            <td>{{ m.compat }}</td>
+            <td class="muted-text">{{ m.note }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{# ── Справочник профилей ───────────────────────────────────────────────── #}
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Профили уплотнений" %}</h2>
+      <p>{% trans "Штоковые (Rod Seal), поршневые (Piston Seal), грязесъёмники (Wiper), направляющие (Wear Ring) и статические уплотнения." %}</p>
+    </div>
+    <div class="guide-table-wrap">
+      <table class="guide-table guide-table--ref">
+        <thead>
+          <tr>
+            <th>{% trans "Код" %}</th>
+            <th>{% trans "Группа" %}</th>
+            <th>{% trans "Название" %}</th>
+            <th>{% trans "Тип" %}</th>
+            <th>{% trans "Описание" %}</th>
+            <th>{% trans "P макс, бар" %}</th>
+            <th>{% trans "V макс, м/с" %}</th>
+            <th>{% trans "Опорное кольцо" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in profiles %}
+          <tr>
+            <td><code>{{ p.code }}</code></td>
+            <td>{{ p.group }}</td>
+            <td><strong>{{ p.name }}</strong></td>
+            <td><code>{{ p.type }}</code></td>
+            <td>{{ p.desc }}</td>
+            <td>{{ p.p_max|default:"—" }}</td>
+            <td>{{ p.v_max|default:"—" }}</td>
+            <td>{{ p.backup }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{# ── Условия применения ────────────────────────────────────────────────── #}
+<section class="section muted">
+  <div class="container">
+    <div class="section-head">
+      <h2>{% trans "Условия применения" %}</h2>
+      <p>{% trans "Теги условий, которые связывают профиль и материал с конкретными задачами." %}</p>
+    </div>
+    <div class="grid-3">
+      {% for c in conditions %}
+      <div class="card ghost">
+        <p style="font-size:11px;color:var(--muted);font-family:monospace;margin-bottom:4px;">{{ c.code }}</p>
+        <h3>{{ c.tag }}</h3>
+        <p>{{ c.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── CTA ──────────────────────────────────────────────────────────────── #}
+<section class="section">
+  <div class="container" style="text-align:center;max-width:640px;">
+    <h2>{% trans "Не нашли нужный размер?" %}</h2>
+    <p class="lead">{% trans "Подбираем аналоги по образцу, чертежу или техническим требованиям. Производство малых партий." %}</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
+      <a href="/support/requests/new/" class="btn primary">{% trans "Отправить заявку" %}</a>
+      <a href="/catalog/" class="btn ghost">{% trans "Каталог манжет" %}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var input = document.getElementById('guide-filter');
+  var tbody = document.getElementById('guide-tbody');
+  var countEl = document.getElementById('guide-visible-count');
+  if (!input || !tbody) return;
+
+  var allRows = Array.from(tbody.querySelectorAll('tr'));
+  var total = allRows.length;
+
+  input.addEventListener('input', function(){
+    var q = this.value.trim().toLowerCase();
+    var visible = 0;
+    allRows.forEach(function(tr){
+      var text = tr.textContent.toLowerCase();
+      var show = !q || text.includes(q);
+      tr.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (countEl) countEl.textContent = visible;
+  });
+
+  // Init count
+  if (countEl) countEl.textContent = total;
+})();
+</script>
+{% endblock %}
