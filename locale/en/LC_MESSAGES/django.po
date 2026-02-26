@@ -345,8 +345,8 @@ msgid "Все"
 msgstr "All"
 
 #: templates/core/catalog.html:95
-msgid "Импорт каталога"
-msgstr "Catalog import"
+msgid "Профили"
+msgstr "Profiles"
 
 #: templates/core/catalog.html:96
 msgid "ожидание"

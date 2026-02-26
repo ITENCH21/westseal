@@ -72,7 +72,7 @@ translations = {
     "Поиск по названию или характеристикам": "Search by name or specifications",
     "Найти": "Search",
     "Все": "All",
-    "Импорт каталога": "Catalog import",
+    "Профили": "Profiles",
     "ожидание": "pending",
     "Всего:": "Total:",
     "В выборке:": "In selection:",
