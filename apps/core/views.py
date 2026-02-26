@@ -270,10 +270,23 @@ def seal_product(request, slug):
                 spec_parts.append(f"{a['name']}: {a['value']}")
 
     cat_name = product.category.name if product.category else ""
+
+    # Фильтрация мусорных описаний (скрапинг-артефакты)
+    _JUNK_PHRASES = (
+        "отправить резюме",
+        "прикрепить файл",
+        "обработки персональных данных",
+        "нажимая на кнопку",
+        "политики конфиденциальности",
+    )
+    clean_description = product.description or ""
+    if clean_description and any(p in clean_description.lower() for p in _JUNK_PHRASES):
+        clean_description = ""
+
     if spec_parts:
         meta_desc = f"{product.name} — {cat_name}. {', '.join(spec_parts)}. Купить уплотнение в WESTSEAL."
-    elif product.description:
-        meta_desc = f"{product.name} — {cat_name}. {product.description[:180]}"
+    elif clean_description:
+        meta_desc = f"{product.name} — {cat_name}. {clean_description[:180]}"
     else:
         meta_desc = f"{product.name} — {cat_name}. Технические характеристики и заказ в WESTSEAL."
     meta_desc = meta_desc[:300]
@@ -313,6 +326,7 @@ def seal_product(request, slug):
         {
             "product": product,
             "display_attrs": display_attrs,
+            "clean_description": clean_description,
             "page": page,
             "back_url": back_url,
             "brand_name": brand_name,

@@ -17,7 +17,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "{{ product.name|escapejs }}",
-  {% if product.description %}"description": "{{ product.description|truncatechars:500|escapejs }}",{% endif %}
+  {% if clean_description %}"description": "{{ clean_description|truncatechars:500|escapejs }}",{% endif %}
   {% if product.image %}"image": "{{ site_url }}{{ product.image.url }}",{% endif %}
   "brand": {
     "@type": "Brand",
@@ -80,7 +80,10 @@
       {% if product.image %}
         <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
       {% else %}
-        <img src="{% static 'img/ai/logoneo_full.png' %}" alt="WESTSEAL" loading="lazy" class="catalog-detail-logo">
+        <picture>
+          <source srcset="{% static 'img/ai/logoneo.webp' %}" type="image/webp">
+          <img src="{% static 'img/ai/logoneo.png' %}" alt="WESTSEAL" loading="lazy" class="catalog-detail-logo">
+        </picture>
       {% endif %}
       <a class="btn primary" href="/support/requests/new/">{% trans "Оформить заявку" %}</a>
     </div>
@@ -103,10 +106,10 @@
         </div>
       {% endif %}
 
-      {% if product.description %}
+      {% if clean_description %}
         <div class="catalog-description">
           <h3>{% trans "Описание" %}</h3>
-          {{ product.description|linebreaks }}
+          {{ clean_description|linebreaks }}
         </div>
       {% endif %}
     </div>
