@@ -1466,6 +1466,93 @@ body.theme-dark .hotspot-pin {
   color: var(--ink);
 }
 
+.catalog-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.catalog-view-toggle {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cvt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--steel);
+  background: var(--surface-alt);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  padding: 0;
+}
+
+.cvt-btn:hover {
+  background: rgba(31, 74, 138, 0.06);
+  color: var(--ink);
+  border-color: rgba(31, 74, 138, 0.3);
+}
+
+.cvt-btn.is-active {
+  background: rgba(31, 74, 138, 0.1);
+  color: var(--blue-dark);
+  border-color: rgba(31, 74, 138, 0.4);
+}
+
+/* ── List view ─────────────────────────────────────────────────── */
+.catalog-grid.is-list {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.catalog-grid.is-list .catalog-card {
+  grid-template-columns: 1fr;
+  padding: 12px 16px;
+  border-radius: 12px;
+  gap: 0;
+}
+
+.catalog-grid.is-list .catalog-thumb {
+  display: none;
+}
+
+.catalog-grid.is-list .catalog-body {
+  gap: 6px;
+}
+
+.catalog-grid.is-list .catalog-body h3 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.catalog-grid.is-list .catalog-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.catalog-grid.is-list .catalog-specs .spec-name {
+  font-weight: 600;
+}
+
+@media (min-width: 760px) {
+  .catalog-grid.is-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 .catalog-card {
   background: var(--surface);
   border: 1px solid var(--steel);

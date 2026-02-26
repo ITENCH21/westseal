@@ -125,23 +125,35 @@
         </div>
       {% endif %}
 
-      <div class="catalog-meta">
-        {% if category %}
-          <span><strong>{{ category|tr:'name' }}</strong></span>
-        {% else %}
-          <span>{% trans "Все разделы" %}</span>
-        {% endif %}
-        {% if subcategory %}
-          <span> · <strong>{% if subcategory.code %}{{ subcategory.code }}{% else %}{{ subcategory|tr:'name' }}{% endif %}</strong></span>
-        {% endif %}
-        {% if q %}
-          <span> · {% trans "Поиск:" %} <strong>{{ q }}</strong></span>
-        {% endif %}
-        {% if paginator %}
-          <span> · {% trans "Найдено:" %} <strong>{{ paginator.count }}</strong></span>
-          {% if page_obj.paginator.num_pages > 1 %}
-            <span> · {% trans "Стр." %} <strong>{{ page_obj.number }}</strong> / {{ page_obj.paginator.num_pages }}</span>
+      <div class="catalog-meta-row">
+        <div class="catalog-meta">
+          {% if category %}
+            <span><strong>{{ category|tr:'name' }}</strong></span>
+          {% else %}
+            <span>{% trans "Все разделы" %}</span>
           {% endif %}
+          {% if subcategory %}
+            <span> · <strong>{% if subcategory.code %}{{ subcategory.code }}{% else %}{{ subcategory|tr:'name' }}{% endif %}</strong></span>
+          {% endif %}
+          {% if q %}
+            <span> · {% trans "Поиск:" %} <strong>{{ q }}</strong></span>
+          {% endif %}
+          {% if paginator %}
+            <span> · {% trans "Найдено:" %} <strong>{{ paginator.count }}</strong></span>
+            {% if page_obj.paginator.num_pages > 1 %}
+              <span> · {% trans "Стр." %} <strong>{{ page_obj.number }}</strong> / {{ page_obj.paginator.num_pages }}</span>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% if view_mode != 'categories' %}
+        <div class="catalog-view-toggle" id="catalog-view-toggle">
+          <button class="cvt-btn" data-view="grid" title="{% trans 'Плитки' %}" aria-label="{% trans 'Вид: плитки' %}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>
+          </button>
+          <button class="cvt-btn" data-view="list" title="{% trans 'Список' %}" aria-label="{% trans 'Вид: список' %}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="2.5" rx="1.25" fill="currentColor"/><rect x="1" y="6.75" width="14" height="2.5" rx="1.25" fill="currentColor"/><rect x="1" y="11.5" width="14" height="2.5" rx="1.25" fill="currentColor"/></svg>
+          </button>
+        </div>
         {% endif %}
       </div>
 
@@ -158,7 +170,7 @@
           {% endfor %}
         </div>
       {% else %}
-        <div class="catalog-grid">
+        <div class="catalog-grid" id="catalog-grid">
           {% for item in products %}
             <a class="catalog-card" href="{% url 'seal_product' item.slug %}">
               <div class="catalog-thumb">
@@ -541,6 +553,33 @@ window.__initSubticker();
 
   document.addEventListener('click', function(e) {
     if (!input.contains(e.target) && !list.contains(e.target)) hide();
+  });
+})();
+
+// ================================================================
+// View toggle: grid / list
+// ================================================================
+(() => {
+  const toggle = document.getElementById('catalog-view-toggle');
+  const grid   = document.getElementById('catalog-grid');
+  if (!toggle || !grid) return;
+
+  const STORAGE_KEY = 'ws_catalog_view';
+  const saved = localStorage.getItem(STORAGE_KEY) || 'grid';
+
+  function setView(view) {
+    grid.classList.toggle('is-list', view === 'list');
+    toggle.querySelectorAll('.cvt-btn').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.view === view);
+    });
+    localStorage.setItem(STORAGE_KEY, view);
+  }
+
+  setView(saved);
+
+  toggle.addEventListener('click', e => {
+    const btn = e.target.closest('.cvt-btn');
+    if (btn) setView(btn.dataset.view);
   });
 })();
 </script>
