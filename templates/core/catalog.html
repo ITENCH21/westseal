@@ -311,7 +311,6 @@
   const totalEl = panel.querySelector("[data-import-total]");
   const filteredEl = panel.querySelector("[data-import-filtered]");
   const latestEl = panel.querySelector("[data-import-latest]");
-  const logEl = panel.querySelector("[data-import-log]");
   const fallbackImage = "{% static 'img/ai/hero.webp' %}";
 
   const makeUrl = () => {
@@ -350,10 +349,6 @@
         badge.classList.toggle("is-running", !!data.running);
       }
       renderLatest(data.latest || []);
-      if (logEl) {
-        logEl.textContent = (data.log || []).join("\n");
-        logEl.style.display = data.log && data.log.length ? "block" : "none";
-      }
     } catch (err) {
       // ignore transient network errors
     }
