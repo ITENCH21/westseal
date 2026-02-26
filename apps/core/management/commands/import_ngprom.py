@@ -28,12 +28,9 @@ import re
 import time
 import urllib.parse
 from html import unescape
-from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
-from django.conf import settings
-from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
@@ -41,9 +38,6 @@ from apps.core.models import SealCategory, SealProduct
 
 BASE_URL = "https://ng-prom.ru"
 SLUG_PREFIX = "ngprom-"
-
-# Path to fallback logo (used when image has watermark or is unavailable)
-LOGO_PATH = Path(settings.BASE_DIR) / "static" / "img" / "logo-blue.png"
 
 SECTIONS = [
     ("uplotnenia-porsna",   "/uplotnenia/uplotnenia-porsna",                       "uplotnenija_porshnja"),
@@ -67,12 +61,6 @@ ATTR_SKIP = re.compile(
     re.I,
 )
 
-
-def _load_logo_content() -> bytes:
-    """Return the bytes of our logo (used instead of watermarked ng-prom images)."""
-    if LOGO_PATH.exists():
-        return LOGO_PATH.read_bytes()
-    return b""
 
 def _norm(text: str) -> str:
     if not text:
@@ -115,9 +103,7 @@ class Command(BaseCommand):
             "Accept-Language": "ru,en;q=0.8",
         })
 
-        logo_bytes = _load_logo_content()
-        if not logo_bytes:
-            log("WARNING: logo-blue.png not found — products will have no image")
+        # logo_bytes no longer used — images are intentionally left empty
 
         sections = SECTIONS
         if options["section"]:
@@ -129,7 +115,6 @@ class Command(BaseCommand):
                 return
 
         total_imported = 0
-        total_logo_used = 0
 
         for slug_key, url_path, db_slug in sections:
             cat = SealCategory.objects.filter(slug=db_slug, is_active=True).first()
@@ -166,18 +151,15 @@ class Command(BaseCommand):
                     if options["limit"] and total_imported >= options["limit"]:
                         break
                     try:
-                        product, logo_used = self._parse_and_save(
-                            session, purl, cat, logo_bytes
+                        product = self._parse_and_save(
+                            session, purl, cat
                         )
                     except Exception as exc:
                         log(f"    FAIL {purl}: {exc}")
                         continue
 
                     total_imported += 1
-                    if logo_used:
-                        total_logo_used += 1
-                    flag = " [logo]" if logo_used else ""
-                    log(f"    [{idx}/{len(product_links)}] {product.name}{flag}  (total={total_imported})")
+                    log(f"    [{idx}/{len(product_links)}] {product.name}  (total={total_imported})")
                     time.sleep(options["sleep"])
 
                 # Check for next page
@@ -185,8 +167,7 @@ class Command(BaseCommand):
                     break
                 page_num += 1
 
-        log(f"\nDone. Imported {total_imported} products from ng-prom.ru "
-            f"(logo used for {total_logo_used} images)")
+        log(f"\nDone. Imported {total_imported} products from ng-prom.ru")
         log_fp.close()
 
     # ─────────────────────────────────────────────── listing page helpers ─ #
@@ -218,8 +199,7 @@ class Command(BaseCommand):
         session: requests.Session,
         url: str,
         cat: SealCategory,
-        logo_bytes: bytes,
-    ) -> tuple["SealProduct", bool]:
+    ) -> "SealProduct":
         html = session.get(url, timeout=30).text
         soup = BeautifulSoup(html, "html.parser")
 
@@ -290,9 +270,8 @@ class Command(BaseCommand):
         obj.attributes_text = " | ".join(attrs_text_parts)
         obj.is_active      = True
 
-        # Always save our logo as the product image (ng-prom images are watermarked)
-        if logo_bytes and not obj.pk:  # only on first create, don't re-save on update
-            obj.image.save("logo-blue.png", ContentFile(logo_bytes), save=False)
+        # ng-prom images are watermarked — leave image empty so the template
+        # shows the site logo as placeholder instead of a vendor logo file.
 
         obj.save()
-        return obj, True
+        return obj, False
