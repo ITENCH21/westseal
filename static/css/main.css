@@ -1178,6 +1178,23 @@ body.theme-dark .hotspot-pin {
   gap: 8px;
   position: sticky;
   top: 96px;
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.catalog-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.catalog-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.catalog-sidebar::-webkit-scrollbar-thumb {
+  background: var(--steel);
+  border-radius: 4px;
+}
+.catalog-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 .catalog-link {
@@ -3375,9 +3392,12 @@ body.theme-dark .sticky-cta-inner {
     flex-flow: row nowrap;
     gap: 6px;
     overflow-x: auto;
+    overflow-y: visible;
+    max-height: none;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 8px;
     scrollbar-width: none;
+    position: static;
   }
 
   .catalog-sidebar::-webkit-scrollbar {
