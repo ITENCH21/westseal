@@ -69,10 +69,13 @@
     <h1>{% trans "Каталог уплотнений" %}</h1>
     <p class="lead">{% trans "Подбор по типу, профилю и размерам. Используйте поиск для быстрых совпадений." %}</p>
     {% endif %}
-    <form class="catalog-search" method="get">
+    <form class="catalog-search" method="get" id="catalog-search-form" autocomplete="off">
       {% if category %}<input type="hidden" name="category" value="{{ category.slug }}">{% endif %}
       {% if subcategory %}<input type="hidden" name="sub" value="{{ subcategory.slug }}">{% endif %}
-      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Поиск по названию или характеристикам' %}">
+      <div class="catalog-search-wrap">
+        <input type="search" name="q" id="catalog-search-input" value="{{ q }}" placeholder="{% trans 'Поиск по названию или характеристикам' %}" aria-autocomplete="list" aria-controls="catalog-suggest-list">
+        <ul class="catalog-suggest" id="catalog-suggest-list" role="listbox" hidden></ul>
+      </div>
       <button class="btn primary" type="submit">{% trans "Найти" %}</button>
     </form>
   </div>
@@ -161,7 +164,7 @@
                 {% if item.image %}
                   <img src="{{ item.image.url }}" alt="{{ item.name }}">
                 {% else %}
-                  <img src="{% static 'img/ai/hero.webp' %}" alt="{{ item.name }}">
+                  <img src="{% static 'img/ai/logoneo_full.png' %}" alt="WESTSEAL" class="catalog-thumb-logo">
                 {% endif %}
               </div>
               <div class="catalog-body">
@@ -440,5 +443,91 @@ window.__initSubticker = (reset = false) => {
 
 // Инициализация при первой загрузке страницы
 window.__initSubticker();
+</script>
+
+<script>
+(function () {
+  const input = document.getElementById('catalog-search-input');
+  const list  = document.getElementById('catalog-suggest-list');
+  if (!input || !list) return;
+
+  let _timer = null;
+  let _last   = '';
+  let _active = -1;
+
+  const suggest_url = '{% url "catalog_search_suggest" %}';
+  const category_val = document.querySelector('[name="category"]')?.value || '';
+
+  function hide() {
+    list.hidden = true;
+    _active = -1;
+  }
+
+  function show(items) {
+    if (!items.length) { hide(); return; }
+    list.innerHTML = '';
+    items.forEach(function(text, i) {
+      const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.textContent = text;
+      li.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        input.value = text;
+        hide();
+        input.form.submit();
+      });
+      list.appendChild(li);
+    });
+    list.hidden = false;
+    _active = -1;
+  }
+
+  function fetch_suggestions(q) {
+    if (q.length < 2) { hide(); return; }
+    let url = suggest_url + '?q=' + encodeURIComponent(q);
+    if (category_val) url += '&category=' + encodeURIComponent(category_val);
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (input.value.trim() !== _last) return; // stale
+        show(data.suggestions || []);
+      })
+      .catch(function() {});
+  }
+
+  input.addEventListener('input', function() {
+    const q = input.value.trim();
+    _last = q;
+    clearTimeout(_timer);
+    if (q.length < 2) { hide(); return; }
+    _timer = setTimeout(function() { fetch_suggestions(q); }, 200);
+  });
+
+  input.addEventListener('keydown', function(e) {
+    const items = list.querySelectorAll('li');
+    if (!items.length || list.hidden) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      _active = Math.min(_active + 1, items.length - 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      _active = Math.max(_active - 1, -1);
+    } else if (e.key === 'Enter' && _active >= 0) {
+      e.preventDefault();
+      input.value = items[_active].textContent;
+      hide();
+      input.form.submit();
+      return;
+    } else if (e.key === 'Escape') {
+      hide(); return;
+    } else { return; }
+    items.forEach(function(li, i) { li.classList.toggle('is-active', i === _active); });
+    if (_active >= 0) input.value = items[_active].textContent;
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!input.contains(e.target) && !list.contains(e.target)) hide();
+  });
+})();
 </script>
 {% endblock %}

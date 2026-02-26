@@ -116,6 +116,7 @@ def seal_catalog(request):
         SealCategory.objects.filter(parent__isnull=True, is_active=True)
         .annotate(product_count=Count("products", filter=Q(products__is_active=True), distinct=True))
         .annotate(child_count=Count("children", filter=Q(children__is_active=True), distinct=True))
+        .filter(product_count__gt=0)
     )
     category = categories.filter(slug=category_slug).first() if category_slug else None
     subcategories = (
@@ -383,6 +384,35 @@ def catalog_import_status(request):
         "updated_at": updated_at,
     }
     return JsonResponse(payload)
+
+
+def catalog_search_suggest(request):
+    """Returns up to 10 product name suggestions for autocomplete."""
+    q = (request.GET.get("q") or "").strip()
+    category_slug = request.GET.get("category") or ""
+    if len(q) < 2:
+        return JsonResponse({"suggestions": []})
+
+    products = SealProduct.objects.filter(is_active=True)
+    if category_slug:
+        cat = SealCategory.objects.filter(slug=category_slug, is_active=True).first()
+        if cat:
+            products = products.filter(category=cat)
+
+    # Exact prefix match first, then contains
+    prefix_qs = products.filter(name__istartswith=q).values_list("name", flat=True).order_by("name")[:6]
+    contains_qs = products.filter(name__icontains=q).exclude(name__istartswith=q).values_list("name", flat=True).order_by("name")[:6]
+
+    seen = set()
+    suggestions = []
+    for name in list(prefix_qs) + list(contains_qs):
+        if name not in seen:
+            seen.add(name)
+            suggestions.append(name)
+        if len(suggestions) >= 10:
+            break
+
+    return JsonResponse({"suggestions": suggestions})
 
 
 def robots_view(request):

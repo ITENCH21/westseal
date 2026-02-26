@@ -1108,6 +1108,52 @@ body.theme-dark .hotspot-pin {
   flex: 1 1 280px;
 }
 
+.catalog-search-wrap {
+  position: relative;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.catalog-search-wrap input[type="search"] {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.catalog-suggest {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--steel);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 200;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.catalog-suggest li {
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.4;
+  transition: background 0.1s;
+  border-radius: 8px;
+  margin: 2px 4px;
+}
+
+.catalog-suggest li:hover,
+.catalog-suggest li.is-active {
+  background: rgba(31, 74, 138, 0.1);
+  color: var(--accent);
+}
+
 .catalog-layout {
   display: grid;
   grid-template-columns: minmax(220px, 260px) 1fr;
@@ -1443,6 +1489,15 @@ body.theme-dark .catalog-card:hover {
   object-fit: contain;
 }
 
+/* Логотип-заглушка для карточек без изображения */
+.catalog-thumb img.catalog-thumb-logo {
+  object-fit: contain;
+  padding: 12px;
+  opacity: 0.55;
+  width: 100%;
+  height: 100%;
+}
+
 .catalog-body {
   padding: 0;
   display: grid;
@@ -1567,6 +1622,30 @@ body.theme-dark .catalog-card:hover {
   margin-top: 20px;
   width: 100%;
   text-align: center;
+}
+
+/* Логотип-заглушка в детальной карточке */
+.catalog-detail-logo {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  opacity: 0.5;
+  padding: 16px;
+}
+
+/* Блок-заглушка для отсутствующих характеристик */
+.catalog-no-specs {
+  background: rgba(31, 74, 138, 0.05);
+  border: 1px dashed var(--steel);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: var(--ink-secondary, #666);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 10px;
 }
 
 .catalog-detail-info {

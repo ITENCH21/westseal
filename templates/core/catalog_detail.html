@@ -80,7 +80,7 @@
       {% if product.image %}
         <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
       {% else %}
-        <img src="{% static 'img/ai/hero.webp' %}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
+        <img src="{% static 'img/ai/logoneo_full.png' %}" alt="WESTSEAL" loading="lazy" class="catalog-detail-logo">
       {% endif %}
       <a class="btn primary" href="/support/requests/new/">{% trans "Оформить заявку" %}</a>
     </div>
@@ -98,7 +98,9 @@
           {% endfor %}
         </table>
       {% else %}
-        <p>{% trans "Данные будут уточнены инженером после запроса." %}</p>
+        <div class="catalog-no-specs">
+          <p>Скоро здесь появятся точные характеристики, а пока вы можете обратиться к менеджеру за уточнением по вашим вопросам.</p>
+        </div>
       {% endif %}
 
       {% if product.description %}

@@ -18,8 +18,8 @@ def _normalize_for_search(value: str) -> str:
 def seal_product_search(products_qs, q: str, *, max_candidates: int = 5000, min_candidates: int = 200, limit: int = 2000):
     """
     Returns queryset ordered by relevance.
-    - Partial matches via icontains.
-    - Fuzzy ranking (typos) via RapidFuzz when available.
+    - Short/code queries (< 6 chars): strict icontains only — no fuzzy broadening.
+    - Longer queries: partial icontains first, fuzzy ranking (RapidFuzz) if < min_candidates.
     """
     q = (q or "").strip()
     if not q:
@@ -30,6 +30,20 @@ def seal_product_search(products_qs, q: str, *, max_candidates: int = 5000, min_
         return products_qs.filter(Q(name__icontains=q) | Q(description__icontains=q) | Q(attributes_text__icontains=q))
 
     icontains_q = Q(name__icontains=q) | Q(description__icontains=q) | Q(attributes_text__icontains=q)
+
+    # For short codes (≤5 chars) — strict icontains only, ordered by name match first
+    if len(q_norm) <= 5:
+        name_match = Q(name__icontains=q)
+        attr_match = Q(attributes_text__icontains=q)
+        from django.db.models import Value
+        order = Case(
+            When(name_match, then=0),
+            When(attr_match, then=1),
+            default=2,
+            output_field=IntegerField(),
+        )
+        return products_qs.filter(icontains_q).order_by(order, "name")
+
     candidates = list(
         products_qs.filter(icontains_q)
         .values("id", "name", "attributes_text")
@@ -45,6 +59,9 @@ def seal_product_search(products_qs, q: str, *, max_candidates: int = 5000, min_
     except Exception:
         return products_qs.filter(icontains_q)
 
+    # Min score scales with query length: longer query → can be fuzzier
+    min_score = max(72, 78 - len(q_norm))
+
     scored = []
     for item in candidates:
         hay = _normalize_for_search(f"{item.get('name') or ''} {item.get('attributes_text') or ''}")
@@ -52,8 +69,8 @@ def seal_product_search(products_qs, q: str, *, max_candidates: int = 5000, min_
             continue
         score = fuzz.WRatio(q_norm, hay)
         if q_norm in hay:
-            score = min(100, score + 8)
-        if score >= 60:
+            score = min(100, score + 10)
+        if score >= min_score:
             scored.append((item["id"], score))
 
     if not scored:
