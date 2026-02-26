@@ -3416,17 +3416,7 @@ body.theme-dark .sticky-cta-inner {
     border-bottom: none;
   }
 
-  /* Backdrop behind the full-screen nav */
-  body.nav-is-open::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.42);
-    z-index: 150;
-    pointer-events: none;
-  }
-
-  /* Make sure nav is above the backdrop */
+  /* Make sure nav is above everything */
   .nav.is-open {
     z-index: 200;
   }
