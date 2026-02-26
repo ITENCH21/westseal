@@ -1456,6 +1456,20 @@ body.theme-dark .hotspot-pin {
   padding-top: 6px;
 }
 
+.catalog-pagination-top {
+  justify-content: flex-start;
+  padding-top: 0;
+  padding-bottom: 8px;
+}
+
+.catalog-page-info {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
 .catalog-meta {
   font-size: 13px;
   color: var(--muted);
