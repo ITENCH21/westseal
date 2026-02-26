@@ -2,14 +2,14 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}Справочник по уплотнениям — материалы, профили, 600 SKU | WESTSEAL{% endblock %}
-{% block meta_description %}Онлайн-справочник уплотнений: 600 SKU для гидроцилиндров. Материалы FKM, NBR, PTFE, HNBR, PU — температура, давление, совместимость. Профили Rod Seal, Piston Seal, Wiper. Скачать каталог Excel.{% endblock %}
+{% block title %}Примеры подбора уплотнений для заказчиков — 600 позиций | WESTSEAL{% endblock %}
+{% block meta_description %}600 позиций уплотнений из реальных заказов наших клиентов: FKM, NBR, PTFE, HNBR, PU — давление до 700 бар, температура от −60 до +220°C, аналоги Trelleborg, ISO. Подберите аналог по размеру и материалу.{% endblock %}
 
 {% block content %}
 <section class="page-hero">
   <div class="container">
-    <h1>{% trans "Справочник по уплотнениям" %}</h1>
-    <p class="lead">{% trans "600 SKU для гидроцилиндров — материалы, профили, размеры, температурные диапазоны и аналоги брендов. Подбирайте уплотнение по параметрам прямо на странице." %}</p>
+    <h1>{% trans "Примеры выполненных подборов уплотнений" %}</h1>
+    <p class="lead">{% trans "600 позиций из реальных заказов наших клиентов — штоковые, поршневые, статичные уплотнения и грязесъёмники для гидроцилиндров. Используйте для поиска аналога по размеру и материалу." %}</p>
     <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
       <a href="{% static 'files/catalog_uplotneniy.xlsx' %}"
          class="btn primary"
@@ -30,7 +30,7 @@
         id="guide-filter"
         type="search"
         class="guide-filter-input"
-        placeholder="{% trans 'Фильтр: артикул, материал, размер, среда, аналог...' %}"
+        placeholder="{% trans 'Поиск по размеру, материалу, аналогу (напр. FKM 50x66 или Trelleborg)...' %}"
         autocomplete="off"
         aria-label="{% trans 'Поиск по каталогу' %}"
       >
@@ -83,8 +83,8 @@
 <section class="section muted">
   <div class="container">
     <div class="section-head">
-      <h2>{% trans "Материалы уплотнений" %}</h2>
-      <p>{% trans "Сравнение эластомеров и пластиков по твёрдости, рабочей температуре и химической совместимости." %}</p>
+      <h2>{% trans "Материалы, применяемые в заказах" %}</h2>
+      <p>{% trans "Эластомеры и пластики, которые мы регулярно подбираем и поставляем для клиентов — с указанием температурных диапазонов и химической совместимости." %}</p>
     </div>
     <div class="guide-table-wrap">
       <table class="guide-table guide-table--ref">
@@ -121,8 +121,8 @@
 <section class="section">
   <div class="container">
     <div class="section-head">
-      <h2>{% trans "Профили уплотнений" %}</h2>
-      <p>{% trans "Штоковые (Rod Seal), поршневые (Piston Seal), грязесъёмники (Wiper), направляющие (Wear Ring) и статические уплотнения." %}</p>
+      <h2>{% trans "Профили, которые мы поставляли" %}</h2>
+      <p>{% trans "Штоковые (Rod Seal), поршневые (Piston Seal), грязесъёмники (Wiper), направляющие (Wear Ring) и статика — примеры реальных подборов." %}</p>
     </div>
     <div class="guide-table-wrap">
       <table class="guide-table guide-table--ref">
@@ -161,8 +161,8 @@
 <section class="section muted">
   <div class="container">
     <div class="section-head">
-      <h2>{% trans "Условия применения" %}</h2>
-      <p>{% trans "Теги условий, которые связывают профиль и материал с конкретными задачами." %}</p>
+      <h2>{% trans "Условия реальных заказов" %}</h2>
+      <p>{% trans "Классификация условий, с которыми обращались наши клиенты при постановке задачи." %}</p>
     </div>
     <div class="grid-3">
       {% for c in conditions %}
@@ -179,8 +179,8 @@
 {# ── CTA ──────────────────────────────────────────────────────────────── #}
 <section class="section">
   <div class="container" style="text-align:center;max-width:640px;">
-    <h2>{% trans "Не нашли нужный размер?" %}</h2>
-    <p class="lead">{% trans "Подбираем аналоги по образцу, чертежу или техническим требованиям. Производство малых партий." %}</p>
+    <h2>{% trans "Нужно подобрать аналог или изготовить?" %}</h2>
+    <p class="lead">{% trans "Отправьте заявку — подберём аналог по образцу, чертежу или артикулу. Работаем с гидравликой, пневматикой, пищевой промышленностью и спецтехникой." %}
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
       <a href="/support/requests/new/" class="btn primary">{% trans "Отправить заявку" %}</a>
       <a href="/catalog/" class="btn ghost">{% trans "Каталог манжет" %}</a>
