@@ -395,14 +395,6 @@ def seal_product(request, slug):
     # Brand for structured data — всегда WESTSEAL
     brand_name = "WESTSEAL"
 
-    # Сайт производителя для кнопки (на основании атрибута "Производитель")
-    manufacturer_website = ""
-    for a in display_attrs:
-        if "производ" in a.get("name", "").lower():
-            mfr_val = a.get("value", "").lower().strip()
-            manufacturer_website = MANUFACTURER_WEBSITES.get(mfr_val, "")
-            break
-
     # Очищенный список атрибутов — заменяем чужой бренд на WESTSEAL
     _THIRD_PARTY_BRANDS = {"krpms", "kastas", "aston seals", "aston", "seal-tech", "sealtech", "mkt", "mkt-rti", "quers"}
     display_attrs = []
@@ -413,6 +405,14 @@ def seal_product(request, slug):
             display_attrs.append({"name": name, "value": "WESTSEAL"})
         else:
             display_attrs.append(a)
+
+    # Сайт производителя для кнопки (на основании атрибута "Производитель")
+    manufacturer_website = ""
+    for a in display_attrs:
+        if "производ" in a.get("name", "").lower():
+            mfr_val = a.get("value", "").lower().strip()
+            manufacturer_website = MANUFACTURER_WEBSITES.get(mfr_val, "")
+            break
 
     return render(
         request,
