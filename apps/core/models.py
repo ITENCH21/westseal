@@ -161,6 +161,12 @@ class SealProduct(models.Model):
 
     class Meta:
         ordering = ["name"]
+        indexes = [
+            models.Index(fields=["is_active"], name="sealproduct_active_idx"),
+            models.Index(fields=["is_active", "category"], name="sealproduct_active_cat_idx"),
+            models.Index(fields=["is_active", "subcategory"], name="sealproduct_active_subcat_idx"),
+            models.Index(fields=["slug"], name="sealproduct_slug_idx"),
+        ]
 
     def __str__(self) -> str:
         return self.name

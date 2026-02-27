@@ -32,6 +32,7 @@ def site_settings(request):
         "production": "Производство",
         "products": "Продукция",
         "catalogs": "Каталоги PDF",
+        "guide": "Примеры подборов",
         "seal_catalog": "Каталог манжет",
         "seal_product": "Карточка товара",
         "knowledge": "База знаний",
@@ -44,6 +45,10 @@ def site_settings(request):
         "support_request_create": "Создать заявку",
         "support_request_detail": "Заявка",
         "support_chat": "Чат с поддержкой",
+        "privacy": "Политика конфиденциальности",
+        "consent": "Согласие на обработку данных",
+        "articles": "Статьи",
+        "robots": "robots.txt",
     }
 
     current_page_title = page_titles.get(url_name, "")

@@ -360,16 +360,18 @@
   }
   </script>
   {% if request.path != '/' %}
+    {% with bc_name=current_section_label|default:current_page_title|default:"WESTSEAL" %}
     <script type="application/ld+json">
     {
       "@context":"https://schema.org",
       "@type":"BreadcrumbList",
       "itemListElement":[
-        {"@type":"ListItem","position":1,"name":"Главная","item":"{{ site_url }}/"},
-        {"@type":"ListItem","position":2,"name":"{% if current_section_label %}{{ current_section_label }}{% else %}{{ current_page_title }}{% endif %}","item":"{{ site_url }}{{ request.path }}"}
+        {"@type":"ListItem","position":1,"name":"Главная","item":{"@type":"Thing","@id":"{{ site_url }}/","name":"Главная"}},
+        {"@type":"ListItem","position":2,"name":"{{ bc_name }}","item":{"@type":"Thing","@id":"{{ site_url }}{{ request.path }}","name":"{{ bc_name }}"}}
       ]
     }
     </script>
+    {% endwith %}
   {% endif %}
 
   {# Ticker scripts removed — main.js handles all ticker initialization #}
