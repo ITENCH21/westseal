@@ -407,13 +407,9 @@ if ('requestIdleCallback' in window) {
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Подбор и поставка гидравлических и пневматических уплотнений",
-  "provider": {
-    "@type": "Organization",
-    "name": "{{ site_settings.org_name }}"
-  },
-  "areaServed": {"@type": "Country", "name": "Russia"},
+  "@type": "LocalBusiness",
+  "@id": "{{ site_url }}/#organization",
+  "name": "{{ site_settings.org_name }}",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": 5,
