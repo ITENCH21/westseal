@@ -46,12 +46,12 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type":"ListItem","position":1,"name":"Главная","item":{"@type":"Thing","@id":"{{ site_url }}/","name":"Главная"}},
-    {"@type":"ListItem","position":2,"name":"Каталог уплотнений","item":{"@type":"Thing","@id":"{{ site_url }}/catalog/","name":"Каталог уплотнений"}},
+    {"@type":"ListItem","position":1,"name":"Главная","item":{"@type":"WebPage","@id":"{{ site_url }}/","name":"Главная"}},
+    {"@type":"ListItem","position":2,"name":"Каталог уплотнений","item":{"@type":"WebPage","@id":"{{ site_url }}/catalog/","name":"Каталог уплотнений"}},
     {% if product.category %}
-    {"@type":"ListItem","position":3,"name":"{{ product.category.name|escapejs }}","item":{"@type":"Thing","@id":"{{ site_url }}/catalog/?category={{ product.category.slug }}","name":"{{ product.category.name|escapejs }}"}},
+    {"@type":"ListItem","position":3,"name":"{{ product.category.name|escapejs }}","item":{"@type":"WebPage","@id":"{{ site_url }}/catalog/?category={{ product.category.slug }}","name":"{{ product.category.name|escapejs }}"}},
     {% endif %}
-    {"@type":"ListItem","position":{% if product.category %}4{% else %}3{% endif %},"name":"{{ product.name|escapejs }}","item":{"@type":"Thing","@id":"{{ site_url }}{{ request.path }}","name":"{{ product.name|escapejs }}"}}
+    {"@type":"ListItem","position":{% if product.category %}4{% else %}3{% endif %},"name":"{{ product.name|escapejs }}","item":{"@type":"WebPage","@id":"{{ site_url }}{{ request.path }}","name":"{{ product.name|escapejs }}"}}
   ]
 }
 </script>

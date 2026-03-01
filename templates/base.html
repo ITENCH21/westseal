@@ -366,8 +366,8 @@
       "@context":"https://schema.org",
       "@type":"BreadcrumbList",
       "itemListElement":[
-        {"@type":"ListItem","position":1,"name":"Главная","item":{"@type":"Thing","@id":"{{ site_url }}/","name":"Главная"}},
-        {"@type":"ListItem","position":2,"name":"{{ bc_name }}","item":{"@type":"Thing","@id":"{{ site_url }}{{ request.path }}","name":"{{ bc_name }}"}}
+        {"@type":"ListItem","position":1,"name":"Главная","item":{"@type":"WebPage","@id":"{{ site_url }}/","name":"Главная"}},
+        {"@type":"ListItem","position":2,"name":"{{ bc_name }}","item":{"@type":"WebPage","@id":"{{ site_url }}{{ request.path }}","name":"{{ bc_name }}"}}
       ]
     }
     </script>
