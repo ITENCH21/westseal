@@ -413,13 +413,13 @@ if ('requestIdleCallback' in window) {
     "@type": "Organization",
     "name": "{{ site_settings.org_name }}"
   },
-  "areaServed": "RU",
+  "areaServed": {"@type": "Country", "name": "Russia"},
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "5",
-    "reviewCount": "{{ testimonials|length }}",
-    "bestRating": "5",
-    "worstRating": "1"
+    "ratingValue": 5,
+    "reviewCount": {{ testimonials|length }},
+    "bestRating": 5,
+    "worstRating": 1
   },
   "review": [
     {% for t in testimonials %}
@@ -433,8 +433,8 @@ if ('requestIdleCallback' in window) {
       "reviewBody": "{{ t|tr:'text'|escapejs }}",
       "reviewRating": {
         "@type": "Rating",
-        "ratingValue": "{{ t.rating }}",
-        "bestRating": "5"
+        "ratingValue": {{ t.rating }},
+        "bestRating": 5
       }
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
