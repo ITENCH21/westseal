@@ -134,6 +134,14 @@ SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8001")
 GA4_ID = os.environ.get("GA4_ID", "")
 YANDEX_METRIKA_ID = os.environ.get("YANDEX_METRIKA_ID", "")
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/tmp/westseal_cache",
+        "TIMEOUT": 86400,
+    }
+}
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer",

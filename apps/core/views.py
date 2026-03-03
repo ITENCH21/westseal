@@ -7,6 +7,7 @@ from django.db.models import Q, Count
 from django.core.paginator import Paginator
 from django.urls import reverse
 from django.conf import settings
+from django.views.decorators.cache import cache_page
 from types import SimpleNamespace
 from collections import deque
 import os
@@ -529,6 +530,7 @@ def robots_view(request):
     return HttpResponse(content, content_type="text/plain")
 
 
+@cache_page(86400)
 def sitemap_view(request):
     static_urls = [
         ("/", "1.0"),
@@ -545,22 +547,19 @@ def sitemap_view(request):
         loc = escape(request.build_absolute_uri(path))
         body.append(f"  <url><loc>{loc}</loc><changefreq>weekly</changefreq><priority>{priority}</priority></url>")
     # Category pages (top-level and subcategory)
-    for cat in SealCategory.objects.filter(is_active=True).only("slug", "parent_id").order_by("parent_id", "slug"):
-        if cat.parent_id:
-            url_path = f"/catalog/?subcat={cat.slug}"
-        else:
-            url_path = f"/catalog/?cat={cat.slug}"
+    for slug, parent_id in SealCategory.objects.filter(is_active=True).order_by("parent_id", "slug").values_list("slug", "parent_id"):
+        url_path = f"/catalog/?subcat={slug}" if parent_id else f"/catalog/?cat={slug}"
         loc = escape(request.build_absolute_uri(url_path))
         body.append(f"  <url><loc>{loc}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>")
     # Articles
-    for article in Article.objects.filter(is_published=True).only("slug", "published_at"):
-        loc = escape(request.build_absolute_uri(f"/knowledge/{article.slug}/"))
-        lastmod = article.published_at.date().isoformat() if article.published_at else ""
+    for slug, published_at in Article.objects.filter(is_published=True).values_list("slug", "published_at"):
+        loc = escape(request.build_absolute_uri(f"/knowledge/{slug}/"))
+        lastmod = published_at.date().isoformat() if published_at else ""
         body.append(f"  <url><loc>{loc}</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>")
-    # All active products (no limit — ~25k products, well within 50k sitemap limit)
-    for product in SealProduct.objects.filter(is_active=True).only("slug", "updated_at").order_by("slug"):
-        loc = escape(request.build_absolute_uri(f"/catalog/item/{product.slug}/"))
-        lastmod = product.updated_at.date().isoformat()
+    # All active products (~25k, well within 50k sitemap limit)
+    for slug, updated_at in SealProduct.objects.filter(is_active=True).order_by("slug").values_list("slug", "updated_at"):
+        loc = escape(request.build_absolute_uri(f"/catalog/item/{slug}/"))
+        lastmod = updated_at.date().isoformat()
         body.append(f"  <url><loc>{loc}</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>")
     body.append("</urlset>")
     body = "\n".join(body)
