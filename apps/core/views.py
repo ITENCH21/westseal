@@ -564,14 +564,19 @@ def sitemap_view(request):
     for path, priority in static_urls:
         loc = escape(request.build_absolute_uri(path))
         body.append(f"  <url><loc>{loc}</loc><changefreq>weekly</changefreq><priority>{priority}</priority></url>")
-    # Category pages (top-level and subcategory)
-    # Build lookup: id -> slug for parent categories
-    top_cats = {
-        cat_id: cat_slug
-        for cat_id, cat_slug in SealCategory.objects.filter(is_active=True, parent__isnull=True).values_list("id", "slug")
-    }
+    # Category pages — only those with actual products (same filter as the catalog view)
+    # Build lookup: id -> slug for top-level categories with products
+    from django.db.models import Count as _Count, Q as _Q
+    top_cats_qs = (
+        SealCategory.objects.filter(parent__isnull=True, is_active=True)
+        .annotate(_pc=_Count("products", filter=_Q(products__is_active=True), distinct=True))
+        .filter(_pc__gt=0)
+    )
+    top_cats = {cat_id: cat_slug for cat_id, cat_slug in top_cats_qs.values_list("id", "slug")}
     for slug, parent_id in SealCategory.objects.filter(is_active=True).order_by("parent_id", "slug").values_list("slug", "parent_id"):
         if parent_id is None:
+            if slug not in top_cats.values():
+                continue
             url_path = f"/catalog/?category={slug}"
         else:
             parent_slug = top_cats.get(parent_id)
