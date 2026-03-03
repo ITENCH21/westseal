@@ -296,6 +296,14 @@ def seal_catalog(request):
             set([1, total_pages] + list(range(max(1, current - 2), min(total_pages, current + 2) + 1)))
         )
 
+    # Canonical URL: preserve category/sub params, strip q/page to avoid duplicate indexing
+    if subcategory and category:
+        canonical_path = f"/catalog/?category={category.slug}&sub={subcategory.slug}"
+    elif category:
+        canonical_path = f"/catalog/?category={category.slug}"
+    else:
+        canonical_path = "/catalog/"
+
     return render(
         request,
         "core/catalog.html",
@@ -314,6 +322,7 @@ def seal_catalog(request):
             "page_numbers": page_numbers,
             "q": q,
             # SEO overrides
+            "canonical_url": canonical_path,
             "seo_title": (
                 f"{subcategory.name} — {category.name}" if subcategory
                 else f"{category.name} — каталог уплотнений" if category
@@ -556,8 +565,19 @@ def sitemap_view(request):
         loc = escape(request.build_absolute_uri(path))
         body.append(f"  <url><loc>{loc}</loc><changefreq>weekly</changefreq><priority>{priority}</priority></url>")
     # Category pages (top-level and subcategory)
+    # Build lookup: id -> slug for parent categories
+    top_cats = {
+        cat_id: cat_slug
+        for cat_id, cat_slug in SealCategory.objects.filter(is_active=True, parent__isnull=True).values_list("id", "slug")
+    }
     for slug, parent_id in SealCategory.objects.filter(is_active=True).order_by("parent_id", "slug").values_list("slug", "parent_id"):
-        url_path = f"/catalog/?subcat={slug}" if parent_id else f"/catalog/?cat={slug}"
+        if parent_id is None:
+            url_path = f"/catalog/?category={slug}"
+        else:
+            parent_slug = top_cats.get(parent_id)
+            if not parent_slug:
+                continue
+            url_path = f"/catalog/?category={parent_slug}&sub={slug}"
         loc = escape(request.build_absolute_uri(url_path))
         body.append(f"  <url><loc>{loc}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>")
     # Articles
