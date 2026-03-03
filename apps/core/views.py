@@ -526,7 +526,16 @@ def catalog_search_suggest(request):
 
 
 def robots_view(request):
-    content = "User-agent: *\nDisallow:\nSitemap: " + request.build_absolute_uri("/sitemap.xml")
+    sitemap_url = request.build_absolute_uri("/sitemap.xml")
+    content = (
+        "User-agent: *\n"
+        "Disallow: /admin/\n"
+        "Disallow: /account/\n"
+        "Disallow: /support/\n"
+        "Disallow: /i18n/\n"
+        "Allow: /\n"
+        f"Sitemap: {sitemap_url}\n"
+    )
     return HttpResponse(content, content_type="text/plain")
 
 

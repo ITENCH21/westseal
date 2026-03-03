@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="{% static 'img/favicon-192.png' %}">
   <link rel="canonical" href="{{ site_url }}{{ request.path }}">
   <link rel="alternate" hreflang="ru" href="{{ site_url }}{{ request.path }}">
-  <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}">
+  <link rel="alternate" hreflang="x-default" href="{{ site_url }}{{ request.path }}">
   {% with pt=page|tr:'title' pm=page|tr:'meta_title' md=page|tr:'meta_desc' sd=page|tr:'hero_subtitle' %}
   <meta name="description" content="{{ seo_desc|default:md|default:sd|truncatechars:160 }}">
   <meta property="og:site_name" content="WESTSEAL">
@@ -29,6 +29,8 @@
   <meta name="twitter:title" content="{{ seo_title|default:pm|default:pt }} | WESTSEAL">
   <meta name="twitter:description" content="{{ seo_desc|default:md|default:sd|truncatechars:160 }}">
   {% endwith %}
+  {% if google_verification %}<meta name="google-site-verification" content="{{ google_verification }}">{% endif %}
+  {% if yandex_verification %}<meta name="yandex-verification" content="{{ yandex_verification }}">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Bebas+Neue&display=optional" onload="this.onload=null;this.rel='stylesheet'">

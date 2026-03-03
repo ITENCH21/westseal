@@ -133,6 +133,8 @@ TELEGRAM_ADMIN_CHAT_ID = os.environ.get("TELEGRAM_ADMIN_CHAT_ID", "")
 SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8001")
 GA4_ID = os.environ.get("GA4_ID", "")
 YANDEX_METRIKA_ID = os.environ.get("YANDEX_METRIKA_ID", "")
+GOOGLE_VERIFICATION = os.environ.get("GOOGLE_VERIFICATION", "")
+YANDEX_VERIFICATION = os.environ.get("YANDEX_VERIFICATION", "")
 
 CACHES = {
     "default": {

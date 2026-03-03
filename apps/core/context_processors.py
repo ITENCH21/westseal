@@ -65,5 +65,7 @@ def site_settings(request):
         "site_url": settings.SITE_URL.rstrip("/"),
         "ga4_id": settings.GA4_ID,
         "yandex_metrika_id": settings.YANDEX_METRIKA_ID,
+        "google_verification": settings.GOOGLE_VERIFICATION,
+        "yandex_verification": settings.YANDEX_VERIFICATION,
         "nav_categories": nav_categories,
     }
