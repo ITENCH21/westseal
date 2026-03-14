@@ -35,6 +35,7 @@ import json
 
 BASE_URL = "https://westseal.ru"
 OUTPUT_FILE = "westseal_feed.yml"
+PLACEHOLDER_IMAGE = f"{BASE_URL}/static/img/ai/logoneo.png"
 
 # Режим: 'profiles' — типы продукции (~500 шт), 'items' — все позиции (~48000)
 MODE = "items"
@@ -53,6 +54,7 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger("westseal-yml")
+DETAIL_IMAGE_CACHE = {}
 
 # ── Сессия ─────────────────────────────────────────────────────
 session = requests.Session()
@@ -99,15 +101,151 @@ def fetch(url, params=None, retries=5):
             r.raise_for_status()
             return r.text
         except requests.RequestException as e:
+            response = getattr(e, "response", None)
+            if response is not None and 400 <= response.status_code < 500 and response.status_code != 429:
+                log.warning(f"  Без повтора ({response.status_code}): {e}")
+                return None
             log.warning(f"  Попытка {i+1}/{retries}: {e}")
             if i < retries - 1:
                 time.sleep(max(DELAY * 2, 2 ** i))
     return None
 
 
+def parse_soup(html_text):
+    """Создает BeautifulSoup с fallback на встроенный парсер."""
+    try:
+        return BeautifulSoup(html_text, "lxml")
+    except Exception:
+        return BeautifulSoup(html_text, "html.parser")
+
+
+def normalize_url(url):
+    """Приводит относительный URL к абсолютному."""
+    if not url:
+        return ""
+    url = url.strip()
+    if not url:
+        return ""
+    if url.startswith("//"):
+        return f"https:{url}"
+    if url.startswith("http://") or url.startswith("https://"):
+        return url
+    if url.startswith("/"):
+        return BASE_URL + url
+    return f"{BASE_URL}/{url.lstrip('/')}"
+
+
+def extract_srcset_url(srcset):
+    """Берет самый полезный URL из srcset."""
+    if not srcset:
+        return ""
+    candidates = []
+    for chunk in srcset.split(","):
+        parts = chunk.strip().split()
+        if not parts:
+            continue
+        url = normalize_url(parts[0])
+        if url:
+            candidates.append(url)
+    return candidates[-1] if candidates else ""
+
+
+def extract_image_from_style(style):
+    if not style:
+        return ""
+    match = re.search(r"url\(['\"]?([^'\")\s]+)", style)
+    return normalize_url(match.group(1)) if match else ""
+
+
+def select_best_image(candidates):
+    """Выбирает лучшую картинку, избегая аналитики и логотипов, если есть реальный товарный кадр."""
+    normalized = []
+    for candidate in candidates:
+        url = normalize_url(candidate)
+        if not url or "mc.yandex.ru" in url:
+            continue
+        normalized.append(url)
+    if not normalized:
+        return ""
+
+    preferred = [
+        url for url in normalized
+        if "/media/catalog/" in url and "logoneo" not in url.lower()
+    ]
+    if preferred:
+        return preferred[0]
+
+    non_logo = [url for url in normalized if "logoneo" not in url.lower()]
+    if non_logo:
+        return non_logo[0]
+
+    return normalized[0]
+
+
+def extract_image_from_container(node):
+    """Пробует вытащить картинку из style, img src/srcset или picture source."""
+    if not node:
+        return ""
+
+    candidates = [extract_image_from_style(node.get("style", ""))]
+
+    for element in node.select("img, source"):
+        candidates.append(element.get("src"))
+        candidates.append(extract_srcset_url(element.get("srcset", "")))
+
+    return select_best_image(candidates)
+
+
+def fetch_detail_image(url):
+    """Берет картинку из карточки товара, если ее нет в листинге."""
+    if url in DETAIL_IMAGE_CACHE:
+        return DETAIL_IMAGE_CACHE[url]
+
+    html_text = fetch(url)
+    if not html_text:
+        DETAIL_IMAGE_CACHE[url] = ""
+        return ""
+
+    soup = parse_soup(html_text)
+    candidates = []
+
+    for selector in (
+        ".catalog-detail-hero",
+        ".catalog-detail-media",
+        ".catalog-detail-gallery",
+        ".catalog-detail-card",
+        ".catalog-detail",
+        "main",
+    ):
+        node = soup.select_one(selector)
+        if node:
+            candidates.append(extract_image_from_container(node))
+
+    for element in soup.select("img, source"):
+        candidates.append(element.get("src"))
+        candidates.append(extract_srcset_url(element.get("srcset", "")))
+
+    image = select_best_image(candidates)
+    DETAIL_IMAGE_CACHE[url] = image
+    return image
+
+
+def resolve_item_image(url, image=""):
+    """Собирает итоговую картинку: листинг -> карточка товара -> заглушка."""
+    resolved = select_best_image([image])
+    if resolved and "logoneo" not in resolved.lower():
+        return resolved
+
+    detail_image = fetch_detail_image(url)
+    if detail_image:
+        return detail_image
+
+    return resolved or PLACEHOLDER_IMAGE
+
+
 def parse_profiles(html_text):
     """Парсит профили (типы продукции) из страницы каталога."""
-    soup = BeautifulSoup(html_text, "lxml")
+    soup = parse_soup(html_text)
     grid = soup.select_one("#catalog-grid")
     if not grid:
         return []
@@ -126,17 +264,9 @@ def parse_profiles(html_text):
             if body:
                 name = body.get_text(strip=True).split("\n")[0].strip()
 
-        # Картинка
-        img = ""
-        thumb = card.select_one(".catalog-thumb")
-        if thumb and thumb.get("style"):
-            m = re.search(r"url\(['\"]?([^'\")\s]+)", thumb["style"])
-            if m and "hero.webp" not in m.group(1):
-                img = m.group(1)
-                if not img.startswith("http"):
-                    img = BASE_URL + img
-
         url = href if href.startswith("http") else BASE_URL + href
+        img = extract_image_from_container(card.select_one(".catalog-thumb"))
+        img = resolve_item_image(url, img)
 
         if name and len(name) > 1:
             items.append({"name": name, "url": url, "image": img})
@@ -146,23 +276,16 @@ def parse_profiles(html_text):
 
 def parse_items_from_import(html_text):
     """Парсит конкретные товары из панели 'последних импортов' на странице."""
-    soup = BeautifulSoup(html_text, "lxml")
+    soup = parse_soup(html_text)
     items = []
     for a in soup.select("a.catalog-import-item"):
         href = a.get("href", "")
         name_el = a.select_one(".catalog-import-name")
         name = name_el.get_text(strip=True) if name_el else ""
 
-        img = ""
-        thumb = a.select_one(".catalog-import-thumb")
-        if thumb and thumb.get("style"):
-            m = re.search(r"url\(['\"]?([^'\")\s]+)", thumb["style"])
-            if m and "hero.webp" not in m.group(1):
-                img = m.group(1)
-                if not img.startswith("http"):
-                    img = BASE_URL + img
-
         url = href if href.startswith("http") else BASE_URL + href
+        img = extract_image_from_container(a.select_one(".catalog-import-thumb"))
+        img = resolve_item_image(url, img)
         if name and len(name) > 2:
             items.append({"name": name, "url": url, "image": img})
 
