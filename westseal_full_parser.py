@@ -37,7 +37,7 @@ BASE_URL = "https://westseal.ru"
 OUTPUT_FILE = "westseal_feed.yml"
 
 # Режим: 'profiles' — типы продукции (~500 шт), 'items' — все позиции (~48000)
-MODE = "profiles"
+MODE = "items"
 
 # Макс. страниц на категорию (0 = без ограничения)
 MAX_PAGES = 0
