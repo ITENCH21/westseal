@@ -36,6 +36,8 @@ import json
 BASE_URL = "https://westseal.ru"
 OUTPUT_FILE = "westseal_feed.yml"
 PLACEHOLDER_IMAGE = f"{BASE_URL}/static/img/ai/logoneo.png"
+PUBLIC_FEED_DIR = os.path.join("media", "yml")
+PUBLIC_FEED_BASE_URL = f"{BASE_URL}/media/yml"
 
 # Режим: 'profiles' — типы продукции (~500 шт), 'items' — все позиции (~48000)
 MODE = "items"
@@ -355,9 +357,22 @@ def esc(text):
     return html_mod.escape(str(text), quote=True) if text else ""
 
 
-def generate_yml(all_items, output_path):
+def build_categories_element(categories_el, categories):
+    """Заполняет секцию categories."""
+    SubElement(categories_el, "category", id=str(PARENT_CAT_ID)).text = PARENT_CAT_NAME
+    for cat in categories:
+        SubElement(
+            categories_el,
+            "category",
+            id=str(cat["id"]),
+            parentId=str(PARENT_CAT_ID),
+        ).text = cat["name"]
+
+
+def generate_yml(all_items, output_path, categories=None):
     """Генерирует YML-файл (Yandex Market Language)."""
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    categories = categories or CATEGORIES
 
     root = Element("yml_catalog", date=now)
     shop = SubElement(root, "shop")
@@ -372,13 +387,7 @@ def generate_yml(all_items, output_path):
 
     # Категории
     categories_el = SubElement(shop, "categories")
-    SubElement(categories_el, "category", id=str(PARENT_CAT_ID)).text = PARENT_CAT_NAME
-    for cat in CATEGORIES:
-        SubElement(
-            categories_el, "category",
-            id=str(cat["id"]),
-            parentId=str(PARENT_CAT_ID),
-        ).text = cat["name"]
+    build_categories_element(categories_el, categories)
 
     # Оферты
     offers_el = SubElement(shop, "offers")
@@ -423,6 +432,35 @@ def generate_yml(all_items, output_path):
     return oid - 1
 
 
+def ensure_public_feed_dir():
+    os.makedirs(PUBLIC_FEED_DIR, exist_ok=True)
+
+
+def generate_category_feed(cat, items):
+    """Пишет отдельный YML по категории и возвращает путь и URL."""
+    ensure_public_feed_dir()
+    filename = f"westseal_feed_{cat['slug']}.yml"
+    output_path = os.path.join(PUBLIC_FEED_DIR, filename)
+    count = generate_yml(items, output_path, categories=[cat])
+    return {
+        "category_id": cat["id"],
+        "category_name": cat["name"],
+        "slug": cat["slug"],
+        "count": count,
+        "file": output_path,
+        "url": f"{PUBLIC_FEED_BASE_URL}/{filename}",
+    }
+
+
+def write_feed_index(feed_index):
+    """Сохраняет список публичных ссылок на YML-фиды."""
+    ensure_public_feed_dir()
+    index_path = os.path.join(PUBLIC_FEED_DIR, "index.json")
+    with open(index_path, "w", encoding="utf-8") as f:
+        json.dump(feed_index, f, ensure_ascii=False, indent=2)
+    return index_path
+
+
 # ── Точка входа ────────────────────────────────────────────────
 
 def main():
@@ -432,10 +470,18 @@ def main():
     log.info("=" * 60)
 
     all_items = []
+    feed_index = []
     for cat in CATEGORIES:
         try:
             items = scrape_category(cat)
             all_items.extend(items)
+            if items:
+                category_feed = generate_category_feed(cat, items)
+                feed_index.append(category_feed)
+                log.info(
+                    f"🔗 Фид категории: {category_feed['url']} "
+                    f"({category_feed['count']} товаров)"
+                )
         except Exception as e:
             log.error(f"  Ошибка: {e}")
 
@@ -450,6 +496,10 @@ def main():
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(all_items, f, ensure_ascii=False, indent=2)
     log.info(f"💾 JSON сохранён: {json_path}")
+
+    if feed_index:
+        index_path = write_feed_index(feed_index)
+        log.info(f"🗂 Индекс фидов сохранён: {index_path}")
 
     # Генерация YML
     count = generate_yml(all_items, OUTPUT_FILE)
