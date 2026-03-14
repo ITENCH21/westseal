@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+<yml_catalog date="2026-03-14 17:29">
+  <shop>
+    <name>WESTSEAL</name>
+    <company>WESTSEAL — гидравлические и пневматические уплотнения</company>
+    <url>https://westseal.ru</url>
+    <currencies>
+      <currency id="RUR" rate="1" />
+    </currencies>
+    <categories>
+      <category id="100">Уплотнения и комплектующие для гидроцилиндров</category>
+      <category id="1" parentId="100">Уплотнения поршня</category>
+      <category id="2" parentId="100">Манжеты гидравлические</category>
+      <category id="3" parentId="100">Уплотнения штока</category>
+      <category id="4" parentId="100">Кольца уплотнительные</category>
+      <category id="5" parentId="100">Грязесъемники</category>
+      <category id="6" parentId="100">Направляющие гидроцилиндров</category>
+      <category id="7" parentId="100">Манжеты армированные (сальники)</category>
+      <category id="8" parentId="100">Шевронные уплотнения и манжеты</category>
+      <category id="9" parentId="100">Пневматические уплотнения</category>
+      <category id="10" parentId="100">Подшипник скольжения (втулка)</category>
+      <category id="11" parentId="100">Специальные уплотнения</category>
+      <category id="12" parentId="100">Шайбы медные</category>
+      <category id="13" parentId="100">Амортизаторы для электроприводов насосов</category>
+      <category id="14" parentId="100">Кольца USIT (обжимные)</category>
+      <category id="15" parentId="100">Кольца защитные</category>
+      <category id="16" parentId="100">Кольца стопорные</category>
+      <category id="17" parentId="100">Пневматические манжеты</category>
+      <category id="18" parentId="100">О-кольца USIT</category>
+    </categories>
+    <offers>
+      <offer id="1" available="true">
+        <name>DBS — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/dbs/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>DBS. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="2" available="true">
+        <name>E-GR — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/e-gr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>E-GR. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="3" available="true">
+        <name>GAPI seal CUP — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-cup/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal CUP. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="4" available="true">
+        <name>GAPI seal KDAE — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kdae/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal KDAE. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="5" available="true">
+        <name>GAPI seal KDSA — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kdsa/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal KDSA. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="6" available="true">
+        <name>GAPI seal KDSAE — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kdsae/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal KDSAE. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="7" available="true">
+        <name>GAPI seal KDSB — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kdsb/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal KDSB. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="8" available="true">
+        <name>GAPI seal KDSI — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kdsi/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal KDSI. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="9" available="true">
+        <name>GAPI seal KDSP — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kdsp/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal KDSP. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="10" available="true">
+        <name>GAPI seal MPM — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-mpm/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal MPM. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="11" available="true">
+        <name>GAPI seal MPP — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-mpp/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal MPP. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="12" available="true">
+        <name>GAPI seal MPS — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-mps/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal MPS. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="13" available="true">
+        <name>GAPI seal MPS/2 — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-mps2/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal MPS/2. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="14" available="true">
+        <name>GAPI seal PAE — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-pae/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PAE. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="15" available="true">
+        <name>GAPI seal PHP — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-php/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PHP. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="16" available="true">
+        <name>GAPI seal PLF — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-plf/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PLF. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="17" available="true">
+        <name>GAPI seal PSA — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-psa/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSA. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="18" available="true">
+        <name>GAPI seal PSH+RR — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-pshrr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSH+RR. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="19" available="true">
+        <name>GAPI seal PSI — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-psi/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSI. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="20" available="true">
+        <name>GAPI seal PSN — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-psn/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSN. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="21" available="true">
+        <name>GAPI seal PSO — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-pso/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSO. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="22" available="true">
+        <name>GAPI seal PSP — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-psp/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSP. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="23" available="true">
+        <name>GAPI seal PSQ — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-psq/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSQ. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="24" available="true">
+        <name>GAPI seal PSZ — Уплотнения поршня</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-psz/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <description>GAPI seal PSZ. Уплотнения поршня. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="25" available="true">
+        <name>GA — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/ga/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GA. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="26" available="true">
+        <name>GAPI seal BUA — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-bua/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal BUA. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="27" available="true">
+        <name>GAPI seal BUSE — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-buse/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal BUSE. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="28" available="true">
+        <name>GAPI seal DSA — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dsa/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal DSA. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="29" available="true">
+        <name>GAPI seal DSAE — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dsae/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal DSAE. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="30" available="true">
+        <name>GAPI seal DSB — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dsb/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal DSB. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="31" available="true">
+        <name>GAPI seal DSH — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dsh/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal DSH. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="32" available="true">
+        <name>GAPI seal DSI — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dsi/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal DSI. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="33" available="true">
+        <name>GAPI seal DSP — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dsp/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal DSP. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="34" available="true">
+        <name>GAPI seal MUA — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-mua/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal MUA. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="35" available="true">
+        <name>GAPI seal MUE — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-mue/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal MUE. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="36" available="true">
+        <name>GAPI seal PDA — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-pda/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal PDA. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="37" available="true">
+        <name>GAPI seal PDE — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-pde/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal PDE. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="38" available="true">
+        <name>GAPI seal UAI — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-uai/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal UAI. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="39" available="true">
+        <name>GAPI seal UAS — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-uas/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal UAS. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="40" available="true">
+        <name>GAPI seal UAE — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-uae/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>GAPI seal UAE. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="41" available="true">
+        <name>K08 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k08/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K08. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="42" available="true">
+        <name>K09 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k09/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K09. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="43" available="true">
+        <name>K10 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k10/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K10. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="44" available="true">
+        <name>K11 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k11/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K11. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="45" available="true">
+        <name>K12 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k12/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K12. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="46" available="true">
+        <name>K13 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k13/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K13. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="47" available="true">
+        <name>K14 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k14/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K14. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="48" available="true">
+        <name>K39 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k39/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K39. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="49" available="true">
+        <name>K502 — Манжеты гидравлические</name>
+        <url>https://westseal.ru/catalog/item/k502/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <description>K502. Манжеты гидравлические. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="50" available="true">
+        <name>ABS — Уплотнения штока</name>
+        <url>https://westseal.ru/catalog/item/abs/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <description>ABS. Уплотнения штока. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="51" available="true">
+        <name>DHS — Уплотнения штока</name>
+        <url>https://westseal.ru/catalog/item/dhs/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <description>DHS. Уплотнения штока. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="52" available="true">
+        <name>GAPI seal CUR — Уплотнения штока</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-cur/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <description>GAPI seal CUR. Уплотнения штока. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="53" available="true">
+        <name>GAPI seal KDA — Уплотнения штока</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-kda/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <description>GAPI seal KDA. Уплотнения штока. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="54" available="true">
+        <name>GAPI seal KSAE — Уплотнения штока</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-ksae/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <description>GAPI seal KSAE. Уплотнения штока. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="55" available="true">
+        <name>GAPI seal ORA — Кольца уплотнительные</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-ora/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <description>GAPI seal ORA. Кольца уплотнительные. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="56" available="true">
+        <name>GAPI seal ORV — Кольца уплотнительные</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-orv/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <description>GAPI seal ORV. Кольца уплотнительные. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="57" available="true">
+        <name>O-ring NBR — Кольца уплотнительные</name>
+        <url>https://westseal.ru/catalog/item/o-ring-nbr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <description>O-ring NBR. Кольца уплотнительные. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="58" available="true">
+        <name>O-ring FKM — Кольца уплотнительные</name>
+        <url>https://westseal.ru/catalog/item/o-ring-fkm/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <description>O-ring FKM. Кольца уплотнительные. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="59" available="true">
+        <name>O-ring EPDM — Кольца уплотнительные</name>
+        <url>https://westseal.ru/catalog/item/o-ring-epdm/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <description>O-ring EPDM. Кольца уплотнительные. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="60" available="true">
+        <name>GA — Грязесъемники</name>
+        <url>https://westseal.ru/catalog/item/ga-gryaz/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <description>GA. Грязесъемники. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="61" available="true">
+        <name>GAPI seal BWA — Грязесъемники</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-bwa/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <description>GAPI seal BWA. Грязесъемники. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="62" available="true">
+        <name>GAPI seal BWH — Грязесъемники</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-bwh/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <description>GAPI seal BWH. Грязесъемники. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="63" available="true">
+        <name>GAPI seal BWS — Грязесъемники</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-bws/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <description>GAPI seal BWS. Грязесъемники. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="64" available="true">
+        <name>GAPI seal DWP — Грязесъемники</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-dwp/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <description>GAPI seal DWP. Грязесъемники. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="65" available="true">
+        <name>GAPI seal LWA — Грязесъемники</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-lwa/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <description>GAPI seal LWA. Грязесъемники. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="66" available="true">
+        <name>GAPI seal GDA — Направляющие гидроцилиндров</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-gda/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>6</categoryId>
+        <description>GAPI seal GDA. Направляющие гидроцилиндров. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="67" available="true">
+        <name>GAPI seal GDP — Направляющие гидроцилиндров</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-gdp/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>6</categoryId>
+        <description>GAPI seal GDP. Направляющие гидроцилиндров. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="68" available="true">
+        <name>GAPI seal GDS — Направляющие гидроцилиндров</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-gds/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>6</categoryId>
+        <description>GAPI seal GDS. Направляющие гидроцилиндров. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="69" available="true">
+        <name>Манжета армированная (сальник) 1,2 16x30x7 NBR — Манжеты армированные (сальники)</name>
+        <url>https://westseal.ru/catalog/item/12-16x30x7-nbr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>7</categoryId>
+        <description>Манжета армированная (сальник) 1,2 16x30x7 NBR. Манжеты армированные (сальники). Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="70" available="true">
+        <name>Манжета армированная (сальник) 1,2 17x32x7 NBR — Манжеты армированные (сальники)</name>
+        <url>https://westseal.ru/catalog/item/12-17x32x7-nbr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>7</categoryId>
+        <description>Манжета армированная (сальник) 1,2 17x32x7 NBR. Манжеты армированные (сальники). Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="71" available="true">
+        <name>Манжета армированная (сальник) 1,2 18x35x7 NBR — Манжеты армированные (сальники)</name>
+        <url>https://westseal.ru/catalog/item/12-18x35x7-nbr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>7</categoryId>
+        <description>Манжета армированная (сальник) 1,2 18x35x7 NBR. Манжеты армированные (сальники). Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="72" available="true">
+        <name>Манжета армированная (сальник) 1,2 20x32x7 NBR — Манжеты армированные (сальники)</name>
+        <url>https://westseal.ru/catalog/item/12-20x32x7-nbr/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>7</categoryId>
+        <description>Манжета армированная (сальник) 1,2 20x32x7 NBR. Манжеты армированные (сальники). Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="73" available="true">
+        <name>K31 — Шевронные уплотнения и манжеты</name>
+        <url>https://westseal.ru/catalog/item/k31/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>8</categoryId>
+        <description>K31. Шевронные уплотнения и манжеты. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="74" available="true">
+        <name>K32 — Шевронные уплотнения и манжеты</name>
+        <url>https://westseal.ru/catalog/item/k32/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>8</categoryId>
+        <description>K32. Шевронные уплотнения и манжеты. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="75" available="true">
+        <name>K33 — Шевронные уплотнения и манжеты</name>
+        <url>https://westseal.ru/catalog/item/k33/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>8</categoryId>
+        <description>K33. Шевронные уплотнения и манжеты. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="76" available="true">
+        <name>Seal profile RCA — Пневматические уплотнения</name>
+        <url>https://westseal.ru/catalog/item/aston-seal-profile-rca/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>9</categoryId>
+        <description>Seal profile RCA. Пневматические уплотнения. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="77" available="true">
+        <name>Seal profile RCG — Пневматические уплотнения</name>
+        <url>https://westseal.ru/catalog/item/aston-seal-profile-rcg/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>9</categoryId>
+        <description>Seal profile RCG. Пневматические уплотнения. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="78" available="true">
+        <name>GAPI seal GDA — Подшипник скольжения (втулка)</name>
+        <url>https://westseal.ru/catalog/item/gapi-gapi-seal-gda-podsh/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>10</categoryId>
+        <description>GAPI seal GDA. Подшипник скольжения (втулка). Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="79" available="true">
+        <name>V-ring — Специальные уплотнения</name>
+        <url>https://westseal.ru/catalog/item/v-ring/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>11</categoryId>
+        <description>V-ring. Специальные уплотнения. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="80" available="true">
+        <name>USIT кольцо M5 — О-кольца USIT</name>
+        <url>https://westseal.ru/catalog/item/usit-m5/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>18</categoryId>
+        <description>USIT кольцо M5. О-кольца USIT. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+      <offer id="81" available="true">
+        <name>USIT кольцо M6 — О-кольца USIT</name>
+        <url>https://westseal.ru/catalog/item/usit-m6/</url>
+        <price>1</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>18</categoryId>
+        <description>USIT кольцо M6. О-кольца USIT. Цена по запросу. Для уточнения цены и наличия свяжитесь с менеджером WESTSEAL.</description>
+        <param name="Цена">По запросу</param>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>
