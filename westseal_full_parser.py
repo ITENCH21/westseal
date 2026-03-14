@@ -67,6 +67,30 @@ session.headers.update({
     "X-Requested-With": "XMLHttpRequest",
 })
 
+
+def render_progress_bar(current, total, width=24):
+    """Возвращает текстовый progress bar."""
+    total = max(total, 1)
+    current = min(max(current, 0), total)
+    filled = int(width * current / total)
+    return "[" + ("#" * filled) + ("-" * (width - filled)) + "]"
+
+
+def emit_progress(prefix, current, total, extra=""):
+    """Показывает прогресс в TTY или пишет лог с процентами."""
+    percent = (current / max(total, 1)) * 100
+    bar = render_progress_bar(current, total)
+    message = f"{prefix} {bar} {percent:6.2f}% ({current}/{total})"
+    if extra:
+        message += f" | {extra}"
+
+    if sys.stdout.isatty():
+        print(f"\r{message}", end="", flush=True)
+        if current >= total:
+            print()
+    else:
+        log.info(message)
+
 # ── Категории (актуальные slug'и с сайта) ──────────────────────
 CATEGORIES = [
     {"slug": "uplotnenija_porshnja",                     "id": 1,  "name": "Уплотнения поршня"},
@@ -300,10 +324,13 @@ def get_total_pages(html_text):
     return int(m.group(1)) if m else 1
 
 
-def scrape_category(cat):
+def scrape_category(cat, category_index=None, total_categories=None):
     """Собирает все элементы из категории."""
     slug, cat_id, cat_name = cat["slug"], cat["id"], cat["name"]
-    log.info(f"📂 {cat_name} ({slug})")
+    if category_index and total_categories:
+        log.info(f"📂 [{category_index}/{total_categories}] {cat_name} ({slug})")
+    else:
+        log.info(f"📂 {cat_name} ({slug})")
 
     all_items = []
     page = 1
@@ -335,9 +362,12 @@ def scrape_category(cat):
             item["cat_name"] = cat_name
 
         all_items.extend(items)
-
-        if page % 10 == 0:
-            log.info(f"  📄 Стр. {page}/{max_p} — собрано {len(all_items)}")
+        emit_progress(
+            f"  📄 {cat_name}",
+            page,
+            max_p,
+            extra=f"товаров собрано: {len(all_items)}",
+        )
 
         page += 1
         if MAX_PAGES > 0 and page > MAX_PAGES:
@@ -471,9 +501,11 @@ def main():
 
     all_items = []
     feed_index = []
-    for cat in CATEGORIES:
+    total_categories = len(CATEGORIES)
+    for index, cat in enumerate(CATEGORIES, start=1):
+        emit_progress("📦 Категории", index - 1, total_categories)
         try:
-            items = scrape_category(cat)
+            items = scrape_category(cat, category_index=index, total_categories=total_categories)
             all_items.extend(items)
             if items:
                 category_feed = generate_category_feed(cat, items)
@@ -484,6 +516,8 @@ def main():
                 )
         except Exception as e:
             log.error(f"  Ошибка: {e}")
+        finally:
+            emit_progress("📦 Категории", index, total_categories)
 
     log.info(f"\n📊 Всего собрано: {len(all_items)}")
 
